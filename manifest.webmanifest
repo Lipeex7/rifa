@@ -1,0 +1,11 @@
+
+{
+  "name": "Rifa Solidária — Sobrepeliz",
+  "short_name": "Minha Rifa",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#21070b",
+  "theme_color": "#29070e",
+  "lang": "pt-BR"
+}
