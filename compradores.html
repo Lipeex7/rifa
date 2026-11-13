@@ -1,0 +1,578 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#31060e">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>Livro dos Compradores | Sobrepeliz</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
+
+:root {
+  --ouro: #d7a64d;
+  --ouro-claro: #f5d99b;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ouro-claro);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  background:
+    radial-gradient(ellipse at 50% 0%, #711322, transparent 58%),
+    #1c0409;
+}
+
+.poster {
+  width: min(96%, 960px);
+  margin: 18px auto;
+  padding: clamp(12px, 3vw, 30px);
+  border: 4px double #b98b43;
+  background: #2a050b;
+  box-shadow: 0 20px 65px #000a;
+}
+
+.topo {
+  text-align: center;
+  border: 1px solid #b98b43;
+  padding: 24px 12px;
+}
+
+.cruz {
+  font-size: 40px;
+  color: var(--ouro);
+}
+
+.subtitulo {
+  font: 500 11px 'Cinzel', Georgia, serif;
+  letter-spacing: 2px;
+}
+
+h1 {
+  font: 600 clamp(24px, 5vw, 43px) 'Cinzel', Georgia, serif;
+  color: var(--ouro-claro);
+}
+
+.topo p { font-size: 19px; }
+
+.ornamento {
+  text-align: center;
+  color: var(--ouro);
+  font-size: 22px;
+  margin: 13px 0;
+}
+
+.botao {
+  display: inline-block;
+  padding: 11px 15px;
+  text-decoration: none;
+  border: 1px solid #e7b96e;
+  border-radius: 5px;
+  background: linear-gradient(145deg, #701629, #3b0710);
+  color: #f9e2b2;
+  font: 600 13px 'Cinzel', Georgia, serif;
+}
+
+.estatisticas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+  margin: 20px 0;
+}
+
+.estatistica {
+  text-align: center;
+  border: 1px solid #a77a3f;
+  background: #210409;
+  padding: 13px 6px;
+}
+
+.estatistica strong {
+  display: block;
+  font: 600 clamp(16px, 3vw, 27px) 'Cinzel', Georgia, serif;
+}
+
+.estatistica span { font-size: 14px; }
+
+.painel {
+  border: 4px double #ae7f3e;
+  background: linear-gradient(135deg, #fff0d0, #e6c48f);
+  color: #371b11;
+  padding: clamp(12px, 3vw, 23px);
+}
+
+.painel h2 {
+  font: 600 20px 'Cinzel', Georgia, serif;
+  text-align: center;
+}
+
+.busca {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 14px 0;
+  border: 1px solid #a77a3f;
+  background: #fff9ed;
+  color: #31160d;
+  font-size: 19px;
+}
+
+.tabela-rolagem { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 540px;
+}
+
+th {
+  background: #530e1c;
+  color: #f5d99b;
+  text-align: left;
+  font: 600 12px 'Cinzel', Georgia, serif;
+  padding: 12px 9px;
+}
+
+td {
+  padding: 12px 9px;
+  border-bottom: 1px solid #b9955e;
+  vertical-align: top;
+  font-size: 18px;
+}
+
+.nome {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.numeros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.numero {
+  display: inline-block;
+  background: #540d1c;
+  color: #f7dfa9;
+  border: 1px solid #9d713a;
+  border-radius: 3px;
+  padding: 4px 6px;
+  font: 600 12px 'Cinzel', Georgia, serif;
+}
+
+.valor {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.vazio {
+  text-align: center;
+  padding: 20px;
+}
+
+.pendencias {
+  margin-top: 15px;
+  padding: 14px;
+  border: 1px solid #b88b49;
+  background: #360b14;
+}
+
+.pendencias h2 {
+  font: 600 16px 'Cinzel', Georgia, serif;
+}
+
+.pendencias .numero {
+  background: #f2dfb9;
+  color: #3b140c;
+}
+
+.aviso, footer {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+@media(max-width:600px) {
+  .poster {
+    width: calc(100% - 12px);
+    padding: 9px;
+    border-width: 2px;
+  }
+
+  .estatisticas { gap: 5px; }
+
+  .estatistica { padding: 10px 3px; }
+
+  .estatistica span { font-size: 12px; }
+
+  .painel { padding: 11px; }
+
+  .tabela-rolagem { overflow: visible; }
+
+  table, tbody, tr, td {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  thead { display: none; }
+
+  tr {
+    border: 1px solid #b88b49;
+    background: #fff3d7;
+    margin-bottom: 10px;
+    padding: 7px;
+  }
+
+  td {
+    padding: 8px 5px;
+    font-size: 18px;
+  }
+
+  td::before {
+    content: attr(data-label);
+    display: block;
+    font: 600 11px 'Cinzel', Georgia, serif;
+    color: #7a3823;
+    margin-bottom: 3px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="poster">
+
+<header class="topo">
+  <div class="cruz">✠</div>
+  <div class="subtitulo">
+    RIFA SOLIDÁRIA • SOBREPELIZ
+  </div>
+
+  <h1>Livro dos Compradores</h1>
+
+  <p>Relação dos números comprados e valores pagos</p>
+
+  <a class="botao" href="./index.html">
+    ← Voltar à rifa
+  </a>
+</header>
+
+<div class="ornamento">
+  ✥ ───── ✥ ───── ✥
+</div>
+
+<section class="estatisticas">
+  <div class="estatistica">
+    <strong id="quantidade">18</strong>
+    <span>Números comprados</span>
+  </div>
+
+  <div class="estatistica">
+    <strong id="pessoas">0</strong>
+    <span>Compradores identificados</span>
+  </div>
+
+  <div class="estatistica">
+    <strong id="total">R$ 90,00</strong>
+    <span>Total arrecadado</span>
+  </div>
+</section>
+
+<section class="painel">
+
+  <h2>✥ Relação de compras ✥</h2>
+
+  <label for="busca">
+    Buscar por nome, contato ou número:
+  </label>
+
+  <input
+    class="busca"
+    id="busca"
+    type="search"
+    placeholder="Ex.: Maria, 8499999 ou 089"
+  >
+
+  <div class="tabela-rolagem">
+    <table>
+      <thead>
+        <tr>
+          <th>Comprador</th>
+          <th>Contato</th>
+          <th>Números</th>
+          <th>Total gasto</th>
+        </tr>
+      </thead>
+
+      <tbody id="lista"></tbody>
+    </table>
+  </div>
+
+  <p class="vazio" id="vazio" hidden>
+    Nenhum comprador identificado encontrado.
+  </p>
+
+</section>
+
+<section class="pendencias" id="pendencias">
+  <h2>✥ Números comprados sem cadastro ✥</h2>
+
+  <p id="pendenciasResumo"></p>
+
+  <div class="numeros" id="pendenciasNumeros"></div>
+</section>
+
+<p class="aviso">
+  Cada número comprado vale R$ 5,00.
+  Reservas não entram na arrecadação.
+</p>
+
+<footer>
+  ✠ Rifa Solidária da Sobrepeliz ✠
+</footer>
+
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const CHAVE = "rifa-sobrepeliz-v1";
+
+  const INICIAIS = [
+    1, 6, 8, 12, 13, 14, 15, 16,
+    22, 25, 26, 28, 30, 45, 48,
+    52, 77, 85
+  ];
+
+  const $ = id => document.getElementById(id);
+
+  function formatar(n) {
+    return String(n).padStart(3, "0");
+  }
+
+  function dinheiro(valor) {
+    return valor.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL"
+    });
+  }
+
+  function carregar() {
+    try {
+      const salvo = localStorage.getItem(CHAVE);
+
+      if (salvo) {
+        const dados = JSON.parse(salvo);
+
+        if (Array.isArray(dados) && dados.length === 100) {
+          return dados;
+        }
+      }
+    } catch (erro) {
+      console.warn("Dados não disponíveis.");
+    }
+
+    return Array.from({ length: 100 }, (_, i) => ({
+      situacao: INICIAIS.includes(i + 1)
+        ? "comprado"
+        : "disponivel",
+      nome: "",
+      telefone: ""
+    }));
+  }
+
+  function montarGrupos() {
+    const grupos = new Map();
+
+    carregar().forEach((item, i) => {
+      if (!item || item.situacao !== "comprado") return;
+
+      const numero = i + 1;
+
+      const nome =
+        typeof item.nome === "string"
+          ? item.nome.trim()
+          : "";
+
+      const contato =
+        typeof item.telefone === "string"
+          ? item.telefone.trim()
+          : "";
+
+      const digitos = contato.replace(/\D/g, "");
+      const nomeNormalizado = nome.toLocaleLowerCase("pt-BR");
+
+      // Agrupar compras da mesma pessoa.
+      const chave = nome && digitos
+        ? "pessoa:" + nomeNormalizado + ":" + digitos
+        : digitos
+          ? "tel:" + digitos
+          : nome
+            ? "nome:" + nomeNormalizado
+            : "sem:" + numero;
+
+      if (!grupos.has(chave)) {
+        grupos.set(chave, {
+          nome,
+          contato,
+          numeros: []
+        });
+      }
+
+      const grupo = grupos.get(chave);
+
+      if (!grupo.nome && nome) grupo.nome = nome;
+      if (!grupo.contato && contato) grupo.contato = contato;
+
+      grupo.numeros.push(numero);
+    });
+
+    return [...grupos.values()].sort((a, b) =>
+      a.nome.localeCompare(b.nome, "pt-BR")
+    );
+  }
+
+  function celula(linha, texto, rotulo) {
+    const td = document.createElement("td");
+    td.dataset.label = rotulo;
+    td.textContent = texto;
+    linha.append(td);
+    return td;
+  }
+
+  function desenhar() {
+    const grupos = montarGrupos();
+
+    const totalNumeros = grupos.reduce(
+      (soma, grupo) => soma + grupo.numeros.length,
+      0
+    );
+
+    const identificados = grupos.filter(
+      grupo => grupo.nome || grupo.contato
+    );
+
+    const pendentes = grupos.filter(
+      grupo => !grupo.nome && !grupo.contato
+    ).flatMap(grupo => grupo.numeros);
+
+    $("quantidade").textContent = totalNumeros;
+    $("pessoas").textContent = identificados.length;
+    $("total").textContent = dinheiro(totalNumeros * 5);
+
+    const busca = $("busca").value.trim().toLowerCase();
+    const lista = $("lista");
+
+    lista.replaceChildren();
+
+    let encontrados = 0;
+
+    identificados.forEach(grupo => {
+      const textoBusca = [
+        grupo.nome,
+        grupo.contato,
+        ...grupo.numeros.map(formatar),
+        ...grupo.numeros.map(String)
+      ].join(" ").toLowerCase();
+
+      if (busca && !textoBusca.includes(busca)) return;
+
+      encontrados++;
+
+      const linha = document.createElement("tr");
+
+      celula(
+        linha,
+        grupo.nome || "Nome não informado",
+        "Comprador"
+      );
+
+      celula(
+        linha,
+        grupo.contato || "—",
+        "Contato"
+      );
+
+      const tdNumeros = document.createElement("td");
+      tdNumeros.dataset.label = "Números";
+
+      const area = document.createElement("div");
+      area.className = "numeros";
+
+      grupo.numeros.sort((a, b) => a - b).forEach(n => {
+        const etiqueta = document.createElement("span");
+        etiqueta.className = "numero";
+        etiqueta.textContent = formatar(n);
+        area.append(etiqueta);
+      });
+
+      tdNumeros.append(area);
+      linha.append(tdNumeros);
+
+      celula(
+        linha,
+        dinheiro(grupo.numeros.length * 5),
+        "Total gasto"
+      );
+
+      lista.append(linha);
+    });
+
+    $("vazio").hidden = encontrados !== 0;
+
+    const pendentesFiltrados = pendentes.filter(n =>
+      !busca ||
+      "sem cadastro".includes(busca) ||
+      formatar(n).includes(busca) ||
+      String(n).includes(busca)
+    );
+
+    $("pendencias").hidden =
+      pendentesFiltrados.length === 0;
+
+    $("pendenciasResumo").textContent =
+      pendentesFiltrados.length +
+      " número(s) sem identificação — " +
+      dinheiro(pendentesFiltrados.length * 5);
+
+    const areaPendentes = $("pendenciasNumeros");
+    areaPendentes.replaceChildren();
+
+    pendentesFiltrados.forEach(n => {
+      const etiqueta = document.createElement("span");
+      etiqueta.className = "numero";
+      etiqueta.textContent = formatar(n);
+      areaPendentes.append(etiqueta);
+    });
+  }
+
+  $("busca").addEventListener("input", desenhar);
+
+  window.addEventListener("pageshow", desenhar);
+
+  window.addEventListener("storage", evento => {
+    if (evento.key === CHAVE) desenhar();
+  });
+
+  desenhar();
+})();
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .catch(console.warn);
+  });
+}
+</script>
+
+</body>
+</html>
