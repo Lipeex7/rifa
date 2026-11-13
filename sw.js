@@ -1,10 +1,11 @@
 
-const CACHE = "rifa-sobrepeliz-offline-v1";
+const CACHE = "rifa-sobrepeliz-offline-v3";
 
 const ARQUIVOS = [
   "./",
   "./index.html",
-  "./manifest.webmanifest"
+  "./manifest.webmanifest",
+  "./qr-pix.png"
 ];
 
 self.addEventListener("install", evento => {
@@ -28,29 +29,38 @@ self.addEventListener("activate", evento => {
 });
 
 self.addEventListener("fetch", evento => {
+  if (evento.request.method !== "GET") return;
+
   if (
-    evento.request.method !== "GET" ||
-    new URL(evento.request.url).origin !== self.location.origin
+    new URL(evento.request.url).origin !==
+    self.location.origin
   ) return;
 
-  evento.respondWith(
-    fetch(evento.request)
-      .then(resposta => {
-        if (resposta.ok) {
-          const copia = resposta.clone();
+  evento.respondWith((async () => {
+    const cache = await caches.open(CACHE);
+    const emCache = await cache.match(evento.request);
 
-          caches.open(CACHE).then(cache => {
-            cache.put(evento.request, copia);
-          });
-        }
+    try {
+      const resposta = await fetch(evento.request);
 
-        return resposta;
-      })
-      .catch(() =>
-        caches.match(evento.request)
-          .then(resposta =>
-            resposta || caches.match("./index.html")
-          )
-      )
-  );
+      if (resposta.ok) {
+        cache.put(
+          evento.request,
+          resposta.clone()
+        );
+      }
+
+      return resposta;
+    } catch (erro) {
+      if (emCache) return emCache;
+
+      if (evento.request.mode === "navigate") {
+        return (
+          await cache.match("./index.html")
+        ) || Response.error();
+      }
+
+      return Response.error();
+    }
+  })());
 });
