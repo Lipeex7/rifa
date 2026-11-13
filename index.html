@@ -1,0 +1,833 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#29070e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>Rifa Solidária | Sobrepeliz</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=UnifrakturCook:wght@700&family=Cormorant+Garamond:wght@400;600;700&display=swap');
+
+:root {
+  --vinho: #4d0917;
+  --escuro: #21070c;
+  --ouro: #e4bf79;
+  --ouro-claro: #f6dfa9;
+  --pergaminho: #f6e8ca;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--pergaminho);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  background:
+    radial-gradient(circle at top, #761b2b, transparent 55%),
+    repeating-linear-gradient(
+      45deg,
+      transparent 0 30px,
+      #ffffff04 30px 31px
+    ),
+    var(--escuro);
+}
+
+button, input { font: inherit; }
+button { cursor: pointer; }
+
+.container {
+  width: min(96%, 900px);
+  margin: 20px auto;
+  border: 3px double var(--ouro);
+  border-radius: 60px 60px 12px 12px;
+  padding: 22px;
+  background: linear-gradient(#590f1e, #27070e);
+  box-shadow: 0 20px 60px #0008;
+}
+
+.interno {
+  border: 1px solid #c99d59;
+  border-radius: 45px 45px 5px 5px;
+  padding: 24px 15px;
+}
+
+.topo {
+  text-align: center;
+}
+
+.cruz {
+  font-size: 52px;
+  color: var(--ouro);
+}
+
+.latin {
+  font-family: Cinzel, Georgia, serif;
+  letter-spacing: 3px;
+  font-size: 11px;
+  color: var(--ouro);
+}
+
+h1 {
+  font-family: 'UnifrakturCook', Georgia, serif;
+  font-size: clamp(49px, 10vw, 90px);
+  font-weight: 700;
+  line-height: 1;
+  margin: 12px 0;
+  color: var(--ouro-claro);
+  text-shadow: 2px 3px 2px #260309;
+}
+
+.ornamento {
+  text-align: center;
+  color: var(--ouro);
+  font-size: 27px;
+  margin: 15px 0;
+}
+
+.descricao {
+  text-align: center;
+  font-size: 25px;
+  margin: 8px 0 25px;
+}
+
+.descricao strong {
+  display: block;
+  font-family: Cinzel, Georgia, serif;
+  font-size: 29px;
+  letter-spacing: 3px;
+  color: var(--ouro-claro);
+}
+
+.resumo {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.resumo div {
+  text-align: center;
+  border: 1px solid #a87d49;
+  padding: 12px 4px;
+  background: #18040880;
+}
+
+.resumo strong {
+  display: block;
+  font-family: Cinzel, Georgia, serif;
+  color: var(--ouro-claro);
+  font-size: clamp(16px, 3.5vw, 27px);
+}
+
+.resumo span {
+  display: block;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.barra {
+  height: 9px;
+  border: 1px solid var(--ouro);
+  background: #160408;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progresso {
+  width: 18%;
+  height: 100%;
+  background: linear-gradient(90deg, #a77735, #f4d79c);
+}
+
+.progresso-texto {
+  text-align: center;
+  margin: 8px 0 23px;
+}
+
+.moldura-grade {
+  background: #d8ba84;
+  padding: 6px;
+  border: 5px ridge #a7783d;
+}
+
+.grade {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 3px;
+}
+
+.numero {
+  aspect-ratio: 1;
+  min-width: 0;
+  border: 1px solid #b08a51;
+  background: linear-gradient(135deg, #fff4dc, #e8d2a8);
+  color: #29180e;
+  font-size: clamp(12px, 3vw, 24px);
+  font-weight: bold;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.numero:active { transform: scale(.94); }
+
+.numero.comprado {
+  background: radial-gradient(circle at top, #8c2639, #490713);
+  color: var(--ouro-claro);
+}
+
+.numero.comprado .simbolo {
+  font-size: clamp(18px, 4vw, 32px);
+}
+
+.numero .cantinho {
+  position: absolute;
+  bottom: 1px;
+  right: 2px;
+  font-size: 9px;
+}
+
+.numero.reservado {
+  background: #e2b76d;
+  border: 2px solid #895a23;
+}
+
+.legenda {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin: 17px 0;
+  font-size: 16px;
+}
+
+.legenda i {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border: 1px solid var(--ouro);
+  margin-right: 5px;
+}
+
+.disponivel-cor { background: #f6e8ca; }
+.reservado-cor { background: #e2b76d; }
+.comprado-cor { background: #590c1a; }
+
+.instrucao {
+  text-align: center;
+  font-size: 19px;
+}
+
+.informacoes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.cartao {
+  border: 1px solid var(--ouro);
+  text-align: center;
+  padding: 18px 8px;
+  background: #380a13;
+}
+
+.cartao span {
+  font-family: Cinzel, Georgia, serif;
+  font-size: 13px;
+  color: var(--ouro);
+}
+
+.cartao strong {
+  display: block;
+  font-family: Cinzel, Georgia, serif;
+  font-size: clamp(20px, 4vw, 35px);
+  margin-top: 7px;
+  color: var(--ouro-claro);
+}
+
+.pix {
+  text-align: center;
+  background: linear-gradient(135deg, #fff0ce, #dfbf87);
+  color: #3b160e;
+  padding: 18px 10px;
+  margin-top: 15px;
+  border: 3px double #a6773c;
+}
+
+.pix h3 {
+  font-family: Cinzel, Georgia, serif;
+  font-size: 16px;
+  margin: 0;
+}
+
+.pix p {
+  font-size: clamp(19px, 4vw, 29px);
+  font-weight: bold;
+  overflow-wrap: anywhere;
+  margin: 9px 0;
+}
+
+.botao {
+  background: #540d1c;
+  border: 1px solid var(--ouro);
+  color: var(--ouro-claro);
+  padding: 11px 15px;
+  border-radius: 4px;
+}
+
+.botao:hover { background: #7b2030; }
+
+.sorteio {
+  text-align: center;
+  margin: 25px 0;
+  font-size: 23px;
+}
+
+.sorteio strong {
+  display: block;
+  font-family: Cinzel, Georgia, serif;
+  font-size: 17px;
+  color: var(--ouro);
+  margin-bottom: 6px;
+}
+
+.ferramentas {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-top: 1px solid #a87d49;
+  padding-top: 20px;
+}
+
+.aviso {
+  text-align: center;
+  font-size: 15px;
+  color: #e0c79c;
+  margin-top: 18px;
+}
+
+footer {
+  text-align: center;
+  color: var(--ouro);
+  padding: 20px;
+}
+
+dialog {
+  width: min(92vw, 440px);
+  border: 2px solid var(--ouro);
+  border-radius: 12px;
+  background: linear-gradient(145deg, #55101f, #24070e);
+  color: var(--pergaminho);
+  padding: 25px;
+}
+
+dialog::backdrop {
+  background: #080204cc;
+}
+
+dialog h2 {
+  font-family: Cinzel, Georgia, serif;
+  text-align: center;
+  color: var(--ouro-claro);
+}
+
+.opcao {
+  display: block;
+  border: 1px solid #986c43;
+  padding: 12px;
+  margin: 9px 0;
+  cursor: pointer;
+  background: #310912;
+}
+
+.opcao:has(input:checked) {
+  background: #711c2d;
+  border-color: var(--ouro-claro);
+}
+
+.campo {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 6px;
+}
+
+#observacao {
+  width: 100%;
+  padding: 11px;
+  background: var(--pergaminho);
+  border: 1px solid var(--ouro);
+  color: #30140d;
+}
+
+.acoes {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.acoes button { flex: 1; }
+
+#mensagem {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--pergaminho);
+  color: #39101a;
+  border: 1px solid var(--ouro);
+  padding: 12px 20px;
+  display: none;
+  z-index: 100;
+  text-align: center;
+}
+
+@media(max-width:600px) {
+  .container {
+    width: calc(100% - 12px);
+    padding: 8px;
+    margin: 6px auto;
+    border-radius: 35px 35px 8px 8px;
+  }
+
+  .interno {
+    padding: 22px 8px;
+    border-radius: 28px 28px 4px 4px;
+  }
+
+  .grade { gap: 2px; }
+
+  .moldura-grade {
+    padding: 3px;
+    border-width: 3px;
+  }
+
+  .resumo { gap: 4px; }
+
+  .resumo span { font-size: 10px; }
+
+  .numero .cantinho { font-size: 7px; }
+
+  .cartao span { font-size: 10px; }
+}
+</style>
+</head>
+
+<body>
+
+<main class="container">
+<div class="interno">
+
+<header class="topo">
+  <div class="cruz">✝</div>
+  <p class="latin">AD MAIOREM DEI GLORIAM</p>
+  <h1>Rifa Solidária</h1>
+  <div class="ornamento">✥ ───────── ✥ ───────── ✥</div>
+  <p class="descricao">
+    Ajude-me a fazer uma nova
+    <strong>Sobrepeliz</strong>
+  </p>
+</header>
+
+<section class="resumo">
+  <div>
+    <strong id="comprados">18</strong>
+    <span>Comprados</span>
+  </div>
+  <div>
+    <strong id="reservados">0</strong>
+    <span>Reservados</span>
+  </div>
+  <div>
+    <strong id="disponiveis">82</strong>
+    <span>Disponíveis</span>
+  </div>
+  <div>
+    <strong id="arrecadado">R$ 90</strong>
+    <span>Arrecadado</span>
+  </div>
+</section>
+
+<div class="barra">
+  <div class="progresso" id="progresso"></div>
+</div>
+<p class="progresso-texto" id="progressoTexto">
+  18 de 100 números comprados
+</p>
+
+<section class="moldura-grade">
+  <div class="grade" id="grade"></div>
+</section>
+
+<div class="legenda">
+  <span><i class="disponivel-cor"></i> Disponível</span>
+  <span><i class="reservado-cor"></i> Reservado</span>
+  <span><i class="comprado-cor"></i> ✝ Comprado</span>
+</div>
+
+<p class="instrucao">
+  Toque em um número para alterar sua situação.
+</p>
+
+<section class="informacoes">
+  <div class="cartao">
+    <span>✦ PRÊMIO ✦</span>
+    <strong>R$ 100,00</strong>
+  </div>
+  <div class="cartao">
+    <span>✦ CADA NÚMERO ✦</span>
+    <strong>R$ 5,00</strong>
+  </div>
+</section>
+
+<section class="pix">
+  <h3>✥ CHAVE PIX — E-MAIL ✥</h3>
+  <p id="chavePix">adsonnph@icloud.com</p>
+  <button class="botao" id="copiarPix">
+    Copiar chave Pix
+  </button>
+</section>
+
+<div class="sorteio">
+  <strong>✥ SORTEIO ✥</strong>
+  Após vender todos os números.
+</div>
+
+<div class="ferramentas">
+  <button class="botao" id="backup">
+    ↓ Salvar cópia de segurança
+  </button>
+  <button class="botao" id="restaurar">
+    ↑ Restaurar cópia
+  </button>
+  <input type="file" id="arquivoBackup"
+         accept=".json,application/json" hidden>
+</div>
+
+<p class="aviso">
+  Este site é para uso pessoal. As marcações ficam
+  salvas neste navegador. Faça cópias de segurança
+  regularmente.
+</p>
+
+</div>
+</main>
+
+<footer>
+  ✝ Rifa Solidária da Sobrepeliz
+</footer>
+
+<dialog id="janela">
+  <h2 id="tituloJanela">Número 001</h2>
+  <p>Escolha a situação deste número:</p>
+
+  <form id="formulario">
+    <label class="opcao">
+      <input type="radio" name="situacao" value="disponivel">
+      Disponível
+    </label>
+
+    <label class="opcao">
+      <input type="radio" name="situacao" value="reservado">
+      Reservado
+    </label>
+
+    <label class="opcao">
+      <input type="radio" name="situacao" value="comprado">
+      ✝ Comprado
+    </label>
+
+    <label class="campo" for="observacao">
+      Nome ou observação (opcional):
+    </label>
+    <input type="text" id="observacao" maxlength="100"
+           placeholder="Ex.: Maria — Pix confirmado">
+
+    <div class="acoes">
+      <button type="button" class="botao" id="cancelar">
+        Cancelar
+      </button>
+      <button type="submit" class="botao">
+        Salvar
+      </button>
+    </div>
+  </form>
+</dialog>
+
+<div id="mensagem" role="status"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  const CHAVE = "rifa-sobrepeliz-v1";
+
+  // Números já comprados na imagem original
+  const INICIAIS = [
+    1, 6, 8, 12, 13, 14, 15, 16,
+    22, 25, 26, 28, 30, 45, 48,
+    52, 77, 85
+  ];
+
+  const grade = document.getElementById("grade");
+  const janela = document.getElementById("janela");
+  const formulario = document.getElementById("formulario");
+  const observacao = document.getElementById("observacao");
+  const mensagem = document.getElementById("mensagem");
+
+  let selecionado = null;
+  let tempoMensagem;
+
+  function estadoInicial() {
+    return Array.from({length: 100}, (_, i) => ({
+      situacao: INICIAIS.includes(i + 1)
+        ? "comprado" : "disponivel",
+      observacao: ""
+    }));
+  }
+
+  function validar(dados) {
+    if (!Array.isArray(dados) || dados.length !== 100) {
+      throw new Error("A cópia deve conter 100 números.");
+    }
+
+    const validos = ["disponivel", "reservado", "comprado"];
+
+    return dados.map(item => ({
+      situacao: item && validos.includes(item.situacao)
+        ? item.situacao : "disponivel",
+      observacao: item && typeof item.observacao === "string"
+        ? item.observacao.slice(0, 100) : ""
+    }));
+  }
+
+  function carregar() {
+    try {
+      const salvo = localStorage.getItem(CHAVE);
+      if (salvo) return validar(JSON.parse(salvo));
+    } catch (erro) {
+      alert("Não foi possível carregar os dados salvos.");
+    }
+    return estadoInicial();
+  }
+
+  let numeros = carregar();
+
+  function salvar() {
+    try {
+      localStorage.setItem(CHAVE, JSON.stringify(numeros));
+    } catch (erro) {
+      alert(
+        "O navegador não conseguiu salvar. " +
+        "Faça uma cópia de segurança."
+      );
+    }
+  }
+
+  function avisar(texto) {
+    clearTimeout(tempoMensagem);
+    mensagem.textContent = texto;
+    mensagem.style.display = "block";
+    tempoMensagem = setTimeout(() => {
+      mensagem.style.display = "none";
+    }, 3000);
+  }
+
+  function formatar(n) {
+    return String(n).padStart(3, "0");
+  }
+
+  function atualizar() {
+    grade.replaceChildren();
+
+    numeros.forEach((item, indice) => {
+      const n = indice + 1;
+      const botao = document.createElement("button");
+
+      botao.type = "button";
+      botao.className = "numero";
+
+      if (item.situacao === "comprado") {
+        botao.classList.add("comprado");
+
+        const cruz = document.createElement("span");
+        cruz.className = "simbolo";
+        cruz.textContent = "✝";
+
+        const pequeno = document.createElement("span");
+        pequeno.className = "cantinho";
+        pequeno.textContent = n;
+
+        botao.append(cruz, pequeno);
+      } else {
+        botao.textContent = n;
+
+        if (item.situacao === "reservado") {
+          botao.classList.add("reservado");
+        }
+      }
+
+      botao.setAttribute(
+        "aria-label",
+        `Número ${formatar(n)}, ${item.situacao}`
+      );
+
+      botao.addEventListener("click", () => abrir(n));
+      grade.appendChild(botao);
+    });
+
+    const vendidos = numeros.filter(
+      n => n.situacao === "comprado"
+    ).length;
+
+    const reservados = numeros.filter(
+      n => n.situacao === "reservado"
+    ).length;
+
+    document.getElementById("comprados").textContent = vendidos;
+    document.getElementById("reservados").textContent = reservados;
+    document.getElementById("disponiveis").textContent =
+      100 - vendidos - reservados;
+
+    document.getElementById("arrecadado").textContent =
+      (vendidos * 5).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+        maximumFractionDigits: 0
+      });
+
+    document.getElementById("progresso").style.width =
+      vendidos + "%";
+
+    document.getElementById("progressoTexto").textContent =
+      `${vendidos} de 100 números comprados`;
+  }
+
+  function abrir(numero) {
+    selecionado = numero;
+    const item = numeros[numero - 1];
+
+    document.getElementById("tituloJanela").textContent =
+      "Número " + formatar(numero);
+
+    formulario.elements.situacao.value = item.situacao;
+    observacao.value = item.observacao;
+
+    janela.showModal();
+  }
+
+  document.getElementById("cancelar").addEventListener(
+    "click", () => janela.close()
+  );
+
+  formulario.addEventListener("submit", evento => {
+    evento.preventDefault();
+
+    if (selecionado === null) return;
+
+    numeros[selecionado - 1] = {
+      situacao: formulario.elements.situacao.value,
+      observacao: observacao.value.trim()
+    };
+
+    salvar();
+    atualizar();
+    janela.close();
+
+    avisar("Número " + formatar(selecionado) + " atualizado!");
+  });
+
+  document.getElementById("backup").addEventListener(
+    "click", () => {
+      const conteudo = JSON.stringify({
+        tipo: "rifa-sobrepeliz",
+        numeros: numeros
+      }, null, 2);
+
+      const arquivo = new Blob([conteudo], {
+        type: "application/json"
+      });
+
+      const url = URL.createObjectURL(arquivo);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = "backup-rifa-sobrepeliz.json";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      setTimeout(() => URL.revokeObjectURL(url), 3000);
+      avisar("Cópia de segurança criada!");
+    }
+  );
+
+  document.getElementById("restaurar").addEventListener(
+    "click", () => {
+      document.getElementById("arquivoBackup").click();
+    }
+  );
+
+  document.getElementById("arquivoBackup").addEventListener(
+    "change", async evento => {
+      const arquivo = evento.target.files[0];
+      if (!arquivo) return;
+
+      try {
+        const dados = JSON.parse(await arquivo.text());
+
+        if (dados.tipo !== "rifa-sobrepeliz") {
+          throw new Error("Arquivo de backup inválido.");
+        }
+
+        const restaurados = validar(dados.numeros);
+
+        if (confirm("Substituir as marcações atuais?")) {
+          numeros = restaurados;
+          salvar();
+          atualizar();
+          avisar("Cópia restaurada!");
+        }
+      } catch (erro) {
+        alert("Erro ao restaurar: " + erro.message);
+      }
+
+      evento.target.value = "";
+    }
+  );
+
+  document.getElementById("copiarPix").addEventListener(
+    "click", async () => {
+      const chave = document.getElementById("chavePix")
+        .textContent.trim();
+
+      try {
+        await navigator.clipboard.writeText(chave);
+        avisar("Chave Pix copiada!");
+      } catch (erro) {
+        avisar("Selecione e copie a chave Pix manualmente.");
+      }
+    }
+  );
+
+  atualizar();
+})();
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .catch(erro => console.warn("Offline:", erro));
+  });
+}
+</script>
+
+</body>
+</html>
