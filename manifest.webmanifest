@@ -2,10 +2,11 @@
 {
   "name": "Rifa Solidária — Sobrepeliz",
   "short_name": "Minha Rifa",
+  "description": "Controle pessoal da Rifa Solidária da Sobrepeliz",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#21070c",
-  "theme_color": "#29070e",
+  "theme_color": "#31060e",
   "lang": "pt-BR"
 }
