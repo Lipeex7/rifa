@@ -1,9 +1,10 @@
 
-const CACHE = "rifa-sobrepeliz-gotica-v4";
+const CACHE = "rifa-sobrepeliz-gotica-v5";
 
 const ARQUIVOS = [
   "./",
   "./index.html",
+  "./compradores.html",
   "./manifest.webmanifest",
   "./cabecalho-gotico.webp",
   "./cruz-comprado.webp",
@@ -51,7 +52,7 @@ self.addEventListener("fetch", evento => {
 
         if (resposta.ok) {
           await cache.put(
-            "./index.html",
+            evento.request,
             resposta.clone()
           );
         }
@@ -59,7 +60,7 @@ self.addEventListener("fetch", evento => {
         return resposta;
       } catch (erro) {
         return (
-          await cache.match("./index.html")
+          await cache.match(evento.request)
         ) || Response.error();
       }
     }
