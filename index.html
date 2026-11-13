@@ -3,8 +3,8 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#29070e">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#31060e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Minha Rifa">
 <link rel="manifest" href="./manifest.webmanifest">
@@ -12,613 +12,813 @@
 <title>Rifa Solidária | Sobrepeliz</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=UnifrakturCook:wght@700&family=Cormorant+Garamond:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
 
 :root {
-  --vinho: #4d0917;
-  --escuro: #21070c;
-  --ouro: #e4bf79;
-  --ouro-claro: #f6dfa9;
-  --pergaminho: #f6e8ca;
+  --vinho: #3b0710;
+  --vinho-claro: #65101d;
+  --ouro: #d7a64d;
+  --ouro-claro: #f5d99b;
+  --papel: #f2dbb0;
+  --tinta: #2c150d;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
   min-height: 100vh;
-  color: var(--pergaminho);
+  color: var(--ouro-claro);
   font-family: 'Cormorant Garamond', Georgia, serif;
   background:
-    radial-gradient(circle at top, #761b2b, transparent 55%),
-    repeating-linear-gradient(
-      45deg, transparent 0 30px, #ffffff04 30px 31px
+    radial-gradient(
+      ellipse at 50% 0%,
+      #711322 0%,
+      transparent 58%
     ),
-    var(--escuro);
+    repeating-linear-gradient(
+      45deg,
+      #ffffff05 0 1px,
+      transparent 1px 22px
+    ),
+    #1c0409;
 }
 
-button, input { font: inherit; }
-button { cursor: pointer; }
-
-.container {
-  width: min(96%, 900px);
-  margin: 20px auto;
-  border: 3px double var(--ouro);
-  border-radius: 60px 60px 12px 12px;
-  padding: 22px;
-  background: linear-gradient(#590f1e, #27070e);
-  box-shadow: 0 20px 60px #0008;
+button, input {
+  font: inherit;
 }
 
-.interno {
-  border: 1px solid #c99d59;
-  border-radius: 45px 45px 5px 5px;
-  padding: 24px 15px;
+button {
+  cursor: pointer;
 }
 
-.topo { text-align: center; }
-.cruz { font-size: 52px; color: var(--ouro); }
-
-.latin {
-  font-family: Cinzel, Georgia, serif;
-  letter-spacing: 3px;
-  font-size: 11px;
-  color: var(--ouro);
+button:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 2px;
 }
 
-h1 {
-  font-family: 'UnifrakturCook', Georgia, serif;
-  font-size: clamp(49px, 10vw, 90px);
-  line-height: 1;
-  margin: 12px 0;
-  color: var(--ouro-claro);
-  text-shadow: 2px 3px 2px #260309;
-}
-
-.ornamento {
-  text-align: center;
-  color: var(--ouro);
-  font-size: 27px;
-  margin: 15px 0;
-}
-
-.descricao {
-  text-align: center;
-  font-size: 25px;
-  margin: 8px 0 25px;
-}
-
-.descricao strong {
-  display: block;
-  font-family: Cinzel, Georgia, serif;
-  font-size: 29px;
-  letter-spacing: 3px;
-  color: var(--ouro-claro);
-}
-
-.resumo {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.resumo div {
-  text-align: center;
-  border: 1px solid #a87d49;
-  padding: 12px 4px;
-  background: #18040880;
-}
-
-.resumo strong {
-  display: block;
-  font-family: Cinzel, Georgia, serif;
-  color: var(--ouro-claro);
-  font-size: clamp(16px, 3.5vw, 27px);
-}
-
-.resumo span {
-  display: block;
-  font-size: 12px;
-  margin-top: 5px;
-}
-
-.barra {
-  height: 9px;
-  border: 1px solid var(--ouro);
-  background: #160408;
-  border-radius: 20px;
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
   overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
 }
 
-.progresso {
-  width: 18%;
-  height: 100%;
-  background: linear-gradient(90deg, #a77735, #f4d79c);
+/* MOLDURA PRINCIPAL */
+
+.poster {
+  max-width: 900px;
+  margin: 14px auto 30px;
+  border: 4px double #b98b43;
+  box-shadow:
+    0 20px 65px #000a,
+    inset 0 0 0 2px #230309;
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      #680d1c55,
+      transparent 70%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      #0000 0 23px,
+      #ffd17a05 24px 25px
+    ),
+    #2a050b;
 }
 
-.progresso-texto {
+/* CABEÇALHO GÓTICO */
+
+.cabecalho {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.conteudo {
+  padding: 0 clamp(10px, 3.8vw, 38px) 18px;
+}
+
+.filete {
   text-align: center;
-  margin: 8px 0 23px;
+  color: #e7bf74;
+  font-size: clamp(16px, 3.3vw, 24px);
+  letter-spacing: 3px;
+  margin: 4px 0 10px;
 }
 
-.moldura-grade {
-  background: #d8ba84;
-  padding: 6px;
-  border: 5px ridge #a7783d;
+/* GRADE DOS 100 NÚMEROS */
+
+.tabuleiro {
+  padding: 5px;
+  background:
+    linear-gradient(
+      135deg,
+      #d7a55b,
+      #f4d39a 28%,
+      #ab7837 65%,
+      #f2d6a4
+    );
+  border: 5px ridge #bd904e;
+  box-shadow:
+    0 0 0 2px #4e160e,
+    0 12px 24px #10020588;
 }
 
 .grade {
   display: grid;
   grid-template-columns: repeat(10, minmax(0, 1fr));
-  gap: 3px;
+  gap: 2px;
 }
 
 .numero {
-  aspect-ratio: 1;
-  min-width: 0;
-  border: 1px solid #b08a51;
-  background: linear-gradient(135deg, #fff4dc, #e8d2a8);
-  color: #29180e;
-  font-size: clamp(12px, 3vw, 24px);
-  font-weight: bold;
   position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  aspect-ratio: 1.19 / 1;
+  min-width: 0;
   padding: 0;
+  border: 1px solid #b9894b;
+  border-radius: 2px;
+  color: var(--tinta);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(12px, 2.7vw, 24px);
+  font-weight: 600;
+  background:
+    linear-gradient(
+      125deg,
+      #fff0d0 0%,
+      #f2d9aa 65%,
+      #d9b77c 100%
+    );
+  box-shadow: inset 0 0 0 1px #fff3d099;
+  transition:
+    filter .15s ease,
+    transform .15s ease;
 }
 
-.numero:active { transform: scale(.94); }
-
-.numero:focus-visible {
-  outline: 3px solid #fff;
-  outline-offset: 1px;
+.numero:hover {
+  filter: brightness(1.07);
 }
+
+.numero:active {
+  transform: scale(.96);
+}
+
+/* CRUZ ORIGINAL DA ARTE */
 
 .numero.comprado {
-  background: radial-gradient(circle at top, #8c2639, #490713);
+  background:
+    #50070f
+    url('./cruz-comprado.webp')
+    center / 100% 100% no-repeat;
+  border-color: #c39553;
   color: var(--ouro-claro);
+  box-shadow: none;
 }
 
-.numero.comprado .simbolo {
-  font-size: clamp(18px, 4vw, 32px);
-}
-
-.numero .cantinho {
+.numero .miudo {
   position: absolute;
-  bottom: 1px;
   right: 2px;
-  font-size: 9px;
+  bottom: 1px;
+  font-size: clamp(7px, 1.3vw, 11px);
+  color: #fff1c5;
+  text-shadow: 0 1px 2px #280308;
 }
 
 .numero.reservado {
-  background: #e2b76d;
-  border: 2px solid #895a23;
+  background:
+    linear-gradient(135deg, #f2c875, #c78c36);
+  border-color: #9d6324;
 }
+
+.numero.reservado::after {
+  content: '◆';
+  position: absolute;
+  top: 1px;
+  right: 2px;
+  font-size: clamp(7px, 1.3vw, 11px);
+  color: #71321b;
+}
+
+/* LEGENDA */
 
 .legenda {
   display: flex;
   justify-content: center;
-  gap: 15px;
   flex-wrap: wrap;
-  margin: 17px 0;
-  font-size: 16px;
+  gap: 8px 18px;
+  margin: 16px 0 8px;
+  font-size: 17px;
 }
 
-.legenda i {
+.legenda span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.amostra {
   display: inline-block;
   width: 13px;
   height: 13px;
-  border: 1px solid var(--ouro);
-  margin-right: 5px;
+  border: 1px solid #d6b270;
 }
 
-.disponivel-cor { background: #f6e8ca; }
-.reservado-cor { background: #e2b76d; }
-.comprado-cor { background: #590c1a; }
+.amostra.livre {
+  background: #f4e1bf;
+}
+
+.amostra.reserva {
+  background: #dba955;
+}
+
+.amostra.pago {
+  background: #530c19;
+}
 
 .instrucao {
   text-align: center;
-  font-size: 19px;
+  margin: 4px 0 15px;
+  font-size: 17px;
+  color: #e7c998;
 }
 
-.informacoes {
+/* ESTATÍSTICAS */
+
+.estatisticas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+  margin: 15px 0;
+}
+
+.estatistica {
+  border: 1px solid #a77a3f;
+  text-align: center;
+  background: #210409b0;
+  padding: 9px 3px;
+}
+
+.estatistica strong {
+  display: block;
+  font: 600 clamp(15px, 3vw, 26px)
+    'Cinzel', Georgia, serif;
+  color: #f5d99b;
+}
+
+.estatistica small {
+  font-size: clamp(10px, 1.9vw, 13px);
+}
+
+.barra {
+  height: 8px;
+  background: #160205;
+  border: 1px solid #b58b4c;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.preenchimento {
+  height: 100%;
+  width: 18%;
+  background:
+    linear-gradient(90deg, #9b5f22, #ffe0a0);
+}
+
+.progresso-texto {
+  text-align: center;
+  margin: 7px 0 20px;
+  font-size: 15px;
+}
+
+/* PRÊMIO E VALOR */
+
+.dados {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 25px;
+  gap: 13px;
+  margin: 20px 0;
 }
 
-.cartao {
-  border: 1px solid var(--ouro);
+.dado {
   text-align: center;
-  padding: 18px 8px;
-  background: #380a13;
+  padding: 17px 5px;
+  border: 2px solid #bd8a42;
+  background:
+    linear-gradient(135deg, #4d0712, #29040b);
+  box-shadow:
+    inset 0 0 0 2px #28040a,
+    inset 0 0 0 3px #c49a58;
 }
 
-.cartao span {
-  font-family: Cinzel, Georgia, serif;
-  font-size: 13px;
-  color: var(--ouro);
-}
-
-.cartao strong {
+.dado .icone {
   display: block;
-  font-family: Cinzel, Georgia, serif;
-  font-size: clamp(20px, 4vw, 35px);
+  font-size: 25px;
+  color: #efc980;
+}
+
+.dado .rotulo {
+  font: 500 clamp(11px, 2vw, 16px)
+    'Cinzel', Georgia, serif;
+  letter-spacing: 1px;
+}
+
+.dado strong {
+  display: block;
   margin-top: 7px;
-  color: var(--ouro-claro);
+  font: 600 clamp(20px, 4.1vw, 34px)
+    Georgia, serif;
+  color: #f7dfab;
 }
 
 /* ÁREA PIX */
 
 .pix {
+  background:
+    linear-gradient(
+      135deg,
+      #fff0cf,
+      #e6c38b 65%,
+      #f4dbac
+    );
+  color: #43120e;
   text-align: center;
-  background: linear-gradient(135deg, #fff0ce, #dfbf87);
-  color: #3b160e;
-  padding: 20px 12px;
-  margin-top: 15px;
-  border: 3px double #a6773c;
+  border: 5px double #a97c3d;
+  padding: 18px 12px 21px;
+  box-shadow: 0 10px 24px #14030766;
 }
 
-.pix h3 {
-  font-family: Cinzel, Georgia, serif;
-  font-size: 16px;
-  margin: 0;
-}
-
-.pix p.chave {
-  font-size: clamp(19px, 4vw, 29px);
-  font-weight: bold;
-  overflow-wrap: anywhere;
-  margin: 9px 0;
-}
-
-.botao {
-  background: #540d1c;
-  border: 1px solid var(--ouro);
-  color: var(--ouro-claro);
-  padding: 11px 15px;
-  border-radius: 4px;
-}
-
-.botao:hover { background: #7b2030; }
-
-/* NOVO QR CODE */
-
-.area-qr {
-  margin-top: 22px;
-  padding-top: 19px;
-  border-top: 1px solid #9f774a;
-}
-
-.area-qr h3 {
-  font-size: 15px;
+.pix h2 {
+  font: 600 clamp(15px, 2.6vw, 21px)
+    'Cinzel', Georgia, serif;
+  margin: 0 0 8px;
   letter-spacing: 1px;
 }
 
-.moldura-qr {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 15px;
-  padding: 12px;
-  background: #fff;
-  border: 5px double #ad7b38;
-  border-radius: 10px;
-  box-shadow: 0 7px 20px #38120e55;
+.chave {
+  font-size: clamp(19px, 4vw, 28px);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  margin: 7px 0 12px;
 }
 
-.qr-code {
+.botao {
+  display: inline-block;
+  border: 1px solid #e7b96e;
+  background:
+    linear-gradient(145deg, #701629, #3b0710);
+  color: #f9e2b2;
+  padding: 11px 16px;
+  border-radius: 5px;
+  font: 600 13px 'Cinzel', Georgia, serif;
+  letter-spacing: .3px;
+  max-width: 100%;
+  margin: 4px;
+}
+
+.botao:hover {
+  filter: brightness(1.15);
+}
+
+.pix .divisor {
+  height: 1px;
+  background: #b78b50;
+  margin: 18px auto;
+  max-width: 390px;
+}
+
+/* QR CODE PIX */
+
+.qr-moldura {
+  display: inline-flex;
+  background: white;
+  padding: 11px;
+  border: 4px double #b27d35;
+  box-shadow: 0 5px 20px #31100855;
+  margin: 8px auto 5px;
+}
+
+.qr-moldura img {
   display: block;
-  width: min(230px, 62vw);
+  width: min(240px, 63vw);
   height: auto;
   aspect-ratio: 1;
 }
 
-.pix .instrucao-qr {
-  font-size: 19px;
-  line-height: 1.3;
-  margin: 12px auto;
+.pix p.ajuda {
+  font-size: 17px;
+  margin: 9px auto 10px;
   max-width: 340px;
 }
 
-.pix .botao { margin: 4px; }
+/* SORTEIO */
 
 .sorteio {
   text-align: center;
-  margin: 25px 0;
-  font-size: 23px;
+  margin: 25px auto 22px;
+  color: #f3d6a0;
 }
 
-.sorteio strong {
-  display: block;
-  font-family: Cinzel, Georgia, serif;
-  font-size: 17px;
-  color: var(--ouro);
-  margin-bottom: 6px;
+.sorteio h2 {
+  font: 500 22px 'Cinzel', Georgia, serif;
+  letter-spacing: 4px;
+  margin: 0 0 7px;
 }
+
+.sorteio p {
+  font-size: 22px;
+  font-style: italic;
+  margin: 0;
+}
+
+/* BACKUP */
 
 .ferramentas {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
-  border-top: 1px solid #a87d49;
-  padding-top: 20px;
+  justify-content: center;
+  gap: 8px;
+  border-top: 1px solid #8b5b2e;
+  padding-top: 18px;
 }
 
 .aviso {
+  font-size: 14px;
   text-align: center;
-  font-size: 15px;
-  color: #e0c79c;
-  margin-top: 18px;
+  color: #dbb77c;
+  margin: 12px 0 4px;
 }
 
-footer {
-  text-align: center;
-  color: var(--ouro);
-  padding: 20px;
+.rodape {
+  display: block;
+  width: 100%;
+  height: auto;
 }
+
+/* JANELA DE EDIÇÃO */
 
 dialog {
-  width: min(92vw, 440px);
-  border: 2px solid var(--ouro);
-  border-radius: 12px;
-  background: linear-gradient(145deg, #55101f, #24070e);
-  color: var(--pergaminho);
-  padding: 25px;
+  width: min(92vw, 430px);
+  border: 3px double #d3a25b;
+  border-radius: 8px;
+  background:
+    linear-gradient(#5d101f, #28040b);
+  color: #f4d9a5;
+  padding: 23px;
+  box-shadow: 0 12px 60px #0009;
 }
 
-dialog::backdrop { background: #080204cc; }
+dialog::backdrop {
+  background: #0a0104cc;
+}
 
 dialog h2 {
-  font-family: Cinzel, Georgia, serif;
   text-align: center;
-  color: var(--ouro-claro);
+  font: 600 22px 'Cinzel', Georgia, serif;
+  margin: 0 0 12px;
+}
+
+dialog p {
+  font-size: 19px;
+  margin: 0 0 12px;
 }
 
 .opcao {
   display: block;
-  border: 1px solid #986c43;
-  padding: 12px;
-  margin: 9px 0;
+  padding: 10px 12px;
+  margin: 7px 0;
+  border: 1px solid #a77c44;
+  background: #320711;
   cursor: pointer;
-  background: #310912;
+  font-size: 19px;
 }
 
 .opcao:has(input:checked) {
-  background: #711c2d;
-  border-color: var(--ouro-claro);
+  background: #7c2332;
+  border-color: #f4cf85;
 }
 
 .campo {
   display: block;
-  margin-top: 15px;
-  margin-bottom: 6px;
+  font-size: 17px;
+  margin: 13px 0 5px;
 }
 
 #observacao {
+  display: block;
   width: 100%;
   padding: 11px;
-  background: var(--pergaminho);
-  border: 1px solid var(--ouro);
-  color: #30140d;
+  border: 1px solid #b88c4d;
+  background: #f4dfba;
+  color: #31110c;
 }
 
 .acoes {
   display: flex;
-  gap: 10px;
-  margin-top: 22px;
+  gap: 8px;
+  margin-top: 17px;
 }
 
-.acoes button { flex: 1; }
+.acoes .botao {
+  flex: 1;
+}
 
 #mensagem {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--pergaminho);
-  color: #39101a;
-  border: 1px solid var(--ouro);
-  padding: 12px 20px;
   display: none;
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  max-width: 90vw;
+  padding: 12px 17px;
+  background: #f7deb0;
+  border: 2px solid #b58745;
+  color: #3b0910;
   z-index: 100;
   text-align: center;
+  box-shadow: 0 5px 18px #0008;
 }
 
+/* CELULAR */
+
 @media(max-width:600px) {
-  .container {
-    width: calc(100% - 12px);
-    padding: 8px;
-    margin: 6px auto;
-    border-radius: 35px 35px 8px 8px;
+  .poster {
+    margin: 0 auto 12px;
+    border-width: 2px;
   }
 
-  .interno {
-    padding: 22px 8px;
-    border-radius: 28px 28px 4px 4px;
+  .conteudo {
+    padding: 0 7px 14px;
   }
 
-  .grade { gap: 2px; }
+  .filete {
+    margin: 0 0 6px;
+  }
 
-  .moldura-grade {
-    padding: 3px;
+  .tabuleiro {
+    padding: 2px;
     border-width: 3px;
   }
 
-  .resumo { gap: 4px; }
-  .resumo span { font-size: 10px; }
-  .numero .cantinho { font-size: 7px; }
-  .cartao span { font-size: 10px; }
+  .grade {
+    gap: 1px;
+  }
+
+  .dados {
+    gap: 8px;
+  }
+
+  .dado {
+    padding: 12px 3px;
+  }
+
+  .estatisticas {
+    gap: 4px;
+  }
+
+  .legenda {
+    font-size: 14px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  * {
+    scroll-behavior: auto;
+    transition: none !important;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<main class="container">
-<div class="interno">
+<main class="poster">
 
-<header class="topo">
-  <div class="cruz">✝</div>
-  <p class="latin">AD MAIOREM DEI GLORIAM</p>
-  <h1>Rifa Solidária</h1>
+<header>
+  <h1 class="sr-only">
+    Rifa Solidária — Sobrepeliz
+  </h1>
 
-  <div class="ornamento">
-    ✥ ─────── ✥ ─────── ✥
-  </div>
-
-  <p class="descricao">
-    Ajude-me a fazer uma nova
-    <strong>Sobrepeliz</strong>
-  </p>
+  <img
+    class="cabecalho"
+    src="./cabecalho-gotico.webp"
+    alt="Rifa Solidária. Ajude-me a fazer uma nova sobrepeliz."
+  >
 </header>
 
-<section class="resumo" aria-label="Resumo da rifa">
-  <div>
-    <strong id="comprados">18</strong>
-    <span>Comprados</span>
+<div class="conteudo">
+
+  <div class="filete">
+    ✥ ───── ✥ ───── ✥
   </div>
-  <div>
-    <strong id="reservados">0</strong>
-    <span>Reservados</span>
+
+  <!-- GRADE INTERATIVA -->
+
+  <section class="tabuleiro" aria-label="Números da rifa">
+    <div class="grade" id="grade"></div>
+  </section>
+
+  <div class="legenda">
+    <span>
+      <i class="amostra livre"></i>
+      Disponível
+    </span>
+
+    <span>
+      <i class="amostra reserva"></i>
+      Reservado
+    </span>
+
+    <span>
+      <i class="amostra pago"></i>
+      ✝ Comprado
+    </span>
   </div>
-  <div>
-    <strong id="disponiveis">82</strong>
-    <span>Disponíveis</span>
-  </div>
-  <div>
-    <strong id="arrecadado">R$ 90</strong>
-    <span>Arrecadado</span>
-  </div>
-</section>
 
-<div class="barra">
-  <div class="progresso" id="progresso"></div>
-</div>
-
-<p class="progresso-texto" id="progressoTexto">
-  18 de 100 números comprados
-</p>
-
-<section class="moldura-grade" aria-label="Números da rifa">
-  <div class="grade" id="grade"></div>
-</section>
-
-<div class="legenda">
-  <span><i class="disponivel-cor"></i> Disponível</span>
-  <span><i class="reservado-cor"></i> Reservado</span>
-  <span><i class="comprado-cor"></i> ✝ Comprado</span>
-</div>
-
-<p class="instrucao">
-  Toque em um número para alterar sua situação.
-</p>
-
-<section class="informacoes">
-  <div class="cartao">
-    <span>✦ PRÊMIO ✦</span>
-    <strong>R$ 100,00</strong>
-  </div>
-  <div class="cartao">
-    <span>✦ CADA NÚMERO ✦</span>
-    <strong>R$ 5,00</strong>
-  </div>
-</section>
-
-<!-- ÁREA PIX COM QR CODE -->
-
-<section class="pix">
-  <h3>✥ CHAVE PIX — E-MAIL ✥</h3>
-
-  <p class="chave" id="chavePix">
-    adsonnph@icloud.com
+  <p class="instrucao">
+    Toque em um número para alterar a situação.
   </p>
 
-  <button class="botao" type="button" id="copiarPix">
-    Copiar chave Pix
-  </button>
+  <!-- ESTATÍSTICAS -->
 
-  <div class="area-qr">
-    <h3>✥ PAGAMENTO POR QR CODE ✥</h3>
+  <section class="estatisticas">
+    <div class="estatistica">
+      <strong id="comprados">18</strong>
+      <small>Comprados</small>
+    </div>
 
-    <div class="moldura-qr">
+    <div class="estatistica">
+      <strong id="reservados">0</strong>
+      <small>Reservados</small>
+    </div>
+
+    <div class="estatistica">
+      <strong id="disponiveis">82</strong>
+      <small>Disponíveis</small>
+    </div>
+
+    <div class="estatistica">
+      <strong id="arrecadado">R$ 90</strong>
+      <small>Arrecadado</small>
+    </div>
+  </section>
+
+  <div
+    class="barra"
+    id="barra"
+    role="progressbar"
+    aria-label="Progresso de vendas"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-valuenow="18"
+  >
+    <div class="preenchimento" id="preenchimento"></div>
+  </div>
+
+  <p class="progresso-texto" id="progressoTexto">
+    18 de 100 números comprados
+  </p>
+
+  <!-- PRÊMIO -->
+
+  <section class="dados">
+    <div class="dado">
+      <span class="icone">✦</span>
+      <span class="rotulo">PRÊMIO</span>
+      <strong>R$ 100,00</strong>
+    </div>
+
+    <div class="dado">
+      <span class="icone">❖</span>
+      <span class="rotulo">CADA NÚMERO</span>
+      <strong>R$ 5,00</strong>
+    </div>
+  </section>
+
+  <!-- PIX -->
+
+  <section class="pix">
+
+    <h2>✥ CHAVE PIX (E-MAIL) ✥</h2>
+
+    <p class="chave" id="chavePix">
+      adsonnph@icloud.com
+    </p>
+
+    <button class="botao" id="copiarChave">
+      Copiar chave Pix
+    </button>
+
+    <div class="divisor"></div>
+
+    <h2>✥ PAGAMENTO POR QR CODE ✥</h2>
+
+    <div class="qr-moldura">
       <img
         src="./qr-pix.png"
-        class="qr-code"
-        width="230"
-        height="230"
+        width="240"
+        height="240"
         alt="QR Code Pix da Rifa Solidária"
-        loading="eager"
       >
     </div>
 
-    <p class="instrucao-qr">
-      Escaneie com o aplicativo do seu banco
-      ou copie o código Pix abaixo.
+    <p class="ajuda">
+      Escaneie com o aplicativo do banco
+      ou use o Pix Copia e Cola.
     </p>
 
-    <button class="botao" type="button" id="copiarPixPayload">
+    <button class="botao" id="copiarCodigo">
       Copiar Pix Copia e Cola
     </button>
-  </div>
-</section>
 
-<div class="sorteio">
-  <strong>✥ SORTEIO ✥</strong>
-  Após vender todos os números.
+  </section>
+
+  <!-- SORTEIO -->
+
+  <section class="sorteio">
+    <h2>✥ SORTEIO ✥</h2>
+    <p>Após vender todos os números.</p>
+  </section>
+
+  <!-- BACKUP -->
+
+  <section class="ferramentas">
+    <button class="botao" id="baixarBackup">
+      ↓ Salvar cópia de segurança
+    </button>
+
+    <button class="botao" id="restaurarBackup">
+      ↑ Restaurar cópia
+    </button>
+
+    <input
+      id="arquivoBackup"
+      type="file"
+      accept=".json,application/json"
+      hidden
+    >
+  </section>
+
+  <p class="aviso">
+    Uso pessoal: os números ficam salvos somente
+    neste navegador. Faça backups regularmente.
+  </p>
+
 </div>
 
-<div class="ferramentas">
-  <button class="botao" type="button" id="backup">
-    ↓ Salvar cópia de segurança
-  </button>
+<img
+  class="rodape"
+  src="./rodape-gotico.webp"
+  alt=""
+  aria-hidden="true"
+>
 
-  <button class="botao" type="button" id="restaurar">
-    ↑ Restaurar cópia
-  </button>
-
-  <input
-    type="file"
-    id="arquivoBackup"
-    accept=".json,application/json"
-    hidden
-  >
-</div>
-
-<p class="aviso">
-  Uso pessoal: as marcações ficam salvas
-  neste navegador. Faça cópias de segurança
-  regularmente.
-</p>
-
-</div>
 </main>
 
-<footer>
-  ✝ Rifa Solidária da Sobrepeliz
-</footer>
+<!-- JANELA PARA MARCAR OS NÚMEROS -->
 
 <dialog id="janela">
+
   <h2 id="tituloJanela">Número 001</h2>
-  <p>Escolha a situação deste número:</p>
+
+  <p>Escolha a situação:</p>
 
   <form id="formulario">
+
     <label class="opcao">
-      <input type="radio" name="situacao" value="disponivel">
+      <input
+        type="radio"
+        name="situacao"
+        value="disponivel"
+      >
       Disponível
     </label>
 
     <label class="opcao">
-      <input type="radio" name="situacao" value="reservado">
+      <input
+        type="radio"
+        name="situacao"
+        value="reservado"
+      >
       Reservado
     </label>
 
     <label class="opcao">
-      <input type="radio" name="situacao" value="comprado">
+      <input
+        type="radio"
+        name="situacao"
+        value="comprado"
+      >
       ✝ Comprado
     </label>
 
@@ -627,55 +827,57 @@ dialog h2 {
     </label>
 
     <input
-      type="text"
       id="observacao"
+      type="text"
       maxlength="100"
       placeholder="Ex.: Maria — Pix confirmado"
     >
 
     <div class="acoes">
-      <button type="button" class="botao" id="cancelar">
+      <button class="botao" type="button" id="cancelar">
         Cancelar
       </button>
 
-      <button type="submit" class="botao">
+      <button class="botao" type="submit">
         Salvar
       </button>
     </div>
+
   </form>
 </dialog>
 
 <div id="mensagem" role="status" aria-live="polite"></div>
 
 <script>
-(function () {
+(() => {
   "use strict";
 
-  const CHAVE_ARMAZENAMENTO = "rifa-sobrepeliz-v1";
+  // Mesma chave da versão anterior.
+  const CHAVE = "rifa-sobrepeliz-v1";
 
-  // Código Pix extraído do QR Code enviado.
-  const PIX_COPIA_COLA =
-    "00020126410014BR.GOV.BCB.PIX0119adsonnph@icloud.com5204000053039865802BR5925Adson Phelipe Soares da S6009SAO PAULO62140510K0ebY5ANla6304C25B";
-
-  // Números comprados na imagem original.
-  const INICIAIS = [
+  // Números comprados na arte original.
+  const COMPRADOS_INICIAIS = [
     1, 6, 8, 12, 13, 14, 15, 16,
     22, 25, 26, 28, 30, 45, 48,
     52, 77, 85
   ];
 
-  const grade = document.getElementById("grade");
-  const janela = document.getElementById("janela");
-  const formulario = document.getElementById("formulario");
-  const observacao = document.getElementById("observacao");
-  const mensagem = document.getElementById("mensagem");
+  // Pix Copia e Cola do QR Code enviado.
+  const PIX_COPIA_COLA =
+    "00020126410014BR.GOV.BCB.PIX0119adsonnph@icloud.com5204000053039865802BR5925Adson Phelipe Soares da S6009SAO PAULO62140510K0ebY5ANla6304C25B";
+
+  const $ = id => document.getElementById(id);
+
+  const grade = $("grade");
+  const janela = $("janela");
+  const form = $("formulario");
 
   let selecionado = null;
-  let tempoMensagem;
+  let timer;
 
-  function estadoInicial() {
+  function inicial() {
     return Array.from({ length: 100 }, (_, i) => ({
-      situacao: INICIAIS.includes(i + 1)
+      situacao: COMPRADOS_INICIAIS.includes(i + 1)
         ? "comprado"
         : "disponivel",
       observacao: ""
@@ -684,38 +886,44 @@ dialog h2 {
 
   function validar(dados) {
     if (!Array.isArray(dados) || dados.length !== 100) {
-      throw new Error("A cópia deve conter 100 números.");
+      throw Error("O backup deve conter 100 números.");
     }
 
-    const validos = [
+    const estados = [
       "disponivel",
       "reservado",
       "comprado"
     ];
 
-    return dados.map(item => ({
-      situacao: item && validos.includes(item.situacao)
-        ? item.situacao
-        : "disponivel",
+    if (!dados.every(d =>
+      d &&
+      estados.includes(d.situacao) &&
+      (
+        d.observacao === undefined ||
+        typeof d.observacao === "string"
+      )
+    )) {
+      throw Error("Há números inválidos no arquivo.");
+    }
 
-      observacao: item && typeof item.observacao === "string"
-        ? item.observacao.slice(0, 100)
-        : ""
+    return dados.map(d => ({
+      situacao: d.situacao,
+      observacao: (d.observacao || "").slice(0, 100)
     }));
   }
 
   function carregar() {
     try {
-      const salvo = localStorage.getItem(CHAVE_ARMAZENAMENTO);
+      const salvo = localStorage.getItem(CHAVE);
 
       if (salvo) {
         return validar(JSON.parse(salvo));
       }
     } catch (erro) {
-      alert("Não foi possível carregar os dados salvos.");
+      alert("Não foi possível carregar as marcações salvas.");
     }
 
-    return estadoInicial();
+    return inicial();
   }
 
   let numeros = carregar();
@@ -723,71 +931,71 @@ dialog h2 {
   function salvar() {
     try {
       localStorage.setItem(
-        CHAVE_ARMAZENAMENTO,
+        CHAVE,
         JSON.stringify(numeros)
       );
+      return true;
     } catch (erro) {
       alert(
-        "Não foi possível salvar neste navegador. " +
-        "Faça uma cópia de segurança."
+        "Falha ao salvar no navegador. " +
+        "Exporte um backup."
       );
+      return false;
     }
   }
 
-  function avisar(texto) {
-    clearTimeout(tempoMensagem);
+  function aviso(texto) {
+    clearTimeout(timer);
 
-    mensagem.textContent = texto;
-    mensagem.style.display = "block";
+    $("mensagem").textContent = texto;
+    $("mensagem").style.display = "block";
 
-    tempoMensagem = setTimeout(() => {
-      mensagem.style.display = "none";
+    timer = setTimeout(() => {
+      $("mensagem").style.display = "none";
     }, 3000);
   }
 
-  function formatar(n) {
-    return String(n).padStart(3, "0");
-  }
+  const formatar = n => String(n).padStart(3, "0");
+
+  // CONSTRUIR GRADE
 
   function atualizar() {
-    grade.replaceChildren();
+    const fragmento = document.createDocumentFragment();
 
-    numeros.forEach((item, indice) => {
-      const n = indice + 1;
-      const botao = document.createElement("button");
+    numeros.forEach((item, i) => {
+      const numero = i + 1;
+      const b = document.createElement("button");
 
-      botao.type = "button";
-      botao.className = "numero";
-
-      if (item.situacao === "comprado") {
-        botao.classList.add("comprado");
-
-        const cruz = document.createElement("span");
-        cruz.className = "simbolo";
-        cruz.textContent = "✝";
-
-        const pequeno = document.createElement("span");
-        pequeno.className = "cantinho";
-        pequeno.textContent = n;
-
-        botao.append(cruz, pequeno);
-      } else {
-        botao.textContent = n;
-
-        if (item.situacao === "reservado") {
-          botao.classList.add("reservado");
-        }
-      }
-
-      botao.setAttribute(
-        "aria-label",
-        `Número ${formatar(n)}, ${item.situacao}`
+      b.type = "button";
+      b.className = "numero " + (
+        item.situacao === "disponivel"
+          ? ""
+          : item.situacao
       );
 
-      botao.addEventListener("click", () => abrir(n));
+      b.setAttribute(
+        "aria-label",
+        `Número ${formatar(numero)}: ${item.situacao}`
+      );
 
-      grade.appendChild(botao);
+      b.title =
+        `Número ${formatar(numero)} — ${item.situacao}`;
+
+      if (item.situacao === "comprado") {
+        const pequeno = document.createElement("span");
+        pequeno.className = "miudo";
+        pequeno.textContent = numero;
+        b.append(pequeno);
+      } else {
+        b.textContent = numero;
+      }
+
+      b.addEventListener("click", () => abrir(numero));
+
+      fragmento.append(b);
     });
+
+    grade.replaceChildren(fragmento);
 
     const vendidos = numeros.filter(
       n => n.situacao === "comprado"
@@ -797,106 +1005,112 @@ dialog h2 {
       n => n.situacao === "reservado"
     ).length;
 
-    document.getElementById("comprados").textContent =
-      vendidos;
-
-    document.getElementById("reservados").textContent =
-      reservados;
-
-    document.getElementById("disponiveis").textContent =
+    $("comprados").textContent = vendidos;
+    $("reservados").textContent = reservados;
+    $("disponiveis").textContent =
       100 - vendidos - reservados;
 
-    document.getElementById("arrecadado").textContent =
+    $("arrecadado").textContent =
       (vendidos * 5).toLocaleString("pt-BR", {
         style: "currency",
         currency: "BRL",
         maximumFractionDigits: 0
       });
 
-    document.getElementById("progresso").style.width =
-      vendidos + "%";
+    $("preenchimento").style.width = vendidos + "%";
 
-    document.getElementById("progressoTexto").textContent =
+    $("barra").setAttribute(
+      "aria-valuenow",
+      vendidos
+    );
+
+    $("progressoTexto").textContent =
       `${vendidos} de 100 números comprados`;
   }
 
-  function abrir(numero) {
-    selecionado = numero;
+  // EDITAR NÚMERO
 
-    const item = numeros[numero - 1];
+  function abrir(n) {
+    selecionado = n;
 
-    document.getElementById("tituloJanela").textContent =
-      "Número " + formatar(numero);
+    const item = numeros[n - 1];
 
-    formulario.elements.situacao.value =
-      item.situacao;
+    $("tituloJanela").textContent =
+      "Número " + formatar(n);
 
-    observacao.value = item.observacao;
+    form.elements.situacao.value = item.situacao;
+
+    $("observacao").value = item.observacao;
 
     janela.showModal();
   }
 
-  document.getElementById("cancelar")
-    .addEventListener("click", () => {
-      janela.close();
-    });
+  $("cancelar").addEventListener("click", () => {
+    janela.close();
+  });
 
-  formulario.addEventListener("submit", evento => {
+  form.addEventListener("submit", evento => {
     evento.preventDefault();
 
     if (selecionado === null) return;
 
+    const anterior = numeros[selecionado - 1];
+
     numeros[selecionado - 1] = {
-      situacao: formulario.elements.situacao.value,
-      observacao: observacao.value.trim()
+      situacao: form.elements.situacao.value,
+      observacao: $("observacao").value.trim()
     };
 
-    salvar();
+    if (!salvar()) {
+      numeros[selecionado - 1] = anterior;
+      return;
+    }
+
     atualizar();
     janela.close();
 
-    avisar(
+    aviso(
       "Número " + formatar(selecionado) + " atualizado!"
     );
   });
 
   // SALVAR BACKUP
 
-  document.getElementById("backup")
-    .addEventListener("click", () => {
-      const conteudo = JSON.stringify({
-        tipo: "rifa-sobrepeliz",
-        numeros
-      }, null, 2);
+  $("baixarBackup").addEventListener("click", () => {
+    const conteudo = JSON.stringify({
+      tipo: "rifa-sobrepeliz",
+      numeros
+    }, null, 2);
 
-      const arquivo = new Blob([conteudo], {
+    const url = URL.createObjectURL(
+      new Blob([conteudo], {
         type: "application/json"
-      });
+      })
+    );
 
-      const url = URL.createObjectURL(arquivo);
-      const link = document.createElement("a");
+    const link = document.createElement("a");
 
-      link.href = url;
-      link.download = "backup-rifa-sobrepeliz.json";
+    link.href = url;
+    link.download = "backup-rifa-sobrepeliz.json";
 
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
+    document.body.append(link);
+    link.click();
+    link.remove();
 
-      setTimeout(() => URL.revokeObjectURL(url), 3000);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
 
-      avisar("Cópia de segurança criada!");
-    });
+    aviso("Cópia de segurança preparada.");
+  });
 
   // RESTAURAR BACKUP
 
-  document.getElementById("restaurar")
-    .addEventListener("click", () => {
-      document.getElementById("arquivoBackup").click();
-    });
+  $("restaurarBackup").addEventListener("click", () => {
+    $("arquivoBackup").click();
+  });
 
-  document.getElementById("arquivoBackup")
-    .addEventListener("change", async evento => {
+  $("arquivoBackup").addEventListener(
+    "change",
+    async evento => {
       const arquivo = evento.target.files[0];
 
       if (!arquivo) return;
@@ -905,63 +1119,66 @@ dialog h2 {
         const dados = JSON.parse(await arquivo.text());
 
         if (dados.tipo !== "rifa-sobrepeliz") {
-          throw new Error("Arquivo de backup inválido.");
+          throw Error("Arquivo não reconhecido.");
         }
 
         const restaurados = validar(dados.numeros);
 
-        if (confirm("Substituir as marcações atuais?")) {
+        if (confirm(
+          "Substituir todas as marcações atuais pelo backup?"
+        )) {
+          const anteriores = numeros;
           numeros = restaurados;
-          salvar();
-          atualizar();
-          avisar("Cópia restaurada!");
+
+          if (!salvar()) {
+            numeros = anteriores;
+          } else {
+            atualizar();
+            aviso("Backup restaurado!");
+          }
         }
       } catch (erro) {
-        alert("Erro ao restaurar: " + erro.message);
+        alert(
+          "Não foi possível restaurar: " + erro.message
+        );
       }
 
       evento.target.value = "";
-    });
+    }
+  );
 
   // COPIAR PIX
 
-  async function copiar(texto, sucesso) {
+  async function copiar(valor) {
     try {
-      await navigator.clipboard.writeText(texto);
-      avisar(sucesso);
+      await navigator.clipboard.writeText(valor);
+      aviso("Copiado!");
     } catch (erro) {
-      window.prompt("Copie o texto abaixo:", texto);
+      window.prompt(
+        "Copie o texto abaixo:",
+        valor
+      );
     }
   }
 
-  document.getElementById("copiarPix")
-    .addEventListener("click", () => {
-      copiar(
-        document.getElementById("chavePix")
-          .textContent.trim(),
-        "Chave Pix copiada!"
-      );
-    });
+  $("copiarChave").addEventListener("click", () => {
+    copiar($("chavePix").textContent.trim());
+  });
 
-  // NOVO: COPIAR CÓDIGO PIX COMPLETO
-
-  document.getElementById("copiarPixPayload")
-    .addEventListener("click", () => {
-      copiar(
-        PIX_COPIA_COLA,
-        "Pix Copia e Cola copiado!"
-      );
-    });
+  $("copiarCodigo").addEventListener("click", () => {
+    copiar(PIX_COPIA_COLA);
+  });
 
   atualizar();
 })();
 
-// FUNCIONAMENTO OFFLINE
+// ACESSO OFFLINE
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js")
-      .catch(erro => console.warn("Offline:", erro));
+    navigator.serviceWorker
+      .register("./sw.js")
+      .catch(console.warn);
   });
 }
 </script>
