@@ -6,7 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#29070e">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Minha Rifa">
 <link rel="manifest" href="./manifest.webmanifest">
+
 <title>Rifa Solidária | Sobrepeliz</title>
 
 <style>
@@ -30,9 +32,7 @@ body {
   background:
     radial-gradient(circle at top, #761b2b, transparent 55%),
     repeating-linear-gradient(
-      45deg,
-      transparent 0 30px,
-      #ffffff04 30px 31px
+      45deg, transparent 0 30px, #ffffff04 30px 31px
     ),
     var(--escuro);
 }
@@ -56,14 +56,8 @@ button { cursor: pointer; }
   padding: 24px 15px;
 }
 
-.topo {
-  text-align: center;
-}
-
-.cruz {
-  font-size: 52px;
-  color: var(--ouro);
-}
+.topo { text-align: center; }
+.cruz { font-size: 52px; color: var(--ouro); }
 
 .latin {
   font-family: Cinzel, Georgia, serif;
@@ -75,7 +69,6 @@ button { cursor: pointer; }
 h1 {
   font-family: 'UnifrakturCook', Georgia, serif;
   font-size: clamp(49px, 10vw, 90px);
-  font-weight: 700;
   line-height: 1;
   margin: 12px 0;
   color: var(--ouro-claro);
@@ -178,6 +171,11 @@ h1 {
 
 .numero:active { transform: scale(.94); }
 
+.numero:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 1px;
+}
+
 .numero.comprado {
   background: radial-gradient(circle at top, #8c2639, #490713);
   color: var(--ouro-claro);
@@ -253,11 +251,13 @@ h1 {
   color: var(--ouro-claro);
 }
 
+/* ÁREA PIX */
+
 .pix {
   text-align: center;
   background: linear-gradient(135deg, #fff0ce, #dfbf87);
   color: #3b160e;
-  padding: 18px 10px;
+  padding: 20px 12px;
   margin-top: 15px;
   border: 3px double #a6773c;
 }
@@ -268,7 +268,7 @@ h1 {
   margin: 0;
 }
 
-.pix p {
+.pix p.chave {
   font-size: clamp(19px, 4vw, 29px);
   font-weight: bold;
   overflow-wrap: anywhere;
@@ -284,6 +284,47 @@ h1 {
 }
 
 .botao:hover { background: #7b2030; }
+
+/* NOVO QR CODE */
+
+.area-qr {
+  margin-top: 22px;
+  padding-top: 19px;
+  border-top: 1px solid #9f774a;
+}
+
+.area-qr h3 {
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+
+.moldura-qr {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  padding: 12px;
+  background: #fff;
+  border: 5px double #ad7b38;
+  border-radius: 10px;
+  box-shadow: 0 7px 20px #38120e55;
+}
+
+.qr-code {
+  display: block;
+  width: min(230px, 62vw);
+  height: auto;
+  aspect-ratio: 1;
+}
+
+.pix .instrucao-qr {
+  font-size: 19px;
+  line-height: 1.3;
+  margin: 12px auto;
+  max-width: 340px;
+}
+
+.pix .botao { margin: 4px; }
 
 .sorteio {
   text-align: center;
@@ -330,9 +371,7 @@ dialog {
   padding: 25px;
 }
 
-dialog::backdrop {
-  background: #080204cc;
-}
+dialog::backdrop { background: #080204cc; }
 
 dialog h2 {
   font-family: Cinzel, Georgia, serif;
@@ -411,11 +450,8 @@ dialog h2 {
   }
 
   .resumo { gap: 4px; }
-
   .resumo span { font-size: 10px; }
-
   .numero .cantinho { font-size: 7px; }
-
   .cartao span { font-size: 10px; }
 }
 </style>
@@ -430,14 +466,18 @@ dialog h2 {
   <div class="cruz">✝</div>
   <p class="latin">AD MAIOREM DEI GLORIAM</p>
   <h1>Rifa Solidária</h1>
-  <div class="ornamento">✥ ───────── ✥ ───────── ✥</div>
+
+  <div class="ornamento">
+    ✥ ─────── ✥ ─────── ✥
+  </div>
+
   <p class="descricao">
     Ajude-me a fazer uma nova
     <strong>Sobrepeliz</strong>
   </p>
 </header>
 
-<section class="resumo">
+<section class="resumo" aria-label="Resumo da rifa">
   <div>
     <strong id="comprados">18</strong>
     <span>Comprados</span>
@@ -459,11 +499,12 @@ dialog h2 {
 <div class="barra">
   <div class="progresso" id="progresso"></div>
 </div>
+
 <p class="progresso-texto" id="progressoTexto">
   18 de 100 números comprados
 </p>
 
-<section class="moldura-grade">
+<section class="moldura-grade" aria-label="Números da rifa">
   <div class="grade" id="grade"></div>
 </section>
 
@@ -488,12 +529,42 @@ dialog h2 {
   </div>
 </section>
 
+<!-- ÁREA PIX COM QR CODE -->
+
 <section class="pix">
   <h3>✥ CHAVE PIX — E-MAIL ✥</h3>
-  <p id="chavePix">adsonnph@icloud.com</p>
-  <button class="botao" id="copiarPix">
+
+  <p class="chave" id="chavePix">
+    adsonnph@icloud.com
+  </p>
+
+  <button class="botao" type="button" id="copiarPix">
     Copiar chave Pix
   </button>
+
+  <div class="area-qr">
+    <h3>✥ PAGAMENTO POR QR CODE ✥</h3>
+
+    <div class="moldura-qr">
+      <img
+        src="./qr-pix.png"
+        class="qr-code"
+        width="230"
+        height="230"
+        alt="QR Code Pix da Rifa Solidária"
+        loading="eager"
+      >
+    </div>
+
+    <p class="instrucao-qr">
+      Escaneie com o aplicativo do seu banco
+      ou copie o código Pix abaixo.
+    </p>
+
+    <button class="botao" type="button" id="copiarPixPayload">
+      Copiar Pix Copia e Cola
+    </button>
+  </div>
 </section>
 
 <div class="sorteio">
@@ -502,19 +573,25 @@ dialog h2 {
 </div>
 
 <div class="ferramentas">
-  <button class="botao" id="backup">
+  <button class="botao" type="button" id="backup">
     ↓ Salvar cópia de segurança
   </button>
-  <button class="botao" id="restaurar">
+
+  <button class="botao" type="button" id="restaurar">
     ↑ Restaurar cópia
   </button>
-  <input type="file" id="arquivoBackup"
-         accept=".json,application/json" hidden>
+
+  <input
+    type="file"
+    id="arquivoBackup"
+    accept=".json,application/json"
+    hidden
+  >
 </div>
 
 <p class="aviso">
-  Este site é para uso pessoal. As marcações ficam
-  salvas neste navegador. Faça cópias de segurança
+  Uso pessoal: as marcações ficam salvas
+  neste navegador. Faça cópias de segurança
   regularmente.
 </p>
 
@@ -548,13 +625,19 @@ dialog h2 {
     <label class="campo" for="observacao">
       Nome ou observação (opcional):
     </label>
-    <input type="text" id="observacao" maxlength="100"
-           placeholder="Ex.: Maria — Pix confirmado">
+
+    <input
+      type="text"
+      id="observacao"
+      maxlength="100"
+      placeholder="Ex.: Maria — Pix confirmado"
+    >
 
     <div class="acoes">
       <button type="button" class="botao" id="cancelar">
         Cancelar
       </button>
+
       <button type="submit" class="botao">
         Salvar
       </button>
@@ -562,15 +645,19 @@ dialog h2 {
   </form>
 </dialog>
 
-<div id="mensagem" role="status"></div>
+<div id="mensagem" role="status" aria-live="polite"></div>
 
 <script>
 (function () {
   "use strict";
 
-  const CHAVE = "rifa-sobrepeliz-v1";
+  const CHAVE_ARMAZENAMENTO = "rifa-sobrepeliz-v1";
 
-  // Números já comprados na imagem original
+  // Código Pix extraído do QR Code enviado.
+  const PIX_COPIA_COLA =
+    "00020126410014BR.GOV.BCB.PIX0119adsonnph@icloud.com5204000053039865802BR5925Adson Phelipe Soares da S6009SAO PAULO62140510K0ebY5ANla6304C25B";
+
+  // Números comprados na imagem original.
   const INICIAIS = [
     1, 6, 8, 12, 13, 14, 15, 16,
     22, 25, 26, 28, 30, 45, 48,
@@ -587,9 +674,10 @@ dialog h2 {
   let tempoMensagem;
 
   function estadoInicial() {
-    return Array.from({length: 100}, (_, i) => ({
+    return Array.from({ length: 100 }, (_, i) => ({
       situacao: INICIAIS.includes(i + 1)
-        ? "comprado" : "disponivel",
+        ? "comprado"
+        : "disponivel",
       observacao: ""
     }));
   }
@@ -599,23 +687,34 @@ dialog h2 {
       throw new Error("A cópia deve conter 100 números.");
     }
 
-    const validos = ["disponivel", "reservado", "comprado"];
+    const validos = [
+      "disponivel",
+      "reservado",
+      "comprado"
+    ];
 
     return dados.map(item => ({
       situacao: item && validos.includes(item.situacao)
-        ? item.situacao : "disponivel",
+        ? item.situacao
+        : "disponivel",
+
       observacao: item && typeof item.observacao === "string"
-        ? item.observacao.slice(0, 100) : ""
+        ? item.observacao.slice(0, 100)
+        : ""
     }));
   }
 
   function carregar() {
     try {
-      const salvo = localStorage.getItem(CHAVE);
-      if (salvo) return validar(JSON.parse(salvo));
+      const salvo = localStorage.getItem(CHAVE_ARMAZENAMENTO);
+
+      if (salvo) {
+        return validar(JSON.parse(salvo));
+      }
     } catch (erro) {
       alert("Não foi possível carregar os dados salvos.");
     }
+
     return estadoInicial();
   }
 
@@ -623,10 +722,13 @@ dialog h2 {
 
   function salvar() {
     try {
-      localStorage.setItem(CHAVE, JSON.stringify(numeros));
+      localStorage.setItem(
+        CHAVE_ARMAZENAMENTO,
+        JSON.stringify(numeros)
+      );
     } catch (erro) {
       alert(
-        "O navegador não conseguiu salvar. " +
+        "Não foi possível salvar neste navegador. " +
         "Faça uma cópia de segurança."
       );
     }
@@ -634,8 +736,10 @@ dialog h2 {
 
   function avisar(texto) {
     clearTimeout(tempoMensagem);
+
     mensagem.textContent = texto;
     mensagem.style.display = "block";
+
     tempoMensagem = setTimeout(() => {
       mensagem.style.display = "none";
     }, 3000);
@@ -681,6 +785,7 @@ dialog h2 {
       );
 
       botao.addEventListener("click", () => abrir(n));
+
       grade.appendChild(botao);
     });
 
@@ -692,8 +797,12 @@ dialog h2 {
       n => n.situacao === "reservado"
     ).length;
 
-    document.getElementById("comprados").textContent = vendidos;
-    document.getElementById("reservados").textContent = reservados;
+    document.getElementById("comprados").textContent =
+      vendidos;
+
+    document.getElementById("reservados").textContent =
+      reservados;
+
     document.getElementById("disponiveis").textContent =
       100 - vendidos - reservados;
 
@@ -713,20 +822,24 @@ dialog h2 {
 
   function abrir(numero) {
     selecionado = numero;
+
     const item = numeros[numero - 1];
 
     document.getElementById("tituloJanela").textContent =
       "Número " + formatar(numero);
 
-    formulario.elements.situacao.value = item.situacao;
+    formulario.elements.situacao.value =
+      item.situacao;
+
     observacao.value = item.observacao;
 
     janela.showModal();
   }
 
-  document.getElementById("cancelar").addEventListener(
-    "click", () => janela.close()
-  );
+  document.getElementById("cancelar")
+    .addEventListener("click", () => {
+      janela.close();
+    });
 
   formulario.addEventListener("submit", evento => {
     evento.preventDefault();
@@ -742,14 +855,18 @@ dialog h2 {
     atualizar();
     janela.close();
 
-    avisar("Número " + formatar(selecionado) + " atualizado!");
+    avisar(
+      "Número " + formatar(selecionado) + " atualizado!"
+    );
   });
 
-  document.getElementById("backup").addEventListener(
-    "click", () => {
+  // SALVAR BACKUP
+
+  document.getElementById("backup")
+    .addEventListener("click", () => {
       const conteudo = JSON.stringify({
         tipo: "rifa-sobrepeliz",
-        numeros: numeros
+        numeros
       }, null, 2);
 
       const arquivo = new Blob([conteudo], {
@@ -761,24 +878,27 @@ dialog h2 {
 
       link.href = url;
       link.download = "backup-rifa-sobrepeliz.json";
+
       document.body.appendChild(link);
       link.click();
       link.remove();
 
       setTimeout(() => URL.revokeObjectURL(url), 3000);
+
       avisar("Cópia de segurança criada!");
-    }
-  );
+    });
 
-  document.getElementById("restaurar").addEventListener(
-    "click", () => {
+  // RESTAURAR BACKUP
+
+  document.getElementById("restaurar")
+    .addEventListener("click", () => {
       document.getElementById("arquivoBackup").click();
-    }
-  );
+    });
 
-  document.getElementById("arquivoBackup").addEventListener(
-    "change", async evento => {
+  document.getElementById("arquivoBackup")
+    .addEventListener("change", async evento => {
       const arquivo = evento.target.files[0];
+
       if (!arquivo) return;
 
       try {
@@ -801,25 +921,42 @@ dialog h2 {
       }
 
       evento.target.value = "";
-    }
-  );
+    });
 
-  document.getElementById("copiarPix").addEventListener(
-    "click", async () => {
-      const chave = document.getElementById("chavePix")
-        .textContent.trim();
+  // COPIAR PIX
 
-      try {
-        await navigator.clipboard.writeText(chave);
-        avisar("Chave Pix copiada!");
-      } catch (erro) {
-        avisar("Selecione e copie a chave Pix manualmente.");
-      }
+  async function copiar(texto, sucesso) {
+    try {
+      await navigator.clipboard.writeText(texto);
+      avisar(sucesso);
+    } catch (erro) {
+      window.prompt("Copie o texto abaixo:", texto);
     }
-  );
+  }
+
+  document.getElementById("copiarPix")
+    .addEventListener("click", () => {
+      copiar(
+        document.getElementById("chavePix")
+          .textContent.trim(),
+        "Chave Pix copiada!"
+      );
+    });
+
+  // NOVO: COPIAR CÓDIGO PIX COMPLETO
+
+  document.getElementById("copiarPixPayload")
+    .addEventListener("click", () => {
+      copiar(
+        PIX_COPIA_COLA,
+        "Pix Copia e Cola copiado!"
+      );
+    });
 
   atualizar();
 })();
+
+// FUNCIONAMENTO OFFLINE
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
