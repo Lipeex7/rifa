@@ -1,10 +1,13 @@
 
-const CACHE = "rifa-sobrepeliz-offline-v3";
+const CACHE = "rifa-sobrepeliz-gotica-v4";
 
 const ARQUIVOS = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
+  "./cabecalho-gotico.webp",
+  "./cruz-comprado.webp",
+  "./rodape-gotico.webp",
   "./qr-pix.png"
 ];
 
@@ -21,7 +24,10 @@ self.addEventListener("activate", evento => {
     caches.keys().then(chaves =>
       Promise.all(
         chaves
-          .filter(chave => chave !== CACHE)
+          .filter(chave =>
+            chave.startsWith("rifa-sobrepeliz-") &&
+            chave !== CACHE
+          )
           .map(chave => caches.delete(chave))
       )
     ).then(() => self.clients.claim())
@@ -38,13 +44,35 @@ self.addEventListener("fetch", evento => {
 
   evento.respondWith((async () => {
     const cache = await caches.open(CACHE);
-    const emCache = await cache.match(evento.request);
+
+    if (evento.request.mode === "navigate") {
+      try {
+        const resposta = await fetch(evento.request);
+
+        if (resposta.ok) {
+          await cache.put(
+            "./index.html",
+            resposta.clone()
+          );
+        }
+
+        return resposta;
+      } catch (erro) {
+        return (
+          await cache.match("./index.html")
+        ) || Response.error();
+      }
+    }
+
+    const salvo = await cache.match(evento.request);
+
+    if (salvo) return salvo;
 
     try {
       const resposta = await fetch(evento.request);
 
       if (resposta.ok) {
-        cache.put(
+        await cache.put(
           evento.request,
           resposta.clone()
         );
@@ -52,14 +80,6 @@ self.addEventListener("fetch", evento => {
 
       return resposta;
     } catch (erro) {
-      if (emCache) return emCache;
-
-      if (evento.request.mode === "navigate") {
-        return (
-          await cache.match("./index.html")
-        ) || Response.error();
-      }
-
       return Response.error();
     }
   })());
