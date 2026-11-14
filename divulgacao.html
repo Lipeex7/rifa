@@ -1,0 +1,1090 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#31060e">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>Divulgar Rifa | Sobrepeliz</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
+
+:root {
+  --ouro:#d7a64d;
+  --claro:#f5d99b;
+  --papel:#f2dbb0;
+}
+
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  min-height:100vh;
+  color:var(--claro);
+  font-family:'Cormorant Garamond',Georgia,serif;
+  background:radial-gradient(ellipse at top,#711322,transparent 58%),#1c0409;
+}
+
+main {
+  width:min(100% - 18px,850px);
+  margin:12px auto 32px;
+  border:4px double #b98b43;
+  background:radial-gradient(circle at 50% 20%,#5c101b66,transparent 65%),#2a050b;
+  padding:clamp(14px,3vw,32px);
+  box-shadow:0 20px 60px #0008;
+}
+
+header { text-align:center; }
+
+.cruz {
+  color:#e7c17a;
+  font-size:34px;
+}
+
+h1 {
+  margin:5px 0 8px;
+  font:600 clamp(23px,5vw,35px) 'Cinzel',Georgia,serif;
+}
+
+.subtitulo {
+  font-size:19px;
+  margin:0 auto 16px;
+  max-width:600px;
+}
+
+.ornamento {
+  text-align:center;
+  margin:15px 0;
+  color:#d7a64d;
+  font-size:21px;
+}
+
+.botao,select {
+  border:1px solid #e7b96e;
+  border-radius:5px;
+  font:600 13px 'Cinzel',Georgia,serif;
+}
+
+.botao {
+  display:inline-block;
+  padding:12px 16px;
+  background:linear-gradient(145deg,#701629,#3b0710);
+  color:#f9e2b2;
+  cursor:pointer;
+  text-decoration:none;
+  text-align:center;
+}
+
+.botao:hover:not(:disabled) {
+  filter:brightness(1.15);
+}
+
+.botao:disabled {
+  opacity:.55;
+  cursor:wait;
+}
+
+.botao:focus-visible,
+select:focus-visible {
+  outline:3px solid white;
+  outline-offset:3px;
+}
+
+.voltar { margin:4px 0 7px; }
+
+.controles {
+  background:#24040b;
+  border:1px solid #a87a3f;
+  padding:16px;
+  margin:14px 0;
+}
+
+.controles label {
+  display:block;
+  font-size:20px;
+  margin-bottom:7px;
+}
+
+select {
+  width:100%;
+  padding:12px;
+  color:#31150d;
+  background:#f4dfba;
+  font-size:16px;
+}
+
+.acoes {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:13px;
+}
+
+.acoes .botao { min-height:48px; }
+
+.acoes .principal {
+  background:linear-gradient(145deg,#91642c,#533011);
+  color:#fff1cc;
+}
+
+#status {
+  min-height:1.5em;
+  font-size:17px;
+  margin:12px 0 0;
+  color:#eed39b;
+}
+
+#status.erro { color:#ffbcb0; }
+
+.visualizacao {
+  padding:12px;
+  background:linear-gradient(145deg,#b98a46,#e3bd7a,#865626);
+  border:3px ridge #bd904e;
+}
+
+canvas {
+  display:block;
+  width:min(100%,440px);
+  height:auto;
+  margin:0 auto;
+  background:#30070e;
+  box-shadow:0 9px 25px #10010777;
+}
+
+.legenda {
+  font-size:18px;
+  line-height:1.45;
+  color:#e8cb9d;
+  margin:16px 0 0;
+}
+
+.aviso {
+  padding:12px;
+  border-left:3px solid #d4a65b;
+  background:#310812;
+  font-size:17px;
+}
+
+footer {
+  text-align:center;
+  color:#d1a873;
+  font-size:16px;
+  margin-top:16px;
+}
+
+@media(max-width:530px) {
+  main {
+    width:100%;
+    border-width:2px;
+    margin:0 auto;
+    padding:11px;
+  }
+
+  .acoes { grid-template-columns:1fr; }
+  .visualizacao { padding:5px; }
+}
+</style>
+</head>
+
+<body>
+
+<main>
+  <header>
+    <div class="cruz">✠</div>
+
+    <h1>Arte para Divulgação</h1>
+
+    <p class="subtitulo">
+      Gere uma imagem atualizada da sua Rifa Solidária
+      da Sobrepeliz, com o mesmo estilo gótico
+      da página principal.
+    </p>
+
+    <a class="botao voltar" href="./index.html">
+      ← Voltar à rifa
+    </a>
+  </header>
+
+  <div class="ornamento">
+    ✥ ───── ✥ ───── ✥
+  </div>
+
+  <section class="controles" aria-label="Opções da imagem">
+    <label for="formato">Formato da imagem</label>
+
+    <select id="formato">
+      <option value="story">
+        Stories e Status — 1080 × 1920
+      </option>
+
+      <option value="feed">
+        Publicação no feed — 1080 × 1350
+      </option>
+    </select>
+
+    <div class="acoes">
+      <button class="botao principal" type="button" id="salvar" disabled>
+        ↓ Salvar imagem PNG
+      </button>
+
+      <button class="botao" type="button" id="compartilhar" disabled>
+        Compartilhar imagem
+      </button>
+
+      <button class="botao" type="button" id="abrir" disabled>
+        Abrir imagem
+      </button>
+
+      <button class="botao" type="button" id="atualizar">
+        ↻ Atualizar números
+      </button>
+    </div>
+
+    <p id="status" role="status" aria-live="polite">
+      Preparando imagem…
+    </p>
+  </section>
+
+  <section aria-label="Prévia da arte para redes sociais">
+    <div class="visualizacao">
+      <canvas
+        id="arte"
+        width="1080"
+        height="1920"
+        aria-label="Prévia da rifa em imagem"
+      ></canvas>
+    </div>
+
+    <p class="legenda">
+      A imagem inclui os números disponíveis, reservados
+      e comprados, o valor do número, o prêmio, a chave
+      Pix e o QR Code.
+      <strong>Não inclui nomes nem telefones dos compradores.</strong>
+    </p>
+
+    <p class="aviso">
+      Sempre que vender ou reservar mais números,
+      volte aqui e gere uma nova imagem.
+      Teste o QR Code no aplicativo do banco antes de divulgar.
+    </p>
+  </section>
+
+  <footer>✠ Rifa Solidária da Sobrepeliz ✠</footer>
+</main>
+
+<script>
+(() => {
+  'use strict';
+
+  const CHAVE = 'rifa-sobrepeliz-v1';
+
+  const INICIAIS = [
+    1,6,8,12,13,14,15,16,22,
+    25,26,28,30,45,48,52,77,85
+  ];
+
+  const CHAVE_PIX = 'adsonnph@icloud.com';
+
+  const $ = id => document.getElementById(id);
+  const canvas = $('arte');
+  const ctx = canvas.getContext('2d');
+
+  const botoes = [
+    'salvar',
+    'compartilhar',
+    'abrir'
+  ].map($);
+
+  const assets = {};
+
+  let imagemBlob = null;
+  let versao = 0;
+  let ultimoFormato = 'story';
+
+  const ouro = '#d8a75b';
+  const claro = '#f7dda8';
+
+  function status(mensagem, erro = false) {
+    $('status').textContent = mensagem;
+    $('status').classList.toggle('erro',erro);
+  }
+
+  function habilitar(valor) {
+    botoes.forEach(botao => {
+      botao.disabled = !valor;
+    });
+  }
+
+  function lerNumeros() {
+    const salvo = localStorage.getItem(CHAVE);
+
+    if (!salvo) {
+      return {
+        dados:Array.from({length:100},(_,i) => ({
+          situacao:INICIAIS.includes(i+1)
+            ? 'comprado'
+            : 'disponivel'
+        })),
+        aviso:'Sem registros salvos neste navegador: mostrando os 18 números iniciais.'
+      };
+    }
+
+    const dados = JSON.parse(salvo);
+
+    if (
+      !Array.isArray(dados) ||
+      dados.length !== 100 ||
+      !dados.every(d =>
+        d &&
+        ['comprado','reservado','disponivel'].includes(d.situacao)
+      )
+    ) {
+      throw new Error(
+        'Os dados salvos estão inválidos. ' +
+        'Restaure seu backup na página principal antes de divulgar.'
+      );
+    }
+
+    // Somente a situação dos números é usada na imagem.
+    return {
+      dados:dados.map(d => ({
+        situacao:d.situacao
+      })),
+      aviso:''
+    };
+  }
+
+  function carregarImagem(caminho) {
+    return new Promise(resolve => {
+      const img = new Image();
+
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = caminho;
+    });
+  }
+
+  function rect(x,y,w,h,cor) {
+    ctx.fillStyle = cor;
+    ctx.fillRect(x,y,w,h);
+  }
+
+  function stroke(
+    x,y,w,h,
+    cor = ouro,
+    largura = 2
+  ) {
+    ctx.lineWidth = largura;
+    ctx.strokeStyle = cor;
+    ctx.strokeRect(x,y,w,h);
+  }
+
+  function texto(
+    t,x,y,
+    tamanho = 28,
+    cor = claro,
+    fonte = 'Georgia',
+    alinhamento = 'center',
+    peso = 'normal',
+    maxWidth
+  ) {
+    ctx.fillStyle = cor;
+    ctx.textAlign = alinhamento;
+    ctx.textBaseline = 'middle';
+    ctx.font = `${peso} ${tamanho}px ${fonte}`;
+
+    if (maxWidth) {
+      ctx.fillText(t,x,y,maxWidth);
+    } else {
+      ctx.fillText(t,x,y);
+    }
+  }
+
+  function fundo(w,h) {
+    const grad = ctx.createRadialGradient(
+      w/2,250,70,w/2,h/2,h
+    );
+
+    grad.addColorStop(0,'#6b0e1c');
+    grad.addColorStop(.52,'#31060d');
+    grad.addColorStop(1,'#180308');
+
+    rect(0,0,w,h,grad);
+
+    ctx.save();
+    ctx.globalAlpha = .12;
+    ctx.strokeStyle = '#a44e35';
+    ctx.lineWidth = 1;
+
+    for (let i=-h; i<w+h; i+=34) {
+      ctx.beginPath();
+      ctx.moveTo(i,0);
+      ctx.lineTo(i+h,h);
+      ctx.stroke();
+    }
+
+    ctx.restore();
+
+    stroke(17,17,w-34,h-34,'#a77a3b',4);
+    stroke(25,25,w-50,h-50,'#f1ca7b',2);
+    stroke(33,33,w-66,h-66,'#714020',2);
+
+    for (const [x,y] of [
+      [48,48],
+      [w-48,48],
+      [48,h-48],
+      [w-48,h-48]
+    ]) {
+      texto('✥',x,y,28,'#d8a75b');
+    }
+  }
+
+  function cabecalho(y,w,h) {
+    const x = (1080-w)/2;
+
+    if (assets.cabecalho) {
+      ctx.drawImage(
+        assets.cabecalho,x,y,w,h
+      );
+    } else {
+      texto(
+        '✠  RIFA SOLIDÁRIA  ✠',
+        540,y+h*.43,61,claro,'Georgia'
+      );
+
+      texto(
+        'AJUDE-ME A FAZER UMA NOVA SOBREPELIZ',
+        540,y+h*.73,30,claro,'Georgia'
+      );
+    }
+  }
+
+  function grade(dados,config) {
+    const {
+      x,y,w,altura,gap
+    } = config;
+
+    const tile = (w-gap*9)/10;
+    const totalH = 10*altura+gap*9;
+
+    rect(
+      x-10,y-10,w+20,totalH+20,
+      '#ad7735'
+    );
+
+    stroke(
+      x-12,y-12,w+24,totalH+24,
+      '#f3d69a',3
+    );
+
+    stroke(
+      x-18,y-18,w+36,totalH+36,
+      '#8d5529',3
+    );
+
+    dados.forEach((item,i) => {
+      const col = i%10;
+      const row = Math.floor(i/10);
+
+      const px = x+col*(tile+gap);
+      const py = y+row*(altura+gap);
+
+      const situacao = item.situacao;
+
+      if (situacao === 'comprado') {
+        rect(px,py,tile,altura,'#500711');
+
+        if (assets.cruz) {
+          ctx.drawImage(
+            assets.cruz,
+            px,py,tile,altura
+          );
+        } else {
+          texto(
+            '✠',
+            px+tile/2,
+            py+altura/2,
+            46,claro
+          );
+        }
+
+        texto(
+          String(i+1),
+          px+tile-5,
+          py+altura-11,
+          15,
+          '#ffefc8',
+          'Georgia',
+          'right',
+          'bold'
+        );
+      } else {
+        const cor = ctx.createLinearGradient(
+          px,py,px+tile,py+altura
+        );
+
+        if (situacao === 'reservado') {
+          cor.addColorStop(0,'#ffe1a1');
+          cor.addColorStop(1,'#c18a3a');
+        } else {
+          cor.addColorStop(0,'#fff2d2');
+          cor.addColorStop(1,'#e4c28c');
+        }
+
+        rect(px,py,tile,altura,cor);
+
+        stroke(
+          px+.5,py+.5,tile-1,altura-1,
+          '#986b3d',1.5
+        );
+
+        texto(
+          String(i+1),
+          px+tile/2,
+          py+altura/2+2,
+          config.fonte,
+          '#2d180f',
+          'Georgia',
+          'center',
+          'bold'
+        );
+
+        if (situacao === 'reservado') {
+          texto(
+            '◆',
+            px+tile-11,
+            py+12,
+            16,
+            '#772b1d'
+          );
+        }
+      }
+    });
+
+    return y+totalH;
+  }
+
+  function legenda(y,compacto) {
+    const tamanho = compacto ? 20 : 23;
+
+    const grupos = [
+      {
+        x:180,
+        cor:'#f4dfb8',
+        nome:'DISPONÍVEL'
+      },
+      {
+        x:485,
+        cor:'#dba955',
+        nome:'RESERVADO'
+      },
+      {
+        x:785,
+        cor:'#5b0a19',
+        nome:'COMPRADO'
+      }
+    ];
+
+    grupos.forEach(g => {
+      rect(
+        g.x-58,y-12,
+        23,23,g.cor
+      );
+
+      stroke(
+        g.x-58,y-12,
+        23,23,'#c99a53',2
+      );
+
+      texto(
+        g.nome,
+        g.x-25,y,
+        tamanho,
+        '#f2d59c',
+        'Georgia',
+        'left'
+      );
+    });
+  }
+
+  function faixaDados(y,h) {
+    const largura = 438;
+
+    [78,564].forEach(x => {
+      rect(
+        x,y,largura,h,
+        '#570c19'
+      );
+
+      stroke(
+        x,y,largura,h,
+        '#d7a65b',4
+      );
+
+      stroke(
+        x+7,y+7,
+        largura-14,h-14,
+        '#966334',1.5
+      );
+    });
+
+    const compacto = h<100;
+
+    texto(
+      '✦ PRÊMIO',
+      297,
+      y+(compacto?23:32),
+      compacto?24:29,
+      claro,'Georgia'
+    );
+
+    texto(
+      'R$ 100,00',
+      297,
+      y+(compacto?61:82),
+      compacto?37:48,
+      claro,
+      'Georgia',
+      'center',
+      'bold'
+    );
+
+    texto(
+      '✥ CADA NÚMERO',
+      783,
+      y+(compacto?23:32),
+      compacto?23:29,
+      claro,'Georgia'
+    );
+
+    texto(
+      'R$ 5,00',
+      783,
+      y+(compacto?61:82),
+      compacto?37:48,
+      claro,
+      'Georgia',
+      'center',
+      'bold'
+    );
+  }
+
+  function painelPix(y,h,qrSize) {
+    const x = 78;
+    const w = 924;
+
+    const perg = ctx.createLinearGradient(
+      x,y,x+w,y+h
+    );
+
+    perg.addColorStop(0,'#fff0cf');
+    perg.addColorStop(.5,'#f0d4a1');
+    perg.addColorStop(1,'#d7ad6d');
+
+    rect(x,y,w,h,perg);
+
+    stroke(x,y,w,h,'#a77535',5);
+    stroke(x+9,y+9,w-18,h-18,'#d5a65d',2);
+
+    const qrX = x+24;
+    const qrY = y+(h-qrSize)/2;
+
+    rect(
+      qrX-6,qrY-6,
+      qrSize+12,qrSize+12,
+      '#ffffff'
+    );
+
+    if (assets.qr) {
+      ctx.save();
+      ctx.imageSmoothingEnabled = false;
+
+      ctx.drawImage(
+        assets.qr,
+        qrX,qrY,qrSize,qrSize
+      );
+
+      ctx.restore();
+    } else {
+      texto(
+        'QR CODE',
+        qrX+qrSize/2,
+        qrY+qrSize/2-12,
+        20,'#4b1010',
+        'Georgia','center','bold'
+      );
+
+      texto(
+        'INDISPONÍVEL',
+        qrX+qrSize/2,
+        qrY+qrSize/2+18,
+        17,'#4b1010'
+      );
+    }
+
+    const tx = qrX+qrSize+34;
+    const larguraTexto = x+w-tx-16;
+    const compacto = h<=210;
+
+    texto(
+      'PAGAMENTO VIA PIX',
+      tx,
+      y+(compacto?37:58),
+      compacto?27:36,
+      '#54121b',
+      'Georgia',
+      'left',
+      'bold',
+      larguraTexto
+    );
+
+    texto(
+      'CHAVE PIX (E-MAIL)',
+      tx,
+      y+(compacto?73:116),
+      compacto?19:25,
+      '#6c3424',
+      'Georgia',
+      'left',
+      'bold',
+      larguraTexto
+    );
+
+    texto(
+      CHAVE_PIX,
+      tx,
+      y+(compacto?107:162),
+      compacto?25:31,
+      '#4d0a15',
+      'Georgia',
+      'left',
+      'bold',
+      larguraTexto
+    );
+
+    if (!compacto) {
+      texto(
+        'Aponte a câmera do banco para o QR Code',
+        tx,y+215,
+        22,'#5e2c22',
+        'Georgia','left','normal',
+        larguraTexto
+      );
+
+      texto(
+        'ou use a chave Pix acima.',
+        tx,y+247,
+        22,'#5e2c22',
+        'Georgia','left','normal',
+        larguraTexto
+      );
+    }
+  }
+
+  function desenhar(dados,formato) {
+    const story = formato === 'story';
+
+    canvas.width = 1080;
+    canvas.height = story ? 1920 : 1350;
+
+    const h = canvas.height;
+
+    fundo(1080,h);
+
+    if (story) {
+      cabecalho(34,1012,372);
+
+      const vendidos = dados.filter(
+        d => d.situacao === 'comprado'
+      ).length;
+
+      const reservados = dados.filter(
+        d => d.situacao === 'reservado'
+      ).length;
+
+      texto(
+        `${vendidos} COMPRADOS  ✥  ${100-vendidos-reservados} DISPONÍVEIS`,
+        540,426,25,claro,'Georgia'
+      );
+
+      grade(dados,{
+        x:91,
+        y:464,
+        w:898,
+        altura:75,
+        gap:2.5,
+        fonte:35
+      });
+
+      legenda(1267,false);
+      faixaDados(1321,126);
+      painelPix(1480,300,248);
+
+      texto(
+        '✥ SORTEIO APÓS VENDER TODOS OS NÚMEROS ✥',
+        540,1824,28,claro,'Georgia'
+      );
+
+      if (assets.rodape) {
+        ctx.drawImage(
+          assets.rodape,
+          39,1854,1002,45
+        );
+      }
+    } else {
+      cabecalho(24,810,297);
+
+      const vendidos = dados.filter(
+        d => d.situacao === 'comprado'
+      ).length;
+
+      const reservados = dados.filter(
+        d => d.situacao === 'reservado'
+      ).length;
+
+      texto(
+        `${vendidos} COMPRADOS  ✥  ${100-vendidos-reservados} DISPONÍVEIS`,
+        540,337,24,claro,'Georgia'
+      );
+
+      grade(dados,{
+        x:134,
+        y:368,
+        w:812,
+        altura:50,
+        gap:2,
+        fonte:30
+      });
+
+      legenda(934,true);
+      faixaDados(967,85);
+      painelPix(1064,206,162);
+
+      texto(
+        'SORTEIO APÓS VENDER TODOS OS NÚMEROS',
+        540,1290,20,claro,'Georgia'
+      );
+
+      if (assets.rodape) {
+        ctx.drawImage(
+          assets.rodape,
+          39,1304,1002,30
+        );
+      }
+    }
+  }
+
+  function nomeArquivo() {
+    return (
+      'rifa-sobrepeliz-' +
+      ultimoFormato + '-' +
+      new Date().toISOString().slice(0,10) +
+      '.png'
+    );
+  }
+
+  async function preparar() {
+    const id = ++versao;
+
+    imagemBlob = null;
+    habilitar(false);
+
+    status(
+      'Preparando a imagem com os números atuais…'
+    );
+
+    let dados;
+    let aviso;
+
+    try {
+      ({dados,aviso} = lerNumeros());
+    } catch(e) {
+      status(
+        'Não foi possível gerar a imagem: '+e.message,
+        true
+      );
+      return;
+    }
+
+    try {
+      const [
+        cabecalho,
+        cruz,
+        rodape,
+        qr
+      ] = await Promise.all([
+        carregarImagem('./cabecalho-gotico.webp'),
+        carregarImagem('./cruz-comprado.webp'),
+        carregarImagem('./rodape-gotico.webp'),
+        carregarImagem('./qr-pix.png')
+      ]);
+
+      if (id !== versao) return;
+
+      Object.assign(assets,{
+        cabecalho,
+        cruz,
+        rodape,
+        qr
+      });
+
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
+
+      if (id !== versao) return;
+
+      ultimoFormato = $('formato').value;
+      desenhar(dados,ultimoFormato);
+
+      canvas.toBlob(blob => {
+        if (id !== versao) return;
+
+        if (!blob) {
+          status(
+            'Não foi possível criar o PNG neste navegador.',
+            true
+          );
+          return;
+        }
+
+        imagemBlob = blob;
+        habilitar(true);
+
+        const semQr = !qr;
+
+        status(
+          (aviso ? aviso+' ' : '') +
+          (
+            semQr
+              ? 'Atenção: o QR Code não carregou; a arte mostrará apenas a chave Pix.'
+              : 'Imagem pronta para salvar ou compartilhar.'
+          ),
+          semQr
+        );
+      },'image/png');
+    } catch(e) {
+      if (id === versao) {
+        status(
+          'Erro ao preparar imagem: '+e.message,
+          true
+        );
+      }
+    }
+  }
+
+  function baixar() {
+    if (!imagemBlob) return;
+
+    const url = URL.createObjectURL(imagemBlob);
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.download = nomeArquivo();
+
+    document.body.append(link);
+    link.click();
+    link.remove();
+
+    setTimeout(() => {
+      URL.revokeObjectURL(url);
+    },60000);
+
+    status(
+      'PNG preparado. No iPhone, procure o arquivo em Downloads/Arquivos ou use Compartilhar para salvar nas Fotos.'
+    );
+  }
+
+  $('salvar').addEventListener('click',baixar);
+
+  $('compartilhar').addEventListener('click', () => {
+    if (!imagemBlob) return;
+
+    const arquivo = new File(
+      [imagemBlob],
+      nomeArquivo(),
+      {type:'image/png'}
+    );
+
+    if (
+      navigator.share &&
+      (
+        !navigator.canShare ||
+        navigator.canShare({files:[arquivo]})
+      )
+    ) {
+      navigator.share({
+        files:[arquivo],
+        title:'Rifa Solidária — Sobrepeliz',
+        text:'Rifa solidária: cada número R$ 5,00, prêmio R$ 100,00.'
+      })
+      .then(() => {
+        status('Compartilhamento concluído.');
+      })
+      .catch(e => {
+        if (e.name !== 'AbortError') {
+          status(
+            'Não foi possível compartilhar diretamente. Use Salvar imagem PNG.',
+            true
+          );
+        }
+      });
+    } else {
+      baixar();
+
+      status(
+        'Compartilhamento direto indisponível neste navegador. Salve o PNG e envie pelo aplicativo desejado.'
+      );
+    }
+  });
+
+  $('abrir').addEventListener('click', () => {
+    if (!imagemBlob) return;
+
+    const url = URL.createObjectURL(imagemBlob);
+    const aba = window.open(url,'_blank');
+
+    if (!aba) {
+      status(
+        'O navegador bloqueou a nova aba. Use Salvar imagem PNG.',
+        true
+      );
+    }
+
+    setTimeout(() => {
+      URL.revokeObjectURL(url);
+    },120000);
+  });
+
+  $('atualizar').addEventListener('click',preparar);
+  $('formato').addEventListener('change',preparar);
+
+  window.addEventListener('pageshow',e => {
+    if (e.persisted) preparar();
+  });
+
+  window.addEventListener('focus', () => {
+    if (document.visibilityState === 'visible') {
+      preparar();
+    }
+  });
+
+  window.addEventListener('storage',e => {
+    if (e.key === CHAVE) preparar();
+  });
+
+  preparar();
+})();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('./sw.js')
+      .catch(console.warn);
+  });
+}
+</script>
+</body>
+</html>
