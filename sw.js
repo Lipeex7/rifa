@@ -1,58 +1,72 @@
 
-const CACHE = "rifa-sobrepeliz-gotica-v5";
+const CACHE = 'rifa-sobrepeliz-gotica-v7';
 
-const ARQUIVOS = [
-  "./",
-  "./index.html",
-  "./compradores.html",
-  "./manifest.webmanifest",
-  "./cabecalho-gotico.webp",
-  "./cruz-comprado.webp",
-  "./rodape-gotico.webp",
-  "./qr-pix.png"
+const ESSENCIAIS = [
+  './',
+  './index.html',
+  './compradores.html',
+  './divulgacao.html',
+  './manifest.webmanifest'
 ];
 
-self.addEventListener("install", evento => {
-  evento.waitUntil(
-    caches.open(CACHE)
-      .then(cache => cache.addAll(ARQUIVOS))
-      .then(() => self.skipWaiting())
-  );
+const IMAGENS = [
+  './cabecalho-gotico.webp',
+  './cruz-comprado.webp',
+  './rodape-gotico.webp',
+  './qr-pix.png'
+];
+
+self.addEventListener('install', evento => {
+  evento.waitUntil((async () => {
+    const cache = await caches.open(CACHE);
+
+    await cache.addAll(ESSENCIAIS);
+
+    // Uma imagem ausente não impede
+    // a instalação offline das páginas.
+    await Promise.allSettled(
+      IMAGENS.map(arquivo => cache.add(arquivo))
+    );
+
+    await self.skipWaiting();
+  })());
 });
 
-self.addEventListener("activate", evento => {
-  evento.waitUntil(
-    caches.keys().then(chaves =>
-      Promise.all(
-        chaves
-          .filter(chave =>
-            chave.startsWith("rifa-sobrepeliz-") &&
-            chave !== CACHE
-          )
-          .map(chave => caches.delete(chave))
-      )
-    ).then(() => self.clients.claim())
-  );
+self.addEventListener('activate', evento => {
+  evento.waitUntil((async () => {
+    const nomes = await caches.keys();
+
+    await Promise.all(
+      nomes
+        .filter(nome =>
+          nome.startsWith('rifa-sobrepeliz-') &&
+          nome !== CACHE
+        )
+        .map(nome => caches.delete(nome))
+    );
+
+    await self.clients.claim();
+  })());
 });
 
-self.addEventListener("fetch", evento => {
-  if (evento.request.method !== "GET") return;
+self.addEventListener('fetch', evento => {
+  const req = evento.request;
 
   if (
-    new URL(evento.request.url).origin !==
-    self.location.origin
+    req.method !== 'GET' ||
+    new URL(req.url).origin !== self.location.origin
   ) return;
 
   evento.respondWith((async () => {
     const cache = await caches.open(CACHE);
 
-    if (evento.request.mode === "navigate") {
+    if (req.mode === 'navigate') {
       try {
-        const resposta = await fetch(evento.request);
+        const resposta = await fetch(req);
 
         if (resposta.ok) {
           await cache.put(
-            evento.request,
+            req,
             resposta.clone()
           );
         }
@@ -60,21 +74,23 @@ self.addEventListener("fetch", evento => {
         return resposta;
       } catch (erro) {
         return (
-          await cache.match(evento.request)
+          await cache.match(req)
+        ) || (
+          await cache.match('./index.html')
         ) || Response.error();
       }
     }
 
-    const salvo = await cache.match(evento.request);
+    const salvo = await cache.match(req);
 
     if (salvo) return salvo;
 
     try {
-      const resposta = await fetch(evento.request);
+      const resposta = await fetch(req);
 
       if (resposta.ok) {
         await cache.put(
-          evento.request,
+          req,
           resposta.clone()
         );
       }
