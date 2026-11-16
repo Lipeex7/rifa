@@ -1,11 +1,13 @@
 
-const CACHE = 'rifa-sobrepeliz-gotica-v7';
+// Atualize o nome do cache quando publicar mudanças.
+const CACHE = 'rifa-sobrepeliz-gotica-v9-sorteio';
 
-const ESSENCIAIS = [
+const PAGINAS = [
   './',
   './index.html',
   './compradores.html',
   './divulgacao.html',
+  './sorteio.html',
   './manifest.webmanifest'
 ];
 
@@ -20,10 +22,9 @@ self.addEventListener('install', evento => {
   evento.waitUntil((async () => {
     const cache = await caches.open(CACHE);
 
-    await cache.addAll(ESSENCIAIS);
+    await cache.addAll(PAGINAS);
 
-    // Uma imagem ausente não impede
-    // a instalação offline das páginas.
+    // Uma imagem ausente não impede a instalação.
     await Promise.allSettled(
       IMAGENS.map(arquivo => cache.add(arquivo))
     );
@@ -38,9 +39,10 @@ self.addEventListener('activate', evento => {
 
     await Promise.all(
       nomes
-        .filter(nome =>
-          nome.startsWith('rifa-sobrepeliz-') &&
-          nome !== CACHE
+        .filter(
+          nome =>
+            nome.startsWith('rifa-sobrepeliz-') &&
+            nome !== CACHE
         )
         .map(nome => caches.delete(nome))
     );
@@ -55,11 +57,14 @@ self.addEventListener('fetch', evento => {
   if (
     req.method !== 'GET' ||
     new URL(req.url).origin !== self.location.origin
-  ) return;
+  ) {
+    return;
+  }
 
   evento.respondWith((async () => {
     const cache = await caches.open(CACHE);
 
+    // Para páginas, tenta a versão mais recente.
     if (req.mode === 'navigate') {
       try {
         const resposta = await fetch(req);
@@ -72,15 +77,17 @@ self.addEventListener('fetch', evento => {
         }
 
         return resposta;
-      } catch (erro) {
+
+      } catch(e) {
         return (
-          await cache.match(req)
-        ) || (
-          await cache.match('./index.html')
-        ) || Response.error();
+          await cache.match(req) ||
+          await cache.match('./index.html') ||
+          Response.error()
+        );
       }
     }
 
+    // Para imagens e outros arquivos, usa o cache.
     const salvo = await cache.match(req);
 
     if (salvo) return salvo;
@@ -96,7 +103,8 @@ self.addEventListener('fetch', evento => {
       }
 
       return resposta;
-    } catch (erro) {
+
+    } catch(e) {
       return Response.error();
     }
   })());
