@@ -11,438 +11,89 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
 
-:root {
-  --ouro:#d7a64d;
-  --claro:#f5d99b;
-  --papel:#f2dbb0;
-  --vinho:#4c0a17;
-}
-
-* { box-sizing:border-box; }
-
-body {
-  margin:0;
-  min-height:100vh;
-  color:var(--claro);
-  font-family:'Cormorant Garamond',Georgia,serif;
-  background:radial-gradient(ellipse at top,#711322,transparent 58%),#1c0409;
-}
-
-button,input,select { font:inherit; }
-button { cursor:pointer; }
-
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-select:focus-visible {
-  outline:3px solid #fff;
-  outline-offset:2px;
-}
-
-.poster {
-  width:min(100%,900px);
-  margin:14px auto 30px;
-  border:4px double #b98b43;
-  background:radial-gradient(circle at 50% 40%,#680d1c55,transparent 70%),#2a050b;
-  box-shadow:0 20px 65px #000a;
-}
-
-.cabecalho,.rodape {
-  display:block;
-  width:100%;
-  height:auto;
-}
-
-.conteudo {
-  padding:0 clamp(9px,3.8vw,38px) 22px;
-}
-
-.filete {
-  text-align:center;
-  color:#e7bf74;
-  font-size:21px;
-  letter-spacing:3px;
-  margin:6px 0 12px;
-}
-
-.tabuleiro {
-  padding:5px;
-  background:linear-gradient(135deg,#d7a55b,#f4d39a 28%,#ab7837 65%,#f2d6a4);
-  border:5px ridge #bd904e;
-  box-shadow:0 12px 24px #10020588;
-}
-
-.grade {
-  display:grid;
-  grid-template-columns:repeat(10,minmax(0,1fr));
-  gap:2px;
-}
-
-.numero {
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  aspect-ratio:1.19/1;
-  min-width:0;
-  padding:0;
-  border:1px solid #b9894b;
-  border-radius:2px;
-  color:#2c150d;
-  font-family:Georgia,serif;
-  font-size:clamp(12px,2.7vw,24px);
-  font-weight:600;
-  background:linear-gradient(125deg,#fff0d0,#f2d9aa 65%,#d9b77c);
-}
-
-.numero:active { transform:scale(.96); }
-
-.numero.comprado {
-  background:#50070f url('./cruz-comprado.webp') center/100% 100% no-repeat;
-  border-color:#c39553;
-  color:var(--claro);
-}
-
-.numero .miudo {
-  position:absolute;
-  right:2px;
-  bottom:1px;
-  font-size:clamp(7px,1.3vw,11px);
-  color:#fff1c5;
-}
-
-.numero.reservado {
-  background:linear-gradient(135deg,#f2c875,#c78c36);
-  border-color:#9d6324;
-}
-
-.numero.reservado::after {
-  content:'◆';
-  position:absolute;
-  top:1px;
-  right:2px;
-  font-size:10px;
-  color:#71321b;
-}
-
-.legenda {
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:8px 18px;
-  margin:16px 0 8px;
-  font-size:17px;
-}
-
-.legenda span {
-  display:flex;
-  align-items:center;
-  gap:6px;
-}
-
-.amostra {
-  display:inline-block;
-  width:13px;
-  height:13px;
-  border:1px solid #d6b270;
-}
-
-.livre { background:#f4e1bf; }
-.reserva { background:#dba955; }
-.pago { background:#530c19; }
-
-.instrucao {
-  text-align:center;
-  font-size:17px;
-  color:#e7c998;
-}
-
-.botao {
-  display:inline-block;
-  border:1px solid #e7b96e;
-  background:linear-gradient(145deg,#701629,#3b0710);
-  color:#f9e2b2;
-  padding:11px 16px;
-  border-radius:5px;
-  font:600 13px 'Cinzel',Georgia,serif;
-  text-decoration:none;
-  margin:4px;
-}
-
-.botao:hover { filter:brightness(1.15); }
-
-.atalho {
-  text-align:center;
-  margin:16px auto 20px;
-}
-
-.estatisticas {
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:7px;
-  margin:15px 0;
-}
-
-.estatistica {
-  border:1px solid #a77a3f;
-  text-align:center;
-  background:#210409b0;
-  padding:9px 3px;
-}
-
-.estatistica strong {
-  display:block;
-  font:600 clamp(15px,3vw,26px) 'Cinzel',Georgia,serif;
-}
-
-.estatistica small {
-  font-size:clamp(10px,1.9vw,13px);
-}
-
-.barra {
-  height:8px;
-  background:#160205;
-  border:1px solid #b58b4c;
-  border-radius:12px;
-  overflow:hidden;
-}
-
-.preenchimento {
-  height:100%;
-  width:18%;
-  background:linear-gradient(90deg,#9b5f22,#ffe0a0);
-}
-
-.progresso-texto {
-  text-align:center;
-  margin:7px 0 20px;
-}
-
-.dados {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:13px;
-  margin:20px 0;
-}
-
-.dado {
-  text-align:center;
-  padding:17px 5px;
-  border:2px solid #bd8a42;
-  background:linear-gradient(135deg,#4d0712,#29040b);
-  box-shadow:inset 0 0 0 3px #c49a58;
-}
-
-.dado .icone {
-  display:block;
-  font-size:25px;
-  color:#efc980;
-}
-
-.dado .rotulo {
-  font:500 clamp(11px,2vw,16px) 'Cinzel',Georgia,serif;
-}
-
-.dado strong {
-  display:block;
-  margin-top:7px;
-  font:600 clamp(20px,4.1vw,34px) Georgia,serif;
-}
-
-.pix {
-  background:linear-gradient(135deg,#fff0cf,#e6c38b,#f4dbac);
-  color:#43120e;
-  text-align:center;
-  border:5px double #a97c3d;
-  padding:18px 12px 21px;
-}
-
-.pix h2 {
-  font:600 clamp(15px,2.6vw,21px) 'Cinzel',Georgia,serif;
-  margin:0 0 8px;
-}
-
-.chave {
-  font-size:clamp(19px,4vw,28px);
-  font-weight:700;
-  overflow-wrap:anywhere;
-}
-
-.divisor {
-  height:1px;
-  background:#b78b50;
-  margin:18px auto;
-}
-
-.qr-moldura {
-  display:inline-flex;
-  background:#fff;
-  padding:11px;
-  border:4px double #b27d35;
-  margin:8px auto;
-}
-
-.qr-moldura img {
-  display:block;
-  width:min(240px,63vw);
-  height:auto;
-}
-
-.ajuda { font-size:17px; }
-
-.sorteio {
-  text-align:center;
-  margin:25px auto;
-}
-
-.sorteio h2 {
-  font:500 22px 'Cinzel',Georgia,serif;
-  margin-bottom:7px;
-}
-
-.sorteio p {
-  font-size:22px;
-  font-style:italic;
-}
-
-.ferramentas {
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  border-top:1px solid #8b5b2e;
-  padding-top:18px;
-}
-
-.aviso {
-  text-align:center;
-  color:#dbb77c;
-  font-size:14px;
-}
-
-dialog {
-  width:min(94vw,460px);
-  max-height:90dvh;
-  overflow:auto;
-  border:3px double #d3a25b;
-  border-radius:8px;
-  background:linear-gradient(#5d101f,#28040b);
-  color:#f4d9a5;
-  padding:22px;
-  box-shadow:0 12px 50px #0009;
-}
-
-dialog::backdrop { background:#0a0104cc; }
-
-dialog h2 {
-  text-align:center;
-  font:600 22px 'Cinzel',Georgia,serif;
-  margin:0 0 10px;
-}
-
-dialog p { font-size:18px; }
-
-.opcao {
-  display:block;
-  padding:9px 12px;
-  margin:7px 0;
-  border:1px solid #a77c44;
-  background:#320711;
-  cursor:pointer;
-  font-size:19px;
-}
-
-.opcao:has(input:checked) {
-  background:#7c2332;
-  border-color:#f4cf85;
-}
-
-.campo {
-  display:block;
-  font-size:18px;
-  margin:13px 0 5px;
-}
-
-.cadastro-campo {
-  display:block;
-  width:100%;
-  padding:11px;
-  border:1px solid #b88c4d;
-  background:#f4dfba;
-  color:#31110c;
-  border-radius:3px;
-  font-size:18px;
-}
-
-.cadastro-campo:disabled { opacity:.55; }
-
-.ajuda-cadastro {
-  font-size:15px;
-  color:#e5c48b;
-  margin:7px 0;
-}
-
-.nota-legado {
-  padding:8px 10px;
-  border-left:2px solid var(--ouro);
-  background:#2c0810;
-}
-
-.acoes {
-  display:flex;
-  gap:8px;
-  margin-top:17px;
-}
-
-.acoes .botao { flex:1; }
-
-.separador-cadastro {
-  border:0;
-  border-top:1px solid #956b42;
-  margin:16px 0 6px;
-}
-
-.dica {
-  font-size:15px;
-  color:#e6c68d;
-  margin:6px 0;
-}
-
-.alerta {
-  font-size:15px;
-  color:#ffe6a8;
-  min-height:1.3em;
-}
-
-.botao-secundario { background:#3a0b14; }
-
-#mensagem {
-  display:none;
-  position:fixed;
-  left:50%;
-  bottom:22px;
-  transform:translateX(-50%);
-  padding:12px 17px;
-  background:#f7deb0;
-  color:#3b0910;
-  border:2px solid #b58745;
-  z-index:100;
-  max-width:90vw;
-  text-align:center;
-}
-
-@media(max-width:600px) {
-  .poster {
-    margin:0 auto 12px;
-    border-width:2px;
-  }
-
-  .conteudo { padding:0 7px 14px; }
-  .tabuleiro { padding:2px; border-width:3px; }
-  .grade { gap:1px; }
-  .dados { gap:8px; }
-  .estatisticas { gap:4px; }
-  .legenda { font-size:14px; }
-  dialog { padding:16px; }
+:root{--ouro:#d7a64d;--claro:#f5d99b;--papel:#f2dbb0;--vinho:#4c0a17}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--claro);font-family:'Cormorant Garamond',Georgia,serif;background:radial-gradient(ellipse at top,#711322,transparent 58%),#1c0409}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.poster{width:min(100%,900px);margin:14px auto 30px;border:4px double #b98b43;background:radial-gradient(circle at 50% 40%,#680d1c55,transparent 70%),#2a050b;box-shadow:0 20px 65px #000a}
+.cabecalho,.rodape{display:block;width:100%;height:auto}
+.conteudo{padding:0 clamp(9px,3.8vw,38px) 22px}
+.filete{text-align:center;color:#e7bf74;font-size:21px;letter-spacing:3px;margin:6px 0 12px}
+.tabuleiro{padding:5px;background:linear-gradient(135deg,#d7a55b,#f4d39a 28%,#ab7837 65%,#f2d6a4);border:5px ridge #bd904e;box-shadow:0 12px 24px #10020588}
+.grade{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:2px}
+.numero{position:relative;display:flex;align-items:center;justify-content:center;aspect-ratio:1.19/1;min-width:0;padding:0;border:1px solid #b9894b;border-radius:2px;color:#2c150d;font-family:Georgia,serif;font-size:clamp(12px,2.7vw,24px);font-weight:600;background:linear-gradient(125deg,#fff0d0,#f2d9aa 65%,#d9b77c)}
+.numero:active{transform:scale(.96)}
+.numero.comprado{background:#50070f url('./cruz-comprado.webp') center/100% 100% no-repeat;border-color:#c39553;color:var(--claro)}
+.numero .miudo{position:absolute;right:2px;bottom:1px;font-size:clamp(7px,1.3vw,11px);color:#fff1c5}
+.numero.reservado{background:linear-gradient(135deg,#f2c875,#c78c36);border-color:#9d6324}
+.numero.reservado::after{content:'◆';position:absolute;top:1px;right:2px;font-size:10px;color:#71321b}
+.legenda{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 18px;margin:16px 0 8px;font-size:17px}
+.legenda span{display:flex;align-items:center;gap:6px}
+.amostra{display:inline-block;width:13px;height:13px;border:1px solid #d6b270}
+.livre{background:#f4e1bf}
+.reserva{background:#dba955}
+.pago{background:#530c19}
+.instrucao{text-align:center;font-size:17px;color:#e7c998}
+.botao{display:inline-block;border:1px solid #e7b96e;background:linear-gradient(145deg,#701629,#3b0710);color:#f9e2b2;padding:11px 16px;border-radius:5px;font:600 13px 'Cinzel',Georgia,serif;text-decoration:none;margin:4px}
+.botao:hover{filter:brightness(1.15)}
+.atalho{text-align:center;margin:16px auto 20px}
+.estatisticas{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:15px 0}
+.estatistica{border:1px solid #a77a3f;text-align:center;background:#210409b0;padding:9px 3px}
+.estatistica strong{display:block;font:600 clamp(15px,3vw,26px) 'Cinzel',Georgia,serif}
+.estatistica small{font-size:clamp(10px,1.9vw,13px)}
+.barra{height:8px;background:#160205;border:1px solid #b58b4c;border-radius:12px;overflow:hidden}
+.preenchimento{height:100%;width:18%;background:linear-gradient(90deg,#9b5f22,#ffe0a0)}
+.progresso-texto{text-align:center;margin:7px 0 20px}
+.dados{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:20px 0}
+.dado{text-align:center;padding:17px 5px;border:2px solid #bd8a42;background:linear-gradient(135deg,#4d0712,#29040b);box-shadow:inset 0 0 0 3px #c49a58}
+.dado .icone{display:block;font-size:25px;color:#efc980}
+.dado .rotulo{font:500 clamp(11px,2vw,16px) 'Cinzel',Georgia,serif}
+.dado strong{display:block;margin-top:7px;font:600 clamp(20px,4.1vw,34px) Georgia,serif}
+.pix{background:linear-gradient(135deg,#fff0cf,#e6c38b,#f4dbac);color:#43120e;text-align:center;border:5px double #a97c3d;padding:18px 12px 21px}
+.pix h2{font:600 clamp(15px,2.6vw,21px) 'Cinzel',Georgia,serif;margin:0 0 8px}
+.chave{font-size:clamp(19px,4vw,28px);font-weight:700;overflow-wrap:anywhere}
+.divisor{height:1px;background:#b78b50;margin:18px auto}
+.qr-moldura{display:inline-flex;background:#fff;padding:11px;border:4px double #b27d35;margin:8px auto}
+.qr-moldura img{display:block;width:min(240px,63vw);height:auto}
+.ajuda{font-size:17px}
+.sorteio{text-align:center;margin:25px auto}
+.sorteio h2{font:500 22px 'Cinzel',Georgia,serif;margin-bottom:7px}
+.sorteio p{font-size:22px;font-style:italic}
+.sorteio .estado{font-size:17px;font-style:normal;color:#e5c894}
+.sorteio .botao{margin-top:7px}
+.sorteio.finalizado{border:1px solid #cba15b;padding:16px;background:#350b14}
+.ferramentas{display:flex;justify-content:center;flex-wrap:wrap;border-top:1px solid #8b5b2e;padding-top:18px}
+.aviso{text-align:center;color:#dbb77c;font-size:14px}
+dialog{width:min(94vw,460px);max-height:90dvh;overflow:auto;border:3px double #d3a25b;border-radius:8px;background:linear-gradient(#5d101f,#28040b);color:#f4d9a5;padding:22px;box-shadow:0 12px 50px #0009}
+dialog::backdrop{background:#0a0104cc}
+dialog h2{text-align:center;font:600 22px 'Cinzel',Georgia,serif;margin:0 0 10px}
+dialog p{font-size:18px}
+.opcao{display:block;padding:9px 12px;margin:7px 0;border:1px solid #a77c44;background:#320711;cursor:pointer;font-size:19px}
+.opcao:has(input:checked){background:#7c2332;border-color:#f4cf85}
+.campo{display:block;font-size:18px;margin:13px 0 5px}
+.cadastro-campo{display:block;width:100%;padding:11px;border:1px solid #b88c4d;background:#f4dfba;color:#31110c;border-radius:3px;font-size:18px}
+.cadastro-campo:disabled{opacity:.55}
+.ajuda-cadastro{font-size:15px;color:#e5c48b;margin:7px 0}
+.nota-legado{padding:8px 10px;border-left:2px solid var(--ouro);background:#2c0810}
+.acoes{display:flex;gap:8px;margin-top:17px}
+.acoes .botao{flex:1}
+.separador-cadastro{border:0;border-top:1px solid #956b42;margin:16px 0 6px}
+.dica{font-size:15px;color:#e6c68d;margin:6px 0}
+.alerta{font-size:15px;color:#ffe6a8;min-height:1.3em}
+.botao-secundario{background:#3a0b14}
+#mensagem{display:none;position:fixed;left:50%;bottom:22px;transform:translateX(-50%);padding:12px 17px;background:#f7deb0;color:#3b0910;border:2px solid #b58745;z-index:100;max-width:90vw;text-align:center}
+
+@media(max-width:600px){
+  .poster{margin:0 auto 12px;border-width:2px}
+  .conteudo{padding:0 7px 14px}
+  .tabuleiro{padding:2px;border-width:3px}
+  .grade{gap:1px}
+  .dados{gap:8px}
+  .estatisticas{gap:4px}
+  .legenda{font-size:14px}
+  dialog{padding:16px}
 }
 </style>
 </head>
@@ -459,140 +110,179 @@ dialog p { font-size:18px; }
 </header>
 
 <div class="conteudo">
-  <div class="filete">✥ ───── ✥ ───── ✥</div>
 
-  <section class="tabuleiro" aria-label="Números da rifa">
-    <div class="grade" id="grade"></div>
-  </section>
+<div class="filete">✥ ───── ✥ ───── ✥</div>
 
-  <div class="legenda">
-    <span><i class="amostra livre"></i> Disponível</span>
-    <span><i class="amostra reserva"></i> Reservado</span>
-    <span><i class="amostra pago"></i> ✝ Comprado</span>
+<section class="tabuleiro" aria-label="Números da rifa">
+  <div class="grade" id="grade"></div>
+</section>
+
+<div class="legenda">
+  <span><i class="amostra livre"></i> Disponível</span>
+  <span><i class="amostra reserva"></i> Reservado</span>
+  <span><i class="amostra pago"></i> ✝ Comprado</span>
+</div>
+
+<p class="instrucao">
+  Toque em um número para editar a situação e o comprador.
+</p>
+
+<div class="atalho">
+  <a class="botao" href="./compradores.html">
+    ✥ Livro dos Compradores ✥
+  </a>
+
+  <a class="botao botao-divulgar" href="./divulgacao.html">
+    ✥ Criar imagem para divulgar ✥
+  </a>
+</div>
+
+<section class="estatisticas" aria-label="Resumo da rifa">
+  <div class="estatistica">
+    <strong id="comprados">18</strong>
+    <small>Comprados</small>
   </div>
 
-  <p class="instrucao">
-    Toque em um número para editar a situação e o comprador.
+  <div class="estatistica">
+    <strong id="reservados">0</strong>
+    <small>Reservados</small>
+  </div>
+
+  <div class="estatistica">
+    <strong id="disponiveis">82</strong>
+    <small>Disponíveis</small>
+  </div>
+
+  <div class="estatistica">
+    <strong id="arrecadado">R$ 90</strong>
+    <small>Arrecadado</small>
+  </div>
+</section>
+
+<div
+  class="barra"
+  id="barra"
+  role="progressbar"
+  aria-label="Progresso de vendas"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  aria-valuenow="18"
+>
+  <div
+    class="preenchimento"
+    id="preenchimento"
+  ></div>
+</div>
+
+<p class="progresso-texto" id="progressoTexto">
+  18 de 100 números comprados
+</p>
+
+<section class="dados">
+  <div class="dado">
+    <span class="icone">✦</span>
+    <span class="rotulo">PRÊMIO</span>
+    <strong>R$ 100,00</strong>
+  </div>
+
+  <div class="dado">
+    <span class="icone">❖</span>
+    <span class="rotulo">CADA NÚMERO</span>
+    <strong>R$ 5,00</strong>
+  </div>
+</section>
+
+<section class="pix">
+  <h2>✥ CHAVE PIX (E-MAIL) ✥</h2>
+
+  <p class="chave" id="chavePix">
+    adsonnph@icloud.com
   </p>
 
-  <div class="atalho">
-    <a class="botao" href="./compradores.html">
-      ✥ Livro dos Compradores ✥
-    </a>
+  <button
+    class="botao"
+    type="button"
+    id="copiarChave"
+  >
+    Copiar chave Pix
+  </button>
 
-    <a class="botao" href="./divulgacao.html">
-      ✥ Criar imagem para divulgar ✥
-    </a>
-  </div>
+  <div class="divisor"></div>
 
-  <section class="estatisticas" aria-label="Resumo da rifa">
-    <div class="estatistica">
-      <strong id="comprados">18</strong>
-      <small>Comprados</small>
-    </div>
+  <h2>✥ PAGAMENTO POR QR CODE ✥</h2>
 
-    <div class="estatistica">
-      <strong id="reservados">0</strong>
-      <small>Reservados</small>
-    </div>
-
-    <div class="estatistica">
-      <strong id="disponiveis">82</strong>
-      <small>Disponíveis</small>
-    </div>
-
-    <div class="estatistica">
-      <strong id="arrecadado">R$ 90</strong>
-      <small>Arrecadado</small>
-    </div>
-  </section>
-
-  <div class="barra" id="barra"
-       role="progressbar"
-       aria-label="Progresso de vendas"
-       aria-valuemin="0"
-       aria-valuemax="100"
-       aria-valuenow="18">
-    <div class="preenchimento" id="preenchimento"></div>
-  </div>
-
-  <p class="progresso-texto" id="progressoTexto">
-    18 de 100 números comprados
-  </p>
-
-  <section class="dados">
-    <div class="dado">
-      <span class="icone">✦</span>
-      <span class="rotulo">PRÊMIO</span>
-      <strong>R$ 100,00</strong>
-    </div>
-
-    <div class="dado">
-      <span class="icone">❖</span>
-      <span class="rotulo">CADA NÚMERO</span>
-      <strong>R$ 5,00</strong>
-    </div>
-  </section>
-
-  <section class="pix">
-    <h2>✥ CHAVE PIX (E-MAIL) ✥</h2>
-
-    <p class="chave" id="chavePix">
-      adsonnph@icloud.com
-    </p>
-
-    <button class="botao" type="button" id="copiarChave">
-      Copiar chave Pix
-    </button>
-
-    <div class="divisor"></div>
-
-    <h2>✥ PAGAMENTO POR QR CODE ✥</h2>
-
-    <div class="qr-moldura">
-      <img
-        src="./qr-pix.png"
-        alt="QR Code Pix da rifa"
-        width="240"
-        height="240"
-      >
-    </div>
-
-    <p class="ajuda">
-      Escaneie com o banco ou use o Pix Copia e Cola.
-    </p>
-
-    <button class="botao" type="button" id="copiarCodigo">
-      Copiar Pix Copia e Cola
-    </button>
-  </section>
-
-  <section class="sorteio">
-    <h2>✥ SORTEIO ✥</h2>
-    <p>Após vender todos os números.</p>
-  </section>
-
-  <section class="ferramentas">
-    <button class="botao" type="button" id="baixarBackup">
-      Salvar cópia de segurança
-    </button>
-
-    <button class="botao" type="button" id="restaurarBackup">
-      Restaurar cópia
-    </button>
-
-    <input
-      id="arquivoBackup"
-      type="file"
-      accept=".json,application/json"
-      hidden
+  <div class="qr-moldura">
+    <img
+      src="./qr-pix.png"
+      alt="QR Code Pix da rifa"
+      width="240"
+      height="240"
     >
-  </section>
+  </div>
 
-  <p class="aviso">
-    Os dados ficam somente neste navegador.
-    Guarde seus backups em local seguro.
+  <p class="ajuda">
+    Escaneie com o banco ou use o Pix Copia e Cola.
   </p>
+
+  <button
+    class="botao"
+    type="button"
+    id="copiarCodigo"
+  >
+    Copiar Pix Copia e Cola
+  </button>
+</section>
+
+<section class="sorteio" id="areaSorteio">
+  <h2>✠ SORTEIO SOLENE ✠</h2>
+
+  <p
+    class="estado"
+    id="estadoSorteio"
+    aria-live="polite"
+  >
+    O sorteio será liberado após a venda dos 100 números.
+  </p>
+
+  <a
+    class="botao"
+    href="./sorteio.html"
+    id="atalhoSorteio"
+  >
+    Acompanhar Sorteio Solene
+  </a>
+</section>
+
+<section class="ferramentas">
+  <button
+    class="botao"
+    type="button"
+    id="baixarBackup"
+  >
+    Salvar cópia de segurança
+  </button>
+
+  <button
+    class="botao"
+    type="button"
+    id="restaurarBackup"
+  >
+    Restaurar cópia
+  </button>
+
+  <input
+    id="arquivoBackup"
+    type="file"
+    accept=".json,application/json"
+    hidden
+  >
+</section>
+
+<p class="aviso">
+  Os dados ficam somente neste navegador.
+  Guarde seus backups em local seguro.
+</p>
+
 </div>
 
 <img
@@ -605,104 +295,146 @@ dialog p { font-size:18px; }
 </main>
 
 <dialog id="janela" aria-labelledby="tituloJanela">
-  <h2 id="tituloJanela">Número 001</h2>
+<h2 id="tituloJanela">Número 001</h2>
 
-  <form id="formulario">
-    <p>Escolha a situação:</p>
+<form id="formulario">
+  <p>Escolha a situação:</p>
 
-    <label class="opcao">
-      <input type="radio" name="situacao" value="disponivel">
-      Disponível
-    </label>
-
-    <label class="opcao">
-      <input type="radio" name="situacao" value="reservado">
-      Reservado
-    </label>
-
-    <label class="opcao">
-      <input type="radio" name="situacao" value="comprado">
-      ✝ Comprado
-    </label>
-
-    <hr class="separador-cadastro">
-
-    <label class="campo" for="compradorExistente">
-      Usar comprador já cadastrado:
-    </label>
-
-    <select class="cadastro-campo" id="compradorExistente">
-      <option value="">— Escolher comprador —</option>
-    </select>
-
-    <p class="dica">
-      Ao selecionar alguém, nome e WhatsApp são
-      preenchidos automaticamente.
-    </p>
-
-    <label class="campo" for="nome">
-      Nome da pessoa:
-    </label>
-
+  <label class="opcao">
     <input
-      class="cadastro-campo"
-      id="nome"
-      type="text"
-      maxlength="100"
-      list="nomesSugeridos"
-      autocomplete="off"
-      placeholder="Ex.: Maria da Silva"
+      type="radio"
+      name="situacao"
+      value="disponivel"
     >
+    Disponível
+  </label>
 
-    <datalist id="nomesSugeridos"></datalist>
-
-    <label class="campo" for="telefone">
-      WhatsApp / número de contato:
-    </label>
-
+  <label class="opcao">
     <input
-      class="cadastro-campo"
-      id="telefone"
-      type="tel"
-      inputmode="tel"
-      maxlength="20"
-      autocomplete="off"
-      placeholder="Ex.: (84) 99999-9999"
+      type="radio"
+      name="situacao"
+      value="reservado"
     >
+    Reservado
+  </label>
 
-    <p class="alerta" id="alertaCadastro" aria-live="polite"></p>
-    <p class="nota-legado" id="notaLegado" hidden></p>
+  <label class="opcao">
+    <input
+      type="radio"
+      name="situacao"
+      value="comprado"
+    >
+    ✝ Comprado
+  </label>
 
-    <div class="acoes">
-      <button class="botao botao-secundario" type="button" id="cancelar">
-        Cancelar
-      </button>
+  <hr class="separador-cadastro">
 
-      <button class="botao" type="submit">
-        Salvar
-      </button>
-    </div>
-  </form>
+  <label class="campo" for="compradorExistente">
+    Usar comprador já cadastrado:
+  </label>
+
+  <select
+    class="cadastro-campo"
+    id="compradorExistente"
+  >
+    <option value="">
+      — Escolher comprador —
+    </option>
+  </select>
+
+  <p class="dica">
+    Ao selecionar alguém, nome e WhatsApp são
+    preenchidos automaticamente.
+  </p>
+
+  <label class="campo" for="nome">
+    Nome da pessoa:
+  </label>
+
+  <input
+    class="cadastro-campo"
+    id="nome"
+    type="text"
+    maxlength="100"
+    list="nomesSugeridos"
+    autocomplete="off"
+    placeholder="Ex.: Maria da Silva"
+  >
+
+  <datalist id="nomesSugeridos"></datalist>
+
+  <label class="campo" for="telefone">
+    WhatsApp / número de contato:
+  </label>
+
+  <input
+    class="cadastro-campo"
+    id="telefone"
+    type="tel"
+    inputmode="tel"
+    maxlength="20"
+    autocomplete="off"
+    placeholder="Ex.: (84) 99999-9999"
+  >
+
+  <p
+    class="alerta"
+    id="alertaCadastro"
+    aria-live="polite"
+  ></p>
+
+  <p
+    class="nota-legado"
+    id="notaLegado"
+    hidden
+  ></p>
+
+  <div class="acoes">
+    <button
+      class="botao botao-secundario"
+      type="button"
+      id="cancelar"
+    >
+      Cancelar
+    </button>
+
+    <button
+      class="botao"
+      type="submit"
+    >
+      Salvar
+    </button>
+  </div>
+</form>
 </dialog>
 
-<div id="mensagem" role="status" aria-live="polite"></div>
+<div
+  id="mensagem"
+  role="status"
+  aria-live="polite"
+></div>
 
 <script>
 (() => {
   'use strict';
 
-  // Mesma chave: preserva os dados anteriores.
+  // Mantém os dados da versão anterior.
   const CHAVE = 'rifa-sobrepeliz-v1';
 
+  // Resultado separado dos compradores.
+  const CHAVE_SORTEIO =
+    'rifa-sobrepeliz-sorteio-v1';
+
   const INICIAIS = [
-    1,6,8,12,13,14,15,16,22,
-    25,26,28,30,45,48,52,77,85
+    1,6,8,12,13,14,15,16,22,25,
+    26,28,30,45,48,52,77,85
   ];
 
   const PIX_COPIA_COLA =
     '00020126410014BR.GOV.BCB.PIX0119adsonnph@icloud.com5204000053039865802BR5925Adson Phelipe Soares da S6009SAO PAULO62140510K0ebY5ANla6304C25B';
 
   const $ = id => document.getElementById(id);
+
   const grade = $('grade');
   const janela = $('janela');
   const form = $('formulario');
@@ -711,7 +443,6 @@ dialog p { font-size:18px; }
   let timer;
   let numeros;
   let leituraBloqueada = false;
-  let listaContatos = [];
 
   const digitos = valor =>
     String(valor || '').replace(/\D/g, '');
@@ -733,20 +464,69 @@ dialog p { font-size:18px; }
       currency:'BRL'
     });
 
+  function validarSorteio(d) {
+    if (
+      !d ||
+      d.tipo !== 'rifa-sobrepeliz-sorteio' ||
+      !Number.isInteger(d.numero) ||
+      d.numero < 1 ||
+      d.numero > 100 ||
+      typeof d.realizadoEm !== 'string' ||
+      !Number.isFinite(Date.parse(d.realizadoEm)) ||
+      typeof d.nome !== 'string'
+    ) {
+      throw Error(
+        'Registro do sorteio inválido. ' +
+        'Não substitua seus dados; restaure ' +
+        'um backup confiável.'
+      );
+    }
+
+    return d;
+  }
+
+  function lerSorteio() {
+    const bruto =
+      localStorage.getItem(CHAVE_SORTEIO);
+
+    return bruto === null
+      ? null
+      : validarSorteio(JSON.parse(bruto));
+  }
+
+  function temSorteio() {
+    try {
+      return localStorage.getItem(
+        CHAVE_SORTEIO
+      ) !== null;
+    } catch(e) {
+      // Falha no armazenamento: bloqueia alterações.
+      return true;
+    }
+  }
+
   function inicial() {
-    return Array.from({length:100}, (_,i) => ({
-      situacao:INICIAIS.includes(i+1)
-        ? 'comprado'
-        : 'disponivel',
-      nome:'',
-      telefone:'',
-      observacao:''
-    }));
+    return Array.from(
+      {length:100},
+      (_,i) => ({
+        situacao:INICIAIS.includes(i+1)
+          ? 'comprado'
+          : 'disponivel',
+        nome:'',
+        telefone:'',
+        observacao:''
+      })
+    );
   }
 
   function validar(dados) {
-    if (!Array.isArray(dados) || dados.length !== 100) {
-      throw Error('O arquivo deve conter 100 números.');
+    if (
+      !Array.isArray(dados) ||
+      dados.length !== 100
+    ) {
+      throw Error(
+        'O arquivo deve conter 100 números.'
+      );
     }
 
     const estados = [
@@ -755,31 +535,49 @@ dialog p { font-size:18px; }
       'comprado'
     ];
 
-    if (!dados.every(d => d && estados.includes(d.situacao))) {
+    if (
+      !dados.every(
+        d => d && estados.includes(d.situacao)
+      )
+    ) {
       throw Error('Há números inválidos.');
     }
 
+    // Preserva os campos anteriores.
     return dados.map(d => ({
       ...d,
       nome:typeof d.nome === 'string'
-        ? d.nome.slice(0,100) : '',
+        ? d.nome.slice(0,100)
+        : '',
       telefone:typeof d.telefone === 'string'
-        ? d.telefone.slice(0,20) : '',
+        ? d.telefone.slice(0,20)
+        : '',
       observacao:typeof d.observacao === 'string'
-        ? d.observacao.slice(0,100) : ''
+        ? d.observacao.slice(0,100)
+        : ''
     }));
   }
 
   function carregar() {
     try {
-      const salvo = localStorage.getItem(CHAVE);
-      return salvo ? validar(JSON.parse(salvo)) : inicial();
+      const salvo =
+        localStorage.getItem(CHAVE);
+
+      const dados = salvo
+        ? validar(JSON.parse(salvo))
+        : inicial();
+
+      leituraBloqueada = false;
+      return dados;
+
     } catch(e) {
       leituraBloqueada = true;
+
       alert(
         'Não foi possível ler os dados salvos. ' +
         'Restaure seu backup antes de fazer alterações.'
       );
+
       return inicial();
     }
   }
@@ -796,33 +594,43 @@ dialog p { font-size:18px; }
     }
 
     try {
-      localStorage.setItem(CHAVE, JSON.stringify(numeros));
+      localStorage.setItem(
+        CHAVE,
+        JSON.stringify(numeros)
+      );
       return true;
+
     } catch(e) {
-      alert('Falha ao salvar neste navegador.');
+      alert(
+        'Falha ao salvar neste navegador.'
+      );
       return false;
     }
   }
 
   function aviso(texto) {
     clearTimeout(timer);
+
     $('mensagem').textContent = texto;
     $('mensagem').style.display = 'block';
 
     timer = setTimeout(() => {
       $('mensagem').style.display = 'none';
-    }, 3000);
+    },3000);
   }
 
-  function contatos(excluirNumero = null) {
+  function contatos(excluirNumero=null) {
     const mapa = new Map();
 
     numeros.forEach((item,i) => {
       if (i+1 === excluirNumero) return;
       if (item.situacao === 'disponivel') return;
 
-      const nome = String(item.nome || '').trim();
-      const telefone = String(item.telefone || '').trim();
+      const nome =
+        String(item.nome || '').trim();
+
+      const telefone =
+        String(item.telefone || '').trim();
 
       if (!nome && !telefone) return;
 
@@ -831,16 +639,24 @@ dialog p { font-size:18px; }
         : 'nome:' + normalizar(nome);
 
       if (!mapa.has(chave)) {
-        mapa.set(chave, {nome,telefone});
+        mapa.set(chave,{nome,telefone});
       } else {
         const registro = mapa.get(chave);
-        if (!registro.nome && nome) registro.nome = nome;
-        if (!registro.telefone && telefone) registro.telefone = telefone;
+
+        if (!registro.nome && nome) {
+          registro.nome = nome;
+        }
+
+        if (!registro.telefone && telefone) {
+          registro.telefone = telefone;
+        }
       }
     });
 
-    return [...mapa.values()].sort((a,b) =>
-      a.nome.localeCompare(b.nome,'pt-BR')
+    return [...mapa.values()].sort(
+      (a,b) => a.nome.localeCompare(
+        b.nome,'pt-BR'
+      )
     );
   }
 
@@ -856,7 +672,7 @@ dialog p { font-size:18px; }
       select.add(
         new Option(
           (p.nome || 'Nome não informado') +
-          (p.telefone ? ' — ' + p.telefone : ''),
+          (p.telefone ? ' — '+p.telefone : ''),
           String(i)
         )
       );
@@ -865,26 +681,38 @@ dialog p { font-size:18px; }
     const datalist = $('nomesSugeridos');
     datalist.replaceChildren();
 
-    [...new Set(lista.map(p => p.nome).filter(Boolean))]
-      .forEach(nome => {
-        const opcao = document.createElement('option');
-        opcao.value = nome;
-        datalist.append(opcao);
-      });
+    [...new Set(
+      lista.map(p => p.nome).filter(Boolean)
+    )].forEach(nome => {
+      const opcao =
+        document.createElement('option');
+
+      opcao.value = nome;
+      datalist.append(opcao);
+    });
 
     return lista;
   }
 
+  let listaContatos = [];
+
   function atualizar() {
-    const frag = document.createDocumentFragment();
+    const frag =
+      document.createDocumentFragment();
 
     numeros.forEach((item,i) => {
       const n = i+1;
-      const b = document.createElement('button');
+
+      const b =
+        document.createElement('button');
 
       b.type = 'button';
-      b.className = 'numero ' +
-        (item.situacao === 'disponivel' ? '' : item.situacao);
+
+      b.className =
+        'numero ' +
+        (item.situacao === 'disponivel'
+          ? ''
+          : item.situacao);
 
       b.setAttribute(
         'aria-label',
@@ -892,7 +720,9 @@ dialog p { font-size:18px; }
       );
 
       if (item.situacao === 'comprado') {
-        const pequeno = document.createElement('span');
+        const pequeno =
+          document.createElement('span');
+
         pequeno.className = 'miudo';
         pequeno.textContent = n;
         b.append(pequeno);
@@ -900,7 +730,11 @@ dialog p { font-size:18px; }
         b.textContent = n;
       }
 
-      b.addEventListener('click', () => abrir(n));
+      b.addEventListener(
+        'click',
+        () => abrir(n)
+      );
+
       frag.append(b);
     });
 
@@ -916,303 +750,602 @@ dialog p { font-size:18px; }
 
     $('comprados').textContent = vendidos;
     $('reservados').textContent = reservados;
-    $('disponiveis').textContent = 100-vendidos-reservados;
-    $('arrecadado').textContent = dinheiro(vendidos*5);
-    $('preenchimento').style.width = vendidos+'%';
 
-    $('barra').setAttribute('aria-valuenow',vendidos);
+    $('disponiveis').textContent =
+      100 - vendidos - reservados;
+
+    $('arrecadado').textContent =
+      dinheiro(vendidos*5);
+
+    $('preenchimento').style.width =
+      vendidos + '%';
+
+    $('barra').setAttribute(
+      'aria-valuenow',vendidos
+    );
+
     $('progressoTexto').textContent =
       `${vendidos} de 100 números comprados`;
+
+    const sorteado = temSorteio();
+
+    $('areaSorteio').classList.toggle(
+      'finalizado',
+      sorteado
+    );
+
+    $('estadoSorteio').textContent = sorteado
+      ? '✠ Sorteio realizado. O resultado está ' +
+        'registrado e os cadastros foram bloqueados.'
+      : vendidos === 100
+        ? '✠ Todos os números foram comprados. ' +
+          'O Sorteio Solene está liberado!'
+        : `🔒 Sorteio bloqueado: faltam ` +
+          `${100-vendidos} números comprados.`;
+
+    $('atalhoSorteio').textContent = sorteado
+      ? 'Ver resultado do sorteio'
+      : vendidos === 100
+        ? 'Iniciar Sorteio Solene'
+        : 'Acompanhar Sorteio Solene';
   }
 
   function atualizarCampos() {
     const livre =
-      form.elements.situacao.value === 'disponivel';
+      form.elements.situacao.value ===
+      'disponivel';
 
-    ['nome','telefone','compradorExistente'].forEach(id => {
+    [
+      'nome',
+      'telefone',
+      'compradorExistente'
+    ].forEach(id => {
       $(id).disabled = livre;
     });
 
     $('alertaCadastro').textContent = livre
-      ? 'Ao salvar como disponível, o cadastro deste número será apagado.'
+      ? 'Ao salvar como disponível, o ' +
+        'cadastro deste número será apagado.'
       : '';
   }
 
   function abrir(n) {
+    if (temSorteio()) {
+      alert(
+        'Sorteio já realizado. Os cadastros ' +
+        'estão bloqueados para preservar o resultado.'
+      );
+      return;
+    }
+
     selecionado = n;
+
     const item = numeros[n-1];
 
-    $('tituloJanela').textContent = 'Número ' + formatar(n);
-    form.elements.situacao.value = item.situacao;
+    $('tituloJanela').textContent =
+      'Número ' + formatar(n);
+
+    form.elements.situacao.value =
+      item.situacao;
+
     $('nome').value = item.nome || '';
     $('telefone').value = item.telefone || '';
 
     listaContatos = atualizarContatos();
+
     $('compradorExistente').value = '';
 
-    $('notaLegado').hidden = !item.observacao;
-    $('notaLegado').textContent = item.observacao
-      ? 'Registro anterior: ' + item.observacao
-      : '';
+    $('notaLegado').hidden =
+      !item.observacao;
+
+    $('notaLegado').textContent =
+      item.observacao
+        ? 'Registro anterior: ' + item.observacao
+        : '';
 
     atualizarCampos();
     janela.showModal();
   }
 
-  $('compradorExistente').addEventListener('change', () => {
-    const valor = $('compradorExistente').value;
-    if (valor === '') return;
+  $('compradorExistente').addEventListener(
+    'change',
+    () => {
+      const valor =
+        $('compradorExistente').value;
 
-    const p = listaContatos[Number(valor)];
-    if (!p) return;
+      if (valor === '') return;
 
-    $('nome').value = p.nome;
-    $('telefone').value = p.telefone;
+      const p =
+        listaContatos[Number(valor)];
 
-    $('alertaCadastro').textContent =
-      'Comprador selecionado. Confira os dados antes de salvar.';
-  });
+      if (!p) return;
+
+      $('nome').value = p.nome;
+      $('telefone').value = p.telefone;
+
+      $('alertaCadastro').textContent =
+        'Comprador selecionado. Confira ' +
+        'os dados antes de salvar.';
+    }
+  );
 
   function completarNome() {
-    const nome = normalizar($('nome').value);
+    const nome =
+      normalizar($('nome').value);
 
-    if (!nome || digitos($('telefone').value)) return;
+    if (
+      !nome ||
+      digitos($('telefone').value)
+    ) return;
 
-    const candidatos = listaContatos.filter(p =>
-      normalizar(p.nome) === nome && digitos(p.telefone)
+    const candidatos = listaContatos.filter(
+      p =>
+        normalizar(p.nome) === nome &&
+        digitos(p.telefone)
     );
 
     const telefones = [
-      ...new Set(candidatos.map(p => digitos(p.telefone)))
+      ...new Set(
+        candidatos.map(
+          p => digitos(p.telefone)
+        )
+      )
     ];
 
     if (telefones.length === 1) {
-      $('telefone').value = candidatos[0].telefone;
+      $('telefone').value =
+        candidatos[0].telefone;
+
       $('alertaCadastro').textContent =
-        'WhatsApp preenchido a partir de um cadastro existente.';
+        'WhatsApp preenchido a partir ' +
+        'de um cadastro existente.';
+
     } else if (telefones.length > 1) {
       $('alertaCadastro').textContent =
-        'Há mais de um WhatsApp para esse nome. Escolha o comprador na lista.';
+        'Há mais de um WhatsApp para esse nome. ' +
+        'Escolha o comprador na lista.';
     }
   }
 
   function completarTelefone() {
-    const tel = digitos($('telefone').value);
+    const tel =
+      digitos($('telefone').value);
 
-    if (!tel || $('nome').value.trim()) return;
+    if (
+      !tel ||
+      $('nome').value.trim()
+    ) return;
 
-    const candidato = listaContatos.find(p =>
-      digitos(p.telefone) === tel && p.nome
+    const candidato = listaContatos.find(
+      p =>
+        digitos(p.telefone) === tel &&
+        p.nome
     );
 
     if (candidato) {
       $('nome').value = candidato.nome;
+
       $('alertaCadastro').textContent =
-        'Nome preenchido a partir de um cadastro existente.';
+        'Nome preenchido a partir ' +
+        'de um cadastro existente.';
     }
   }
 
-  $('nome').addEventListener('change',completarNome);
-  $('telefone').addEventListener('change',completarTelefone);
+  $('nome').addEventListener(
+    'change',
+    completarNome
+  );
 
-  form.querySelectorAll('input[name="situacao"]')
-    .forEach(input =>
-      input.addEventListener('change',atualizarCampos)
+  $('telefone').addEventListener(
+    'change',
+    completarTelefone
+  );
+
+  form.querySelectorAll(
+    'input[name="situacao"]'
+  ).forEach(input => {
+    input.addEventListener(
+      'change',
+      atualizarCampos
     );
-
-  $('cancelar').addEventListener('click', () => {
-    janela.close();
   });
 
-  form.addEventListener('submit',evento => {
-    evento.preventDefault();
+  $('cancelar').addEventListener(
+    'click',
+    () => janela.close()
+  );
 
-    if (selecionado === null) return;
+  form.addEventListener(
+    'submit',
+    evento => {
+      evento.preventDefault();
 
-    const situacao = form.elements.situacao.value;
-    let nome = $('nome').value.trim();
-    let telefone = $('telefone').value.trim();
+      if (selecionado === null) return;
 
-    if (situacao !== 'disponivel') {
-      if (nome && !telefone) completarNome();
-      if (telefone && !nome) completarTelefone();
+      if (temSorteio()) {
+        alert(
+          'O sorteio já foi realizado. ' +
+          'Não é possível alterar os números.'
+        );
 
-      nome = $('nome').value.trim();
-      telefone = $('telefone').value.trim();
-
-      const tel = digitos(telefone);
-
-      if (telefone && (tel.length < 8 || tel.length > 13)) {
-        alert('Confira o WhatsApp: use de 8 a 13 dígitos.');
+        janela.close();
+        atualizar();
         return;
       }
 
-      if (nome && tel) {
-        const homonimo = listaContatos.some(p =>
-          normalizar(p.nome) === normalizar(nome) &&
-          digitos(p.telefone) &&
-          digitos(p.telefone) !== tel
-        );
+      const situacao =
+        form.elements.situacao.value;
 
-        if (homonimo && !confirm(
-          'Já existe esse nome com outro WhatsApp. ' +
-          'Deseja salvar este cadastro mesmo assim?'
-        )) return;
+      let nome =
+        $('nome').value.trim();
 
-        const outroNome = listaContatos.some(p =>
-          digitos(p.telefone) === tel &&
-          p.nome &&
-          normalizar(p.nome) !== normalizar(nome)
-        );
+      let telefone =
+        $('telefone').value.trim();
 
-        if (outroNome && !confirm(
-          'Esse WhatsApp já aparece com outro nome. Deseja continuar?'
-        )) return;
+      if (situacao !== 'disponivel') {
+        if (nome && !telefone) {
+          completarNome();
+        }
+
+        if (telefone && !nome) {
+          completarTelefone();
+        }
+
+        nome = $('nome').value.trim();
+        telefone = $('telefone').value.trim();
+
+        const tel = digitos(telefone);
+
+        if (
+          telefone &&
+          (tel.length < 8 || tel.length > 13)
+        ) {
+          alert(
+            'Confira o WhatsApp: use de 8 a 13 dígitos.'
+          );
+          return;
+        }
+
+        if (nome && tel) {
+          const homonimo = listaContatos.some(
+            p =>
+              normalizar(p.nome) ===
+                normalizar(nome) &&
+              digitos(p.telefone) &&
+              digitos(p.telefone) !== tel
+          );
+
+          if (
+            homonimo &&
+            !confirm(
+              'Já existe esse nome com outro ' +
+              'WhatsApp. Deseja salvar este ' +
+              'cadastro mesmo assim?'
+            )
+          ) return;
+
+          const outroNome = listaContatos.some(
+            p =>
+              digitos(p.telefone) === tel &&
+              p.nome &&
+              normalizar(p.nome) !==
+                normalizar(nome)
+          );
+
+          if (
+            outroNome &&
+            !confirm(
+              'Esse WhatsApp já aparece com ' +
+              'outro nome. Deseja continuar?'
+            )
+          ) return;
+        }
       }
+
+      if (
+        situacao === 'comprado' &&
+        !nome &&
+        !telefone &&
+        !confirm(
+          'Este número ficará sem comprador ' +
+          'identificado. Deseja continuar?'
+        )
+      ) return;
+
+      const anterior =
+        numeros[selecionado-1];
+
+      if (
+        situacao === 'disponivel' &&
+        (
+          anterior.nome ||
+          anterior.telefone ||
+          anterior.observacao
+        ) &&
+        !confirm(
+          'Marcar como disponível e apagar ' +
+          'o nome, contato e observação ' +
+          'deste número?'
+        )
+      ) return;
+
+      numeros[selecionado-1] =
+        situacao === 'disponivel'
+          ? {
+              ...anterior,
+              situacao,
+              nome:'',
+              telefone:'',
+              observacao:''
+            }
+          : {
+              ...anterior,
+              situacao,
+              nome,
+              telefone
+            };
+
+      if (!salvar()) {
+        numeros[selecionado-1] = anterior;
+        return;
+      }
+
+      atualizar();
+      janela.close();
+
+      aviso(
+        'Número ' +
+        formatar(selecionado) +
+        ' atualizado!'
+      );
     }
+  );
 
-    if (
-      situacao === 'comprado' &&
-      !nome &&
-      !telefone &&
-      !confirm(
-        'Este número ficará sem comprador identificado. Deseja continuar?'
-      )
-    ) return;
+  // Backup com compradores e resultado.
+  $('baixarBackup').addEventListener(
+    'click',
+    () => {
+      if (leituraBloqueada) {
+        alert(
+          'Não é possível exportar: ' +
+          'os dados salvos estão ilegíveis.'
+        );
+        return;
+      }
 
-    const anterior = numeros[selecionado-1];
+      let sorteio;
 
-    if (
-      situacao === 'disponivel' &&
-      (anterior.nome || anterior.telefone || anterior.observacao) &&
-      !confirm(
-        'Marcar como disponível e apagar o nome, ' +
-        'contato e observação deste número?'
-      )
-    ) return;
+      try {
+        sorteio = lerSorteio();
+      } catch(e) {
+        alert(
+          'Não foi possível ler o resultado ' +
+          'salvo: ' + e.message
+        );
+        return;
+      }
 
-    numeros[selecionado-1] =
-      situacao === 'disponivel'
-        ? {
-            ...anterior,
-            situacao,
-            nome:'',
-            telefone:'',
-            observacao:''
+      const conteudo = JSON.stringify(
+        {
+          tipo:'rifa-sobrepeliz',
+          versao:4,
+          criadoEm:new Date().toISOString(),
+          numeros,
+          sorteio
+        },
+        null,
+        2
+      );
+
+      const url = URL.createObjectURL(
+        new Blob(
+          [conteudo],
+          {type:'application/json'}
+        )
+      );
+
+      const link =
+        document.createElement('a');
+
+      link.href = url;
+      link.download =
+        'backup-rifa-sobrepeliz.json';
+
+      document.body.append(link);
+      link.click();
+      link.remove();
+
+      setTimeout(
+        () => URL.revokeObjectURL(url),
+        5000
+      );
+
+      aviso('Backup preparado!');
+    }
+  );
+
+  $('restaurarBackup').addEventListener(
+    'click',
+    () => $('arquivoBackup').click()
+  );
+
+  $('arquivoBackup').addEventListener(
+    'change',
+    async evento => {
+      const arquivo =
+        evento.target.files[0];
+
+      if (!arquivo) return;
+
+      try {
+        const dados = JSON.parse(
+          await arquivo.text()
+        );
+
+        if (dados.tipo !== 'rifa-sobrepeliz') {
+          throw Error(
+            'Arquivo não reconhecido.'
+          );
+        }
+
+        const restaurados =
+          validar(dados.numeros);
+
+        const sorteioBackup =
+          Object.prototype.hasOwnProperty.call(
+            dados,'sorteio'
+          )
+            ? (
+                dados.sorteio === null
+                  ? null
+                  : validarSorteio(dados.sorteio)
+              )
+            : null;
+
+        if (
+          sorteioBackup &&
+          restaurados.some(
+            n => n.situacao !== 'comprado'
+          )
+        ) {
+          throw Error(
+            'O backup tem um resultado, ' +
+            'mas nem todos os 100 números ' +
+            'estão comprados.'
+          );
+        }
+
+        if (
+          temSorteio() &&
+          !sorteioBackup
+        ) {
+          throw Error(
+            'Já existe um sorteio realizado. ' +
+            'Por segurança, não é permitido ' +
+            'restaurar um backup antigo sem ' +
+            'o resultado.'
+          );
+        }
+
+        const pergunta = sorteioBackup
+          ? 'Restaurar números, compradores E ' +
+            'resultado do sorteio deste backup? ' +
+            'Isso substituirá os dados atuais.'
+          : 'Substituir todos os números e ' +
+            'compradores atuais pelos do backup?';
+
+        if (!confirm(pergunta)) return;
+
+        const antigoNumeros =
+          localStorage.getItem(CHAVE);
+
+        const antigoSorteio =
+          localStorage.getItem(CHAVE_SORTEIO);
+
+        try {
+          localStorage.setItem(
+            CHAVE,
+            JSON.stringify(restaurados)
+          );
+
+          if (sorteioBackup) {
+            localStorage.setItem(
+              CHAVE_SORTEIO,
+              JSON.stringify(sorteioBackup)
+            );
+          } else {
+            localStorage.removeItem(
+              CHAVE_SORTEIO
+            );
           }
-        : {
-            ...anterior,
-            situacao,
-            nome,
-            telefone
-          };
 
-    if (!salvar()) {
-      numeros[selecionado-1] = anterior;
-      return;
-    }
+        } catch(erro) {
+          try {
+            if (antigoNumeros === null) {
+              localStorage.removeItem(CHAVE);
+            } else {
+              localStorage.setItem(
+                CHAVE,
+                antigoNumeros
+              );
+            }
 
-    atualizar();
-    janela.close();
-    aviso('Número '+formatar(selecionado)+' atualizado!');
-  });
+            if (antigoSorteio === null) {
+              localStorage.removeItem(
+                CHAVE_SORTEIO
+              );
+            } else {
+              localStorage.setItem(
+                CHAVE_SORTEIO,
+                antigoSorteio
+              );
+            }
+          } catch(ignorado) {}
 
-  $('baixarBackup').addEventListener('click', () => {
-    if (leituraBloqueada) {
-      alert('Não é possível exportar: os dados salvos estão ilegíveis.');
-      return;
-    }
-
-    const conteudo = JSON.stringify({
-      tipo:'rifa-sobrepeliz',
-      versao:3,
-      criadoEm:new Date().toISOString(),
-      numeros
-    },null,2);
-
-    const url = URL.createObjectURL(
-      new Blob([conteudo],{type:'application/json'})
-    );
-
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'backup-rifa-sobrepeliz.json';
-
-    document.body.append(link);
-    link.click();
-    link.remove();
-
-    setTimeout(() => URL.revokeObjectURL(url),5000);
-    aviso('Backup preparado!');
-  });
-
-  $('restaurarBackup').addEventListener('click', () => {
-    $('arquivoBackup').click();
-  });
-
-  $('arquivoBackup').addEventListener('change',async evento => {
-    const arquivo = evento.target.files[0];
-    if (!arquivo) return;
-
-    try {
-      const dados = JSON.parse(await arquivo.text());
-
-      if (dados.tipo !== 'rifa-sobrepeliz') {
-        throw Error('Arquivo não reconhecido.');
-      }
-
-      const restaurados = validar(dados.numeros);
-
-      if (confirm(
-        'Substituir todos os dados atuais pelos do backup?'
-      )) {
-        const anteriores = numeros;
-        const bloqueioAnterior = leituraBloqueada;
+          throw Error(
+            'Não foi possível salvar o ' +
+            'backup neste navegador.'
+          );
+        }
 
         numeros = restaurados;
         leituraBloqueada = false;
 
-        if (!salvar()) {
-          numeros = anteriores;
-          leituraBloqueada = bloqueioAnterior;
-        } else {
-          atualizar();
-          aviso('Backup restaurado!');
-        }
-      }
-    } catch(e) {
-      alert('Erro ao restaurar: '+e.message);
-    }
+        atualizar();
 
-    evento.target.value = '';
-  });
+        aviso(
+          'Backup restaurado com sucesso!'
+        );
+
+      } catch(e) {
+        alert(
+          'Erro ao restaurar: ' + e.message
+        );
+
+      } finally {
+        evento.target.value = '';
+      }
+    }
+  );
 
   async function copiar(texto) {
     try {
       await navigator.clipboard.writeText(texto);
       aviso('Copiado!');
     } catch(e) {
-      window.prompt('Copie o texto:',texto);
+      window.prompt(
+        'Copie o texto:',
+        texto
+      );
     }
   }
 
-  $('copiarChave').addEventListener('click', () => {
-    copiar($('chavePix').textContent.trim());
-  });
+  $('copiarChave').addEventListener(
+    'click',
+    () => copiar(
+      $('chavePix').textContent.trim()
+    )
+  );
 
-  $('copiarCodigo').addEventListener('click', () => {
-    copiar(PIX_COPIA_COLA);
-  });
+  $('copiarCodigo').addEventListener(
+    'click',
+    () => copiar(PIX_COPIA_COLA)
+  );
 
-  window.addEventListener('pageshow', () => {
-    numeros = carregar();
-    atualizar();
-  });
+  window.addEventListener(
+    'pageshow',
+    () => {
+      numeros = carregar();
+      atualizar();
+    }
+  );
 
   atualizar();
 
   const parametro = Number(
-    new URLSearchParams(location.search).get('numero')
+    new URLSearchParams(
+      location.search
+    ).get('numero')
   );
 
   if (
@@ -1225,11 +1358,14 @@ dialog p { font-size:18px; }
 })();
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js')
-      .catch(console.warn);
-  });
+  window.addEventListener(
+    'load',
+    () => navigator.serviceWorker
+      .register('./sw.js')
+      .catch(console.warn)
+  );
 }
 </script>
+
 </body>
 </html>
