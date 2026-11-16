@@ -1,0 +1,1097 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#31060e">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>Sorteio Solene | Rifa da Sobrepeliz</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
+
+:root {
+  --ouro:#d7a64d;
+  --claro:#f5d99b;
+  --vinho:#4c0a17;
+  --escuro:#20040a;
+}
+
+* { box-sizing:border-box; }
+[hidden] { display:none !important; }
+
+body {
+  margin:0;
+  min-height:100vh;
+  color:var(--claro);
+  font-family:'Cormorant Garamond',Georgia,serif;
+  background:radial-gradient(
+    ellipse at 50% 0%,#711322,transparent 58%
+  ),#1c0409;
+}
+
+button { cursor:pointer; }
+
+button:focus-visible,
+a:focus-visible {
+  outline:3px solid white;
+  outline-offset:3px;
+}
+
+.poster {
+  max-width:900px;
+  margin:14px auto 30px;
+  border:4px double #b98b43;
+  background:radial-gradient(
+    circle at 50% 45%,#680d1c66,transparent 65%
+  ),#2a050b;
+  box-shadow:0 20px 65px #000a;
+}
+
+.cabecalho,.rodape {
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+.conteudo {
+  padding:12px clamp(13px,4vw,42px) 26px;
+}
+
+.ornamento {
+  text-align:center;
+  color:#e7bf74;
+  font-size:22px;
+  margin:8px 0 15px;
+}
+
+.titulo { text-align:center; }
+
+.titulo h1 {
+  font:600 clamp(25px,5vw,42px)
+    'Cinzel',Georgia,serif;
+  margin:7px 0;
+  letter-spacing:.03em;
+}
+
+.titulo p {
+  margin:7px 0 15px;
+  font-size:21px;
+}
+
+.botao {
+  display:inline-block;
+  border:1px solid #e7b96e;
+  border-radius:5px;
+  background:linear-gradient(145deg,#701629,#3b0710);
+  color:#f9e2b2;
+  padding:12px 17px;
+  text-decoration:none;
+  font:600 13px 'Cinzel',Georgia,serif;
+  text-align:center;
+}
+
+.botao:disabled {
+  opacity:.48;
+  cursor:not-allowed;
+}
+
+.botao:not(:disabled):hover {
+  filter:brightness(1.15);
+}
+
+.voltar { margin:4px auto 18px; }
+
+.painel {
+  border:2px solid #b98b43;
+  box-shadow:inset 0 0 0 4px #4c241b;
+  background:#22050bc9;
+  padding:clamp(12px,3vw,24px);
+}
+
+.contadores {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+}
+
+.contador {
+  text-align:center;
+  padding:12px 5px;
+  background:#380914;
+  border:1px solid #95672f;
+}
+
+.contador strong {
+  display:block;
+  font:600 clamp(20px,4vw,33px)
+    'Cinzel',Georgia,serif;
+}
+
+.contador span {
+  font-size:clamp(13px,2.4vw,17px);
+}
+
+.progresso {
+  margin:18px 0 7px;
+  background:#130206;
+  height:12px;
+  border:1px solid #b88c49;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.preenchimento {
+  width:0;
+  height:100%;
+  background:linear-gradient(90deg,#8f561d,#ffdda1);
+  transition:width .3s;
+}
+
+.progressoTexto {
+  text-align:center;
+  font-size:19px;
+  margin:8px 0 12px;
+}
+
+.altar {
+  position:relative;
+  text-align:center;
+  margin:23px auto 16px;
+  padding:28px 15px 22px;
+  border:5px double #d6a45a;
+  background:radial-gradient(
+    ellipse at 50% 35%,#791b30,#310610 70%
+  );
+  box-shadow:
+    inset 0 0 35px #150207,
+    0 12px 26px #10020688;
+}
+
+.altar::before,
+.altar::after {
+  content:'✥';
+  position:absolute;
+  color:#c99650;
+  font-size:26px;
+  top:10px;
+}
+
+.altar::before { left:12px; }
+.altar::after { right:12px; }
+
+.fase {
+  font:600 clamp(13px,2.8vw,18px)
+    'Cinzel',Georgia,serif;
+  color:#f0cb86;
+  min-height:28px;
+}
+
+.visor {
+  font:600 clamp(76px,18vw,160px)
+    'Cinzel',Georgia,serif;
+  color:#ffe6b0;
+  text-shadow:0 4px 22px #e2a64b55;
+  line-height:1.25;
+  margin:12px auto 4px;
+  font-variant-numeric:tabular-nums;
+}
+
+.altar.rodando .visor {
+  animation:brilho .7s ease-in-out infinite alternate;
+}
+
+@keyframes brilho {
+  from {
+    text-shadow:0 2px 8px #f3bf7655;
+  }
+  to {
+    text-shadow:0 2px 35px #f4c16acc;
+  }
+}
+
+.mensagemVisor {
+  font-size:20px;
+  color:#e7c995;
+  min-height:27px;
+}
+
+.controle { text-align:center; }
+
+#iniciar {
+  width:min(100%,420px);
+  font-size:15px;
+  padding:17px;
+}
+
+.estado {
+  margin:12px auto 0;
+  max-width:620px;
+  text-align:center;
+  font-size:19px;
+  color:#e7c995;
+}
+
+.erro { color:#ffb5ad; }
+
+.resultado {
+  margin:24px 0 0;
+  padding:20px 14px;
+  text-align:center;
+  background:linear-gradient(
+    135deg,#fff0d0,#e3c38c,#f7e0b4
+  );
+  color:#45140e;
+  border:5px double #a47737;
+}
+
+.resultado h2 {
+  font:600 clamp(20px,4vw,30px)
+    'Cinzel',Georgia,serif;
+  margin:3px 0 13px;
+}
+
+.resultado .ganhador {
+  font:700 clamp(25px,5vw,38px)
+    'Cormorant Garamond',Georgia,serif;
+  overflow-wrap:anywhere;
+}
+
+.resultado p {
+  font-size:19px;
+  margin:7px 0;
+}
+
+.resultado .data {
+  font-size:16px;
+}
+
+.resultado .botao {
+  margin-top:12px;
+}
+
+.nota {
+  margin:18px 0 5px;
+  text-align:center;
+  font-size:16px;
+  color:#dbb77c;
+}
+
+@media(max-width:600px) {
+  .poster {
+    margin:0 auto 12px;
+    border-width:2px;
+  }
+
+  .conteudo {
+    padding:9px 9px 20px;
+  }
+
+  .painel { padding:9px; }
+
+  .contadores { gap:5px; }
+
+  .altar {
+    padding:25px 6px 18px;
+  }
+
+  .visor {
+    font-size:clamp(68px,19vw,112px);
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    animation:none !important;
+    transition:none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<main class="poster">
+
+  <header>
+    <img
+      class="cabecalho"
+      src="./cabecalho-gotico.webp"
+      alt="Rifa Solidária — Sobrepeliz"
+    >
+  </header>
+
+  <div class="conteudo">
+
+    <div class="ornamento">
+      ✥ ───── ✠ ───── ✥
+    </div>
+
+    <div class="titulo">
+      <h1>Sorteio Solene</h1>
+
+      <p>
+        Prêmio de R$ 100,00 •
+        Rifa Solidária da Sobrepeliz
+      </p>
+
+      <a class="botao voltar" href="./index.html">
+        ← Voltar à rifa
+      </a>
+    </div>
+
+    <section class="painel" aria-label="Situação do sorteio">
+
+      <div class="contadores">
+        <div class="contador">
+          <strong id="comprados">—</strong>
+          <span>Comprados</span>
+        </div>
+
+        <div class="contador">
+          <strong id="reservados">—</strong>
+          <span>Reservados</span>
+        </div>
+
+        <div class="contador">
+          <strong id="disponiveis">—</strong>
+          <span>Disponíveis</span>
+        </div>
+      </div>
+
+      <div
+        class="progresso"
+        role="progressbar"
+        id="barra"
+        aria-label="Progresso das vendas"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="0"
+      >
+        <div
+          class="preenchimento"
+          id="preenchimento"
+        ></div>
+      </div>
+
+      <p class="progressoTexto" id="progressoTexto">
+        Verificando os números...
+      </p>
+
+      <div class="altar" id="altar">
+        <div class="fase" id="fase">
+          ✠ AGUARDANDO A CONCLUSÃO ✠
+        </div>
+
+        <div
+          class="visor"
+          id="visor"
+          aria-live="off"
+        >✠</div>
+
+        <div
+          class="mensagemVisor"
+          id="mensagemVisor"
+        >
+          O sorteio será liberado com
+          100 números comprados.
+        </div>
+      </div>
+
+      <div class="controle">
+        <button
+          class="botao"
+          type="button"
+          id="iniciar"
+          disabled
+        >
+          🔒 Sorteio bloqueado
+        </button>
+
+        <p
+          class="estado"
+          id="estado"
+          role="status"
+          aria-live="polite"
+        ></p>
+      </div>
+
+      <section
+        class="resultado"
+        id="resultado"
+        hidden
+        aria-label="Resultado do sorteio"
+      >
+        <h2>✠ Habemus Victorem! ✠</h2>
+
+        <p>O número premiado pertence a:</p>
+
+        <div
+          class="ganhador"
+          id="ganhador"
+        ></div>
+
+        <p>
+          Prêmio:
+          <strong>R$ 100,00</strong>
+        </p>
+
+        <p
+          class="data"
+          id="dataSorteio"
+        ></p>
+
+        <button
+          class="botao"
+          id="comprovante"
+          type="button"
+        >
+          Salvar imagem do resultado (PNG)
+        </button>
+
+        <p>
+          O comprovante público mostra o número,
+          mas não divulga nome nem telefone.
+        </p>
+      </section>
+
+    </section>
+
+    <p class="nota">
+      O resultado é escolhido com aleatoriedade
+      segura do navegador e registrado antes da
+      animação. O registro é local e não constitui
+      auditoria independente. Faça um backup após
+      o sorteio.
+    </p>
+
+  </div>
+
+  <img
+    class="rodape"
+    src="./rodape-gotico.webp"
+    alt=""
+    aria-hidden="true"
+  >
+
+</main>
+
+<script>
+(() => {
+  'use strict';
+
+  const CHAVE = 'rifa-sobrepeliz-v1';
+  const CHAVE_SORTEIO =
+    'rifa-sobrepeliz-sorteio-v1';
+
+  const INICIAIS = [
+    1,6,8,12,13,14,15,16,22,25,
+    26,28,30,45,48,52,77,85
+  ];
+
+  const $ = id => document.getElementById(id);
+
+  const formatar = n =>
+    String(n).padStart(3,'0');
+
+  let animando = false;
+  let registroAtual = null;
+
+  function lerNumeros() {
+    const bruto = localStorage.getItem(CHAVE);
+
+    if (!bruto) {
+      return Array.from(
+        {length:100},
+        (_,i) => ({
+          situacao:INICIAIS.includes(i+1)
+            ? 'comprado'
+            : 'disponivel',
+          nome:''
+        })
+      );
+    }
+
+    const dados = JSON.parse(bruto);
+
+    if (
+      !Array.isArray(dados) ||
+      dados.length !== 100 ||
+      !dados.every(d =>
+        d &&
+        ['comprado','reservado','disponivel']
+          .includes(d.situacao)
+      )
+    ) {
+      throw Error(
+        'Os dados da rifa estão inválidos. ' +
+        'Restaure o backup na página principal.'
+      );
+    }
+
+    return dados;
+  }
+
+  function lerResultado() {
+    const bruto =
+      localStorage.getItem(CHAVE_SORTEIO);
+
+    if (bruto === null) return null;
+
+    const r = JSON.parse(bruto);
+
+    if (
+      !r ||
+      r.tipo !== 'rifa-sobrepeliz-sorteio' ||
+      !Number.isInteger(r.numero) ||
+      r.numero < 1 ||
+      r.numero > 100 ||
+      typeof r.nome !== 'string' ||
+      typeof r.realizadoEm !== 'string' ||
+      !Number.isFinite(Date.parse(r.realizadoEm))
+    ) {
+      throw Error(
+        'O registro do sorteio está inválido. ' +
+        'Não faça outro sorteio; restaure um ' +
+        'backup confiável.'
+      );
+    }
+
+    return r;
+  }
+
+  // Sorteia de 1 a 100 sem viés de módulo.
+  function numeroSeguro() {
+    if (
+      !globalThis.crypto ||
+      typeof crypto.getRandomValues !== 'function'
+    ) {
+      throw Error(
+        'Este navegador não disponibiliza ' +
+        'sorteio seguro. Abra o site em HTTPS.'
+      );
+    }
+
+    const buffer = new Uint32Array(1);
+
+    const limite =
+      Math.floor(4294967296 / 100) * 100;
+
+    do {
+      crypto.getRandomValues(buffer);
+    } while (buffer[0] >= limite);
+
+    return buffer[0] % 100 + 1;
+  }
+
+  function mostrarResultado(r) {
+    registroAtual = r;
+
+    $('fase').textContent =
+      '✠ HABEMUS VICTOREM! ✠';
+
+    $('visor').textContent =
+      formatar(r.numero);
+
+    $('mensagemVisor').textContent =
+      'Número vencedor da Rifa Solidária';
+
+    $('ganhador').textContent =
+      r.nome ||
+      'Comprador não identificado — consulte o cadastro';
+
+    $('dataSorteio').textContent =
+      'Realizado em ' +
+      new Date(r.realizadoEm)
+        .toLocaleString('pt-BR');
+
+    $('resultado').hidden = false;
+
+    $('iniciar').disabled = true;
+
+    $('iniciar').textContent =
+      '✠ Sorteio concluído';
+
+    $('estado').textContent =
+      'Resultado registrado neste navegador. ' +
+      'Não é possível sortear novamente ' +
+      'por esta página.';
+
+    $('altar').classList.remove('rodando');
+  }
+
+  function renderizar() {
+    if (animando) return;
+
+    $('resultado').hidden = true;
+    $('iniciar').disabled = true;
+    $('estado').classList.remove('erro');
+
+    try {
+      const dados = lerNumeros();
+
+      const vendidos = dados.filter(
+        d => d.situacao === 'comprado'
+      ).length;
+
+      const reservados = dados.filter(
+        d => d.situacao === 'reservado'
+      ).length;
+
+      $('comprados').textContent = vendidos;
+
+      $('reservados').textContent = reservados;
+
+      $('disponiveis').textContent =
+        100 - vendidos - reservados;
+
+      $('preenchimento').style.width =
+        vendidos + '%';
+
+      $('barra').setAttribute(
+        'aria-valuenow', vendidos
+      );
+
+      $('progressoTexto').textContent =
+        `${vendidos} de 100 números comprados`;
+
+      const resultado = lerResultado();
+
+      if (resultado) {
+        mostrarResultado(resultado);
+        return;
+      }
+
+      registroAtual = null;
+
+      $('fase').textContent =
+        '✠ AGUARDANDO A CONCLUSÃO ✠';
+
+      $('visor').textContent = '✠';
+
+      $('mensagemVisor').textContent =
+        'Prêmio de R$ 100,00';
+
+      if (vendidos !== 100) {
+        $('iniciar').textContent =
+          '🔒 Sorteio bloqueado';
+
+        $('estado').textContent =
+          `Faltam ${100-vendidos} números comprados. ` +
+          'Números reservados não contam como vendidos.';
+
+        return;
+      }
+
+      if (
+        !globalThis.crypto ||
+        typeof crypto.getRandomValues !== 'function'
+      ) {
+        throw Error(
+          'O sorteio seguro exige HTTPS ou localhost.'
+        );
+      }
+
+      $('fase').textContent =
+        '✥ SORTEIO LIBERADO ✥';
+
+      $('mensagemVisor').textContent =
+        'Todos os 100 números foram comprados!';
+
+      $('iniciar').disabled = false;
+
+      $('iniciar').textContent =
+        '✠ Iniciar Sorteio Solene';
+
+      const semNome = dados.filter(
+        d => !String(d.nome || '').trim()
+      ).length;
+
+      $('estado').textContent = semNome
+        ? `Atenção: ${semNome} número(s) comprado(s) ` +
+          'ainda não têm nome de comprador.'
+        : 'Pronto para a contagem regressiva, ' +
+          'roleta e revelação.';
+
+    } catch(e) {
+      $('iniciar').disabled = true;
+
+      $('iniciar').textContent =
+        'Sorteio indisponível';
+
+      $('estado').classList.add('erro');
+
+      $('estado').textContent = e.message;
+
+      $('fase').textContent = '✠ ATENÇÃO ✠';
+
+      $('visor').textContent = '✠';
+    }
+  }
+
+  const esperar = ms =>
+    new Promise(resolve => setTimeout(resolve,ms));
+
+  async function animacao(r) {
+    if (
+      window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches
+    ) {
+      mostrarResultado(r);
+      return;
+    }
+
+    $('altar').classList.add('rodando');
+
+    $('fase').textContent =
+      '✥ CONTAGEM REGRESSIVA ✥';
+
+    $('mensagemVisor').textContent =
+      'Preparando o sorteio...';
+
+    for (let n=3; n>=1; n--) {
+      $('visor').textContent = String(n);
+      await esperar(900);
+    }
+
+    $('fase').textContent =
+      '✥ ROLETA DOS 100 NÚMEROS ✥';
+
+    $('mensagemVisor').textContent =
+      'O resultado já foi registrado com segurança.';
+
+    await new Promise(resolve => {
+      const duracao = 4800;
+
+      let inicio = null;
+      let ultimaTroca = -Infinity;
+      let passos = 0;
+
+      function quadro(agora) {
+        if (inicio === null) inicio = agora;
+
+        const proporcao = Math.min(
+          1,
+          (agora - inicio) / duracao
+        );
+
+        const intervalo =
+          55 + 440 * Math.pow(proporcao,3);
+
+        if (agora - ultimaTroca >= intervalo) {
+          // A roleta é visual; o resultado já foi salvo.
+          passos++;
+
+          $('visor').textContent =
+            formatar((passos * 37) % 100 + 1);
+
+          ultimaTroca = agora;
+        }
+
+        if (proporcao < 1) {
+          requestAnimationFrame(quadro);
+        } else {
+          resolve();
+        }
+      }
+
+      requestAnimationFrame(quadro);
+    });
+
+    mostrarResultado(r);
+  }
+
+  $('iniciar').addEventListener(
+    'click',
+    async () => {
+      if (animando) return;
+
+      try {
+        if (lerResultado()) {
+          renderizar();
+          return;
+        }
+
+        const dados = lerNumeros();
+
+        if (
+          dados.length !== 100 ||
+          dados.some(
+            d => d.situacao !== 'comprado'
+          )
+        ) {
+          renderizar();
+          return;
+        }
+
+        const semNome = dados.filter(
+          d => !String(d.nome || '').trim()
+        ).length;
+
+        const aviso = semNome
+          ? `Há ${semNome} números sem nome de comprador. ` +
+            'O vencedor poderá ficar sem identificação. ' +
+            'Deseja prosseguir?'
+          : 'Os 100 números estão comprados. ' +
+            'O sorteio será realizado UMA VEZ e ' +
+            'o resultado será salvo antes da animação. ' +
+            'Confirmar?';
+
+        if (!confirm(aviso)) return;
+
+        if (lerResultado()) {
+          renderizar();
+          return;
+        }
+
+        const conferir = lerNumeros();
+
+        if (
+          conferir.some(
+            d => d.situacao !== 'comprado'
+          )
+        ) {
+          renderizar();
+          return;
+        }
+
+        const numero = numeroSeguro();
+
+        const r = {
+          tipo:'rifa-sobrepeliz-sorteio',
+          versao:1,
+          numero,
+          nome:String(
+            conferir[numero-1].nome || ''
+          ).trim(),
+          realizadoEm:new Date().toISOString(),
+          totalComprados:100,
+          metodo:
+            'crypto.getRandomValues com rejeição de viés'
+        };
+
+        // Salva ANTES de iniciar a animação.
+        localStorage.setItem(
+          CHAVE_SORTEIO,
+          JSON.stringify(r)
+        );
+
+        const verificado = lerResultado();
+
+        if (
+          !verificado ||
+          verificado.numero !== numero
+        ) {
+          throw Error(
+            'Não foi possível confirmar ' +
+            'o salvamento do resultado.'
+          );
+        }
+
+        animando = true;
+
+        $('iniciar').disabled = true;
+
+        $('iniciar').textContent =
+          'Sorteio em andamento...';
+
+        $('estado').textContent =
+          'Resultado registrado. Não feche ' +
+          'esta página durante a animação.';
+
+        await animacao(verificado);
+
+      } catch(e) {
+        $('estado').classList.add('erro');
+
+        $('estado').textContent =
+          'Não foi possível iniciar: ' +
+          e.message;
+
+      } finally {
+        animando = false;
+
+        try {
+          if (lerResultado()) renderizar();
+        } catch(e) {
+          $('estado').textContent = e.message;
+        }
+      }
+    }
+  );
+
+  $('comprovante').addEventListener(
+    'click',
+    () => {
+      if (!registroAtual) return;
+
+      const c = document.createElement('canvas');
+
+      c.width = 1080;
+      c.height = 1350;
+
+      const g = c.getContext('2d');
+
+      const grad = g.createRadialGradient(
+        540,360,100,
+        540,700,950
+      );
+
+      grad.addColorStop(0,'#721a2a');
+      grad.addColorStop(1,'#1b0309');
+
+      g.fillStyle = grad;
+      g.fillRect(0,0,1080,1350);
+
+      for (
+        const [m,cor,largura] of [
+          [28,'#bc8a48',6],
+          [42,'#f1d39a',2],
+          [55,'#8f582c',2]
+        ]
+      ) {
+        g.strokeStyle = cor;
+        g.lineWidth = largura;
+
+        g.strokeRect(
+          m,m,
+          1080-2*m,
+          1350-2*m
+        );
+      }
+
+      function escrever(
+        t,y,tam,
+        cor='#f5d99b',
+        peso='normal'
+      ) {
+        g.fillStyle = cor;
+
+        g.font =
+          `${peso} ${tam}px Georgia`;
+
+        g.textAlign = 'center';
+        g.textBaseline = 'middle';
+
+        g.fillText(t,540,y,920);
+      }
+
+      escrever('✠',190,96);
+
+      escrever(
+        'RIFA SOLIDÁRIA',
+        290,57,'#f5d99b','bold'
+      );
+
+      escrever(
+        'DA SOBREPELIZ',
+        355,40
+      );
+
+      escrever(
+        '✥ SORTEIO SOLENE ✥',
+        475,38
+      );
+
+      g.fillStyle = '#2d0610';
+
+      g.fillRect(160,555,760,340);
+
+      g.strokeStyle = '#e0b36a';
+      g.lineWidth = 5;
+
+      g.strokeRect(160,555,760,340);
+
+      escrever(
+        'NÚMERO PREMIADO',
+        625,34
+      );
+
+      escrever(
+        formatar(registroAtual.numero),
+        760,165,'#ffe5a8','bold'
+      );
+
+      escrever(
+        'PRÊMIO: R$ 100,00',
+        995,47,'#f5d99b','bold'
+      );
+
+      escrever(
+        new Date(
+          registroAtual.realizadoEm
+        ).toLocaleString('pt-BR'),
+        1080,30
+      );
+
+      escrever(
+        'Resultado registrado no navegador',
+        1190,28
+      );
+
+      c.toBlob(blob => {
+        if (!blob) {
+          alert(
+            'Não foi possível gerar a imagem.'
+          );
+          return;
+        }
+
+        const url =
+          URL.createObjectURL(blob);
+
+        const a =
+          document.createElement('a');
+
+        a.href = url;
+
+        a.download =
+          'resultado-rifa-sobrepeliz.png';
+
+        document.body.append(a);
+        a.click();
+        a.remove();
+
+        setTimeout(
+          () => URL.revokeObjectURL(url),
+          60000
+        );
+      },'image/png');
+    }
+  );
+
+  window.addEventListener(
+    'pageshow',
+    () => {
+      if (!animando) renderizar();
+    }
+  );
+
+  window.addEventListener(
+    'storage',
+    e => {
+      if (
+        !animando &&
+        [CHAVE,CHAVE_SORTEIO].includes(e.key)
+      ) {
+        renderizar();
+      }
+    }
+  );
+
+  renderizar();
+})();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener(
+    'load',
+    () => navigator.serviceWorker
+      .register('./sw.js')
+      .catch(console.warn)
+  );
+}
+</script>
+
+</body>
+</html>
