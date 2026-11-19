@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -21,6 +20,7 @@
       <nav class="navegacao" aria-label="Menu principal">
         <a href="#numeros">Números</a>
         <a href="#pagamento">Pagamento</a>
+        <a href="./rodada-extra.html">Rodada Extra</a>
         <a href="./compradores.html">Compradores</a>
         <a href="./divulgacao.html">Divulgação</a>
         <a class="nav-destaque" href="./sorteio.html">✥ Sorteio Solene</a>
@@ -37,6 +37,7 @@
             <a class="botao botao-ouro" href="#numeros">Escolher meu número <span aria-hidden="true">↗</span></a>
             <a class="botao botao-contorno" href="#pagamento">Ver como contribuir</a>
           </div>
+          <p class="regra-participacao">Regra do Sorteio Solene: serão 125 números no total, com uma chance por número adquirido. O sorteio acontecerá somente após todos estarem comprados.</p>
           <div class="hero-valores">
             <span><small>CADA NÚMERO</small><strong>R$ 5,00</strong></span>
             <span class="divisao" aria-hidden="true"></span>
@@ -56,6 +57,19 @@
         <div><small>RESERVADOS</small><strong id="reservados">—</strong></div>
         <div><small>DISPONÍVEIS</small><strong id="disponiveis">—</strong></div>
         <div><small>VALOR DOS COMPRADOS</small><strong id="arrecadado">—</strong></div>
+      </section>
+
+      <section class="painel painel-rodada" id="rodadaExtra" aria-labelledby="tituloExtra">
+        <div class="rodada-emblema" aria-hidden="true">✠</div>
+        <div class="rodada-texto">
+          <p class="sobretitulo">✥ SEGUNDA ETAPA DA CAMPANHA</p>
+          <h2 id="tituloExtra">Rodada Extra — 25 números especiais</h2>
+          <p>Depois dos 100 números originais, abrimos os números <strong>101 a 125</strong> por <strong>R$ 10,00 cada</strong>. Todos concorrem ao mesmo prêmio de R$ 100,00.</p>
+          <p class="rodada-estado" id="estadoExtra" role="status">Consultando o progresso...</p>
+          <div class="rodada-progresso" role="progressbar" id="barraExtra" aria-label="Progresso da Rodada Extra" aria-valuemin="0" aria-valuemax="25" aria-valuenow="0"><div id="preenchimentoExtra"></div></div>
+          <p class="rodada-resumo" id="resumoExtra">0/25 comprados • R$ 0,00 em números extras</p>
+        </div>
+        <a class="botao botao-ouro" href="./rodada-extra.html" id="atalhoExtra">Conhecer a Rodada Extra</a>
       </section>
 
       <div class="conteudo-principal">
@@ -117,7 +131,7 @@
             <span class="icone-trofeu" aria-hidden="true">✠</span>
             <p class="sobretitulo">✥ O GRANDE MOMENTO</p>
             <h2>Sorteio Solene</h2>
-            <p id="estadoSorteio">Disponível após a compra dos 100 números.</p>
+            <p id="estadoSorteio">Disponível após a compra dos 125 números.</p>
             <a class="botao botao-ouro largura-total" id="atalhoSorteio" href="./sorteio.html">Acompanhar sorteio</a>
           </section>
         </aside>
@@ -127,7 +141,7 @@
         <div>
           <p class="sobretitulo">✥ ADMINISTRAÇÃO LOCAL</p>
           <h2 id="tituloFerramentas">Seus dados, sob seu cuidado</h2>
-          <p>Exporte uma cópia dos números, compradores e resultado do sorteio. O backup fica sob sua responsabilidade.</p>
+          <p>Exporte uma cópia dos 125 números, compradores e resultado do sorteio. O backup fica sob sua responsabilidade.</p>
         </div>
         <div class="ferramentas-acoes">
           <button class="botao botao-ouro" id="baixarBackup" type="button">↓ Salvar backup</button>
@@ -149,7 +163,7 @@
       <div class="modal-topo">
         <p class="sobretitulo">✥ CADASTRO DE PARTICIPAÇÃO</p>
         <h2 id="tituloJanela">Número 001</h2>
-        <p>Edite a situação e os dados do comprador.</p>
+        <p>Edite a situação e os dados do comprador (R$ 5,00).</p>
       </div>
       <fieldset class="grupo-situacao">
         <legend>Situação do número</legend>
