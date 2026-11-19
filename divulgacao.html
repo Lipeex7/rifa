@@ -1,319 +1,136 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#31060e">
 <link rel="manifest" href="./manifest.webmanifest">
 <title>Divulgar Rifa | Sobrepeliz</title>
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
-
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  color: #f5d99b;
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  background: radial-gradient(
-    ellipse at top, #711322, #1c0409 70%
-  );
-}
-
-main {
-  width: min(100% - 18px, 850px);
-  margin: 12px auto 32px;
-  padding: clamp(14px, 3vw, 32px);
-  border: 4px double #b98b43;
-  background: #2a050b;
-  box-shadow: 0 20px 60px #0008;
-}
-
-header { text-align: center; }
-
-.cruz {
-  font-size: 34px;
-  color: #e7c17a;
-}
-
-h1 {
-  font: 600 clamp(23px, 5vw, 35px)
-    'Cinzel', Georgia, serif;
-}
-
-.subtitulo {
-  font-size: 19px;
-  max-width: 600px;
-  margin: 0 auto 16px;
-}
-
-.ornamento {
-  text-align: center;
-  margin: 15px 0;
-  color: #d7a64d;
-  font-size: 21px;
-}
-
-.botao, select {
-  border: 1px solid #e7b96e;
-  border-radius: 5px;
-  font: 600 13px 'Cinzel', Georgia, serif;
-}
-
-.botao {
-  display: inline-block;
-  padding: 12px 16px;
-  background: linear-gradient(145deg, #701629, #3b0710);
-  color: #f9e2b2;
-  cursor: pointer;
-  text-decoration: none;
-  text-align: center;
-}
-
-.botao:disabled {
-  opacity: .55;
-  cursor: wait;
-}
-
-.controles {
-  background: #24040b;
-  border: 1px solid #a87a3f;
-  padding: 16px;
-  margin: 14px 0;
-}
-
-.controles label {
-  display: block;
-  font-size: 20px;
-  margin-bottom: 7px;
-}
-
-select {
-  width: 100%;
-  padding: 12px;
-  color: #31150d;
-  background: #f4dfba;
-}
-
-.acoes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 9px;
-  margin-top: 13px;
-}
-
-.acoes .principal {
-  background: linear-gradient(145deg, #91642c, #533011);
-}
-
-#status {
-  font-size: 17px;
-  min-height: 1.5em;
-  margin: 12px 0 0;
-}
-
-#status.erro { color: #ffbcb0; }
-
-.visualizacao {
-  padding: 12px;
-  background: linear-gradient(
-    145deg, #b98a46, #e3bd7a, #865626
-  );
-  border: 3px ridge #bd904e;
-}
-
-canvas {
-  display: block;
-  width: min(100%, 440px);
-  height: auto;
-  margin: auto;
-  background: #30070e;
-}
-
-.legenda, .aviso {
-  font-size: 18px;
-  line-height: 1.45;
-}
-
-.aviso {
-  padding: 12px;
-  border-left: 3px solid #d4a65b;
-  background: #310812;
-}
-
-footer {
-  text-align: center;
-  margin-top: 16px;
-  color: #d1a873;
-}
-
-@media(max-width: 530px) {
-  main {
-    width: 100%;
-    margin: 0;
-    padding: 11px;
-    border-width: 2px;
-  }
-
-  .acoes { grid-template-columns: 1fr; }
-  .visualizacao { padding: 5px; }
-}
+:root { --ouro:#d7a64d; --claro:#f5d99b; --papel:#f2dbb0; }
+* { box-sizing:border-box; }
+body { margin:0; min-height:100vh; color:var(--claro); font-family:'Cormorant Garamond',Georgia,serif; background:radial-gradient(ellipse at top,#711322,transparent 58%),#1c0409; }
+main { width:min(100% - 18px, 850px); margin:12px auto 32px; border:4px double #b98b43; background:radial-gradient(circle at 50% 20%,#5c101b66,transparent 65%),#2a050b; padding:clamp(14px,3vw,32px); box-shadow:0 20px 60px #0008; }
+header { text-align:center; }
+.cruz { color:#e7c17a; font-size:34px; }
+h1 { margin:5px 0 8px; font:600 clamp(23px,5vw,35px) 'Cinzel',Georgia,serif; }
+.subtitulo { font-size:19px; margin:0 auto 16px; max-width:600px; }
+.ornamento { text-align:center; margin:15px 0; color:#d7a64d; font-size:21px; }
+.botao, select { border:1px solid #e7b96e; border-radius:5px; font:600 13px 'Cinzel',Georgia,serif; }
+.botao { display:inline-block; padding:12px 16px; background:linear-gradient(145deg,#701629,#3b0710); color:#f9e2b2; cursor:pointer; text-decoration:none; text-align:center; }
+.botao:hover:not(:disabled) { filter:brightness(1.15); }
+.botao:disabled { opacity:.55; cursor:wait; }
+.botao:focus-visible, select:focus-visible { outline:3px solid white; outline-offset:3px; }
+.voltar { margin:4px 0 7px; }
+.controles { background:#24040b; border:1px solid #a87a3f; padding:16px; margin:14px 0; }
+.controles label { display:block; font-size:20px; margin-bottom:7px; }
+select { width:100%; padding:12px; color:#31150d; background:#f4dfba; font-size:16px; }
+.acoes { display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:13px; }
+.acoes .botao { min-height:48px; }
+.acoes .principal { background:linear-gradient(145deg,#91642c,#533011); color:#fff1cc; }
+#status { min-height:1.5em; font-size:17px; margin:12px 0 0; color:#eed39b; }
+#status.erro { color:#ffbcb0; }
+.visualizacao { padding:12px; background:linear-gradient(145deg,#b98a46,#e3bd7a,#865626); border:3px ridge #bd904e; }
+canvas { display:block; width:min(100%,440px); height:auto; margin:0 auto; background:#30070e; box-shadow:0 9px 25px #10010777; }
+.legenda { font-size:18px; line-height:1.45; color:#e8cb9d; margin:16px 0 0; }
+.aviso { padding:12px; border-left:3px solid #d4a65b; background:#310812; font-size:17px; }
+footer { text-align:center; color:#d1a873; font-size:16px; margin-top:16px; }
+@media(max-width:530px) { main { width:100%; border-width:2px; margin:0 auto; padding:11px; } .acoes { grid-template-columns:1fr; } .visualizacao { padding:5px; } }
 </style>
 </head>
-
 <body>
 <main>
-
 <header>
   <div class="cruz">✠</div>
   <h1>Arte para Divulgação</h1>
-
-  <p class="subtitulo">
-    Gere uma imagem atualizada da Rifa Solidária
-    da Sobrepeliz.
-  </p>
-
-  <a class="botao" href="./index.html">
-    ← Voltar à rifa
-  </a>
+  <p class="subtitulo">Gere uma imagem atualizada da sua Rifa Solidária da Sobrepeliz, com o mesmo estilo gótico da página principal e a Rodada Extra de 25 números.</p>
+  <a class="botao voltar" href="./index.html">← Voltar à rifa</a>
 </header>
-
 <div class="ornamento">✥ ───── ✥ ───── ✥</div>
-
-<section class="controles">
+<section class="controles" aria-label="Opções da imagem">
   <label for="formato">Formato da imagem</label>
-
   <select id="formato">
-    <option value="story">
-      Stories e Status — 1080 × 1920
-    </option>
-    <option value="feed">
-      Publicação no Feed — 1080 × 1350
-    </option>
+    <option value="story">Stories e Status — 1080 × 1920</option>
+    <option value="feed">Publicação no feed — 1080 × 1350</option>
   </select>
-
   <div class="acoes">
-    <button class="botao principal" id="salvar" disabled>
-      Salvar imagem PNG
-    </button>
-
-    <button class="botao" id="compartilhar" disabled>
-      Compartilhar imagem
-    </button>
-
-    <button class="botao" id="abrir" disabled>
-      Abrir imagem
-    </button>
-
-    <button class="botao" id="atualizar">
-      Atualizar números
-    </button>
+    <button class="botao principal" type="button" id="salvar" disabled>↓ Salvar imagem PNG</button>
+    <button class="botao" type="button" id="compartilhar" disabled>Compartilhar imagem</button>
+    <button class="botao" type="button" id="abrir" disabled>Abrir imagem</button>
+    <button class="botao" type="button" id="atualizar">↻ Atualizar números</button>
   </div>
-
-  <p id="status" role="status">
-    Preparando imagem…
-  </p>
+  <p id="status" role="status" aria-live="polite">Preparando imagem…</p>
 </section>
-
-<div class="visualizacao">
-  <canvas id="arte" width="1080" height="1920"></canvas>
-</div>
-
-<p class="legenda">
-  A imagem mostra os números disponíveis, reservados
-  e comprados, além do prêmio e do Pix.
-  Nomes e telefones não são divulgados.
-</p>
-
-<p class="aviso">
-  Sempre gere uma nova imagem depois de atualizar
-  os números da rifa. Confira o QR Code Pix antes
-  de publicar.
-</p>
-
+<section aria-label="Prévia da arte para redes sociais">
+  <div class="visualizacao">
+    <canvas id="arte" width="1080" height="1920" aria-label="Prévia da rifa em imagem"></canvas>
+  </div>
+  <p class="legenda">A imagem inclui os números disponíveis, reservados e comprados, os valores de R$ 5,00 e R$ 10,00, o prêmio, a chave Pix e o QR Code. <strong>Não inclui nomes nem telefones dos compradores.</strong></p>
+  <p class="aviso">A imagem é uma fotografia das marcações atuais. Sempre que vender ou reservar mais números, volte aqui e gere uma nova imagem. O QR Code deve ser testado no aplicativo do banco antes da divulgação.</p>
+</section>
 <footer>✠ Rifa Solidária da Sobrepeliz ✠</footer>
-
 </main>
-
 <script>
 (() => {
   'use strict';
-
   const CHAVE = 'rifa-sobrepeliz-v1';
-
-  const INICIAIS = [
-    1, 6, 8, 12, 13, 14, 15, 16, 22,
-    25, 26, 28, 30, 45, 48, 52, 77, 85
-  ];
-
+  const CHAVE_EXTRA = 'rifa-sobrepeliz-extra-v1';
+  const CHAVE_SORTEIO = 'rifa-sobrepeliz-sorteio-v1';
+  const INICIAIS = [1,6,8,12,13,14,15,16,22,25,26,28,30,45,48,52,77,85];
   const CHAVE_PIX = 'adsonnph@icloud.com';
-
   const $ = id => document.getElementById(id);
   const canvas = $('arte');
   const ctx = canvas.getContext('2d');
-
+  const botoes = ['salvar','compartilhar','abrir'].map($);
   const assets = {};
-  const ouro = '#d8a75b';
-  const claro = '#f7dda8';
-
   let imagemBlob = null;
   let versao = 0;
   let ultimoFormato = 'story';
-
-  const botoes = [
-    $('salvar'), $('compartilhar'), $('abrir')
-  ];
+  const ouro = '#d8a75b';
+  const claro = '#f7dda8';
 
   function status(mensagem, erro = false) {
     $('status').textContent = mensagem;
     $('status').classList.toggle('erro', erro);
   }
-
-  function habilitar(valor) {
-    botoes.forEach(b => b.disabled = !valor);
-  }
-
+  function habilitar(valor) { botoes.forEach(botao => botao.disabled = !valor); }
   function lerNumeros() {
     const salvo = localStorage.getItem(CHAVE);
-
-    if (!salvo) {
-      return {
-        dados: Array.from({length: 100}, (_, i) => ({
-          situacao: INICIAIS.includes(i + 1)
-            ? 'comprado'
-            : 'disponivel'
-        })),
-        aviso: 'Mostrando os 18 números iniciais.'
-      };
+    const base = salvo === null
+      ? Array.from({length:100}, (_,i) => ({situacao:INICIAIS.includes(i+1)?'comprado':'disponivel'}))
+      : JSON.parse(salvo);
+    const salvoExtra = localStorage.getItem(CHAVE_EXTRA);
+    const extra = salvoExtra === null
+      ? Array.from({length:25}, () => ({situacao:'disponivel'}))
+      : JSON.parse(salvoExtra);
+    for (const [lista,tamanho] of [[base,100],[extra,25]]) {
+      if (!Array.isArray(lista) || lista.length !== tamanho ||
+          !lista.every(d => d && ['comprado','reservado','disponivel'].includes(d.situacao))) {
+        throw Error('Os dados salvos estão inválidos. Restaure um backup na página principal.');
+      }
     }
-
-    const dados = JSON.parse(salvo);
-
-    if (
-      !Array.isArray(dados) ||
-      dados.length !== 100 ||
-      !dados.every(d =>
-        d &&
-        ['comprado', 'reservado', 'disponivel']
-          .includes(d.situacao)
-      )
-    ) {
-      throw new Error(
-        'Dados inválidos. Restaure o backup da rifa.'
-      );
+    let sorteio = null;
+    const resultado = localStorage.getItem(CHAVE_SORTEIO);
+    if (resultado !== null) {
+      sorteio = JSON.parse(resultado);
+      if (!sorteio || !Number.isInteger(sorteio.numero) ||
+          sorteio.numero < 1 || sorteio.numero > 125) {
+        throw Error('O resultado do sorteio está inválido. Restaure um backup confiável.');
+      }
     }
-
-    return {
-      dados: dados.map(d => ({
-        situacao: d.situacao
-      })),
-      aviso: ''
-    };
+    if (sorteio && sorteio.totalComprados !== 125) {
+      throw Error('Já existe um sorteio anterior de 100 números. Não é possível divulgar a nova rodada como se estivesse ativa.');
+    }
+    const rodadaLiberada = base.every(d => d.situacao === 'comprado');
+    const mostrarExtras = rodadaLiberada && (!sorteio || sorteio.totalComprados === 125);
+    const dados = (mostrarExtras ? [...base,...extra] : base).map(d => ({situacao:d.situacao}));
+    const aviso = salvo === null
+      ? 'Este navegador não tem registros da primeira etapa; exibindo os números iniciais.'
+      : mostrarExtras ? 'Arte com 125 números e os dois valores de participação.'
+        : 'Rodada Extra de 101 a 125 será exibida após completar os 100 números originais.';
+    return {dados,aviso,concluido:!!sorteio};
   }
-
   function carregarImagem(caminho) {
     return new Promise(resolve => {
       const img = new Image();
@@ -322,701 +139,302 @@ footer {
       img.src = caminho;
     });
   }
-
-  function rect(x, y, w, h, cor) {
-    ctx.fillStyle = cor;
-    ctx.fillRect(x, y, w, h);
+  function rect(x,y,w,h,cor) { ctx.fillStyle=cor; ctx.fillRect(x,y,w,h); }
+  function stroke(x,y,w,h,cor=ouro,largura=2) { ctx.lineWidth=largura; ctx.strokeStyle=cor; ctx.strokeRect(x,y,w,h); }
+  function texto(t,x,y,tamanho=28,cor=claro,fonte='Georgia',alinhamento='center',peso='normal',maxWidth) {
+    ctx.fillStyle=cor;
+    ctx.textAlign=alinhamento;
+    ctx.textBaseline='middle';
+    ctx.font=`${peso} ${tamanho}px ${fonte}`;
+    if (maxWidth) ctx.fillText(t,x,y,maxWidth);
+    else ctx.fillText(t,x,y);
   }
-
-  function stroke(x, y, w, h, cor = ouro, largura = 2) {
-    ctx.strokeStyle = cor;
-    ctx.lineWidth = largura;
-    ctx.strokeRect(x, y, w, h);
-  }
-
-  function texto(
-    valor, x, y, tamanho = 28,
-    cor = claro, fonte = 'Georgia',
-    alinhamento = 'center',
-    peso = 'normal', largura
-  ) {
-    ctx.fillStyle = cor;
-    ctx.textAlign = alinhamento;
-    ctx.textBaseline = 'middle';
-    ctx.font = `${peso} ${tamanho}px ${fonte}`;
-
-    if (largura) {
-      ctx.fillText(valor, x, y, largura);
-    } else {
-      ctx.fillText(valor, x, y);
-    }
-  }
-
-  function fundo(w, h) {
-    const grad = ctx.createRadialGradient(
-      w / 2, 250, 70, w / 2, h / 2, h
-    );
-
-    grad.addColorStop(0, '#6b0e1c');
-    grad.addColorStop(.52, '#31060d');
-    grad.addColorStop(1, '#180308');
-
-    rect(0, 0, w, h, grad);
-
+  function fundo(w,h) {
+    const grad=ctx.createRadialGradient(w/2,250,70,w/2,h/2,h);
+    grad.addColorStop(0,'#6b0e1c');
+    grad.addColorStop(.52,'#31060d');
+    grad.addColorStop(1,'#180308');
+    rect(0,0,w,h,grad);
     ctx.save();
-    ctx.globalAlpha = .12;
-    ctx.strokeStyle = '#a44e35';
-
-    for (let i = -h; i < w + h; i += 34) {
-      ctx.beginPath();
-      ctx.moveTo(i, 0);
-      ctx.lineTo(i + h, h);
-      ctx.stroke();
+    ctx.globalAlpha=.12;
+    ctx.strokeStyle='#a44e35';
+    ctx.lineWidth=1;
+    for (let i=-h;i<w+h;i+=34) {
+      ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i+h,h); ctx.stroke();
     }
-
     ctx.restore();
-
-    stroke(17, 17, w - 34, h - 34, '#a77a3b', 4);
-    stroke(25, 25, w - 50, h - 50, '#f1ca7b', 2);
-    stroke(33, 33, w - 66, h - 66, '#714020', 2);
-
-    [
-      [48, 48],
-      [w - 48, 48],
-      [48, h - 48],
-      [w - 48, h - 48]
-    ].forEach(([x, y]) => {
-      texto('✥', x, y, 28, ouro);
-    });
+    stroke(17,17,w-34,h-34,'#a77a3b',4);
+    stroke(25,25,w-50,h-50,'#f1ca7b',2);
+    stroke(33,33,w-66,h-66,'#714020',2);
+    for (const [x,y] of [[48,48],[w-48,48],[48,h-48],[w-48,h-48]]) {
+      texto('✥',x,y,28,'#d8a75b');
+    }
+  }
+  // Todas as medidas da arte são calculadas em pixels reais.
+  // As imagens originais nunca são esticadas fora de sua proporção.
+  function imagemProporcional(img,x,y,w,h) {
+    if (!img) return;
+    const escala=Math.min(w/img.naturalWidth,h/img.naturalHeight);
+    const iw=img.naturalWidth*escala;
+    const ih=img.naturalHeight*escala;
+    ctx.drawImage(img,x+(w-iw)/2,y+(h-ih)/2,iw,ih);
   }
 
-  // Mantém a proporção original das imagens.
-  function imagemProporcional(img, x, y, w, h) {
+  // Preenche o espaço sem deformar: corta apenas as bordas excedentes.
+  function imagemCobrindo(img,x,y,w,h) {
     if (!img) return;
-
-    const escala = Math.min(
-      w / img.naturalWidth,
-      h / img.naturalHeight
-    );
-
-    const iw = img.naturalWidth * escala;
-    const ih = img.naturalHeight * escala;
-
-    ctx.drawImage(
-      img,
-      x + (w - iw) / 2,
-      y + (h - ih) / 2,
-      iw, ih
-    );
-  }
-
-  // Preenche o espaço sem deformar a imagem.
-  function imagemCobrindo(img, x, y, w, h) {
-    if (!img) return;
-
-    const escala = Math.max(
-      w / img.naturalWidth,
-      h / img.naturalHeight
-    );
-
-    const iw = img.naturalWidth * escala;
-    const ih = img.naturalHeight * escala;
-
+    const escala=Math.max(w/img.naturalWidth,h/img.naturalHeight);
+    const iw=img.naturalWidth*escala;
+    const ih=img.naturalHeight*escala;
     ctx.save();
     ctx.beginPath();
-    ctx.rect(x, y, w, h);
+    ctx.rect(x,y,w,h);
     ctx.clip();
-
-    ctx.drawImage(
-      img,
-      x + (w - iw) / 2,
-      y + (h - ih) / 2,
-      iw, ih
-    );
-
+    ctx.drawImage(img,x+(w-iw)/2,y+(h-ih)/2,iw,ih);
     ctx.restore();
   }
 
-  function cabecalho(x, y, w, h) {
+  function cabecalho(x,y,w,h) {
     if (assets.cabecalho) {
-      imagemProporcional(
-        assets.cabecalho, x, y, w, h
-      );
+      imagemProporcional(assets.cabecalho,x,y,w,h);
     } else {
-      texto(
-        '✠ RIFA SOLIDÁRIA ✠',
-        540, y + h * .42, 62
-      );
-
-      texto(
-        'AJUDE-ME A FAZER UMA NOVA SOBREPELIZ',
-        540, y + h * .75, 30
-      );
+      texto('✠ RIFA SOLIDÁRIA ✠',540,y+h*.42,62,claro,'Georgia');
+      texto('AJUDE-ME A FAZER UMA NOVA SOBREPELIZ',540,y+h*.75,30,claro,'Georgia');
     }
   }
 
-  function grade(dados, config) {
-    const {x, y, w, altura, gap, fonte} = config;
+  function grade(dados,config) {
+    const {x,y,w,altura,gap,fonte}=config;
+    const tile=(w-gap*9)/10;
+    const linhas=Math.ceil(dados.length/10);
+    const totalH=linhas*altura+gap*(linhas-1);
+    rect(x-8,y-8,w+16,totalH+16,'#9a672e');
+    stroke(x-10,y-10,w+20,totalH+20,'#f2cf88',3);
+    stroke(x-16,y-16,w+32,totalH+32,'#a36c35',3);
 
-    const tile = (w - gap * 9) / 10;
-    const totalH = altura * 10 + gap * 9;
+    dados.forEach((item,i) => {
+      const col=i%10;
+      const row=Math.floor(i/10);
+      const px=x+col*(tile+gap);
+      const py=y+row*(altura+gap);
+      const estado=item.situacao;
 
-    rect(
-      x - 8, y - 8,
-      w + 16, totalH + 16,
-      '#9a672e'
-    );
-
-    stroke(
-      x - 10, y - 10,
-      w + 20, totalH + 20,
-      '#f2cf88', 3
-    );
-
-    stroke(
-      x - 16, y - 16,
-      w + 32, totalH + 32,
-      '#a36c35', 3
-    );
-
-    dados.forEach((item, i) => {
-      const col = i % 10;
-      const row = Math.floor(i / 10);
-
-      const px = x + col * (tile + gap);
-      const py = y + row * (altura + gap);
-
-      if (item.situacao === 'comprado') {
-        rect(px, py, tile, altura, '#4a0712');
-
+      if (estado==='comprado') {
+        rect(px,py,tile,altura,'#4a0712');
+        // A cruz mantém sua proporção, sem ser achatada.
         if (assets.cruz) {
-          imagemCobrindo(
-            assets.cruz,
-            px + 1, py + 1,
-            tile - 2, altura - 2
-          );
+          imagemCobrindo(assets.cruz,px+1,py+1,tile-2,altura-2);
         } else {
-          texto(
-            '✠',
-            px + tile / 2,
-            py + altura / 2,
-            35
-          );
+          texto('✠',px+tile/2,py+altura/2,35,claro);
         }
-
-        stroke(
-          px + .5, py + .5,
-          tile - 1, altura - 1,
-          '#b78648', 1.5
-        );
-
-        texto(
-          String(i + 1),
-          px + tile - 4,
-          py + altura - 9,
-          13, '#fff1ca',
-          'Georgia', 'right', 'bold'
-        );
-
+        stroke(px+.5,py+.5,tile-1,altura-1,'#b78648',1.5);
+        texto(String(i+1),px+tile-4,py+altura-9,13,'#fff1ca','Georgia','right','bold');
       } else {
-        const cor = ctx.createLinearGradient(
-          px, py, px + tile, py + altura
-        );
-
-        if (item.situacao === 'reservado') {
-          cor.addColorStop(0, '#ffe2a6');
-          cor.addColorStop(1, '#c68e40');
+        const cor=ctx.createLinearGradient(px,py,px+tile,py+altura);
+        if (estado==='reservado') {
+          cor.addColorStop(0,'#ffe2a6');
+          cor.addColorStop(1,'#c68e40');
         } else {
-          cor.addColorStop(0, '#fff2d6');
-          cor.addColorStop(1, '#e4c38e');
+          cor.addColorStop(0,'#fff2d6');
+          cor.addColorStop(1,'#e4c38e');
         }
-
-        rect(px, py, tile, altura, cor);
-
-        stroke(
-          px + .5, py + .5,
-          tile - 1, altura - 1,
-          '#986b3d', 1.5
-        );
-
-        texto(
-          String(i + 1),
-          px + tile / 2,
-          py + altura / 2 + 1,
-          fonte, '#2c180f',
-          'Georgia', 'center', 'bold'
-        );
-
-        if (item.situacao === 'reservado') {
-          texto(
-            '◆',
-            px + tile - 10,
-            py + 10,
-            13, '#702918'
-          );
-        }
+        rect(px,py,tile,altura,cor);
+        stroke(px+.5,py+.5,tile-1,altura-1,'#986b3d',1.5);
+        texto(String(i+1),px+tile/2,py+altura/2+1,fonte,'#2c180f','Georgia','center','bold');
+        if (estado==='reservado') texto('◆',px+tile-10,py+10,13,'#702918');
       }
     });
   }
 
-  function legenda(y, compacto) {
-    const itens = [
-      {x:180, cor:'#f4dfb8', nome:'DISPONÍVEL'},
-      {x:485, cor:'#dba955', nome:'RESERVADO'},
-      {x:785, cor:'#5b0a19', nome:'COMPRADO'}
+  function legenda(y,compacto) {
+    const itens=[
+      {x:180,cor:'#f4dfb8',nome:'DISPONÍVEL'},
+      {x:485,cor:'#dba955',nome:'RESERVADO'},
+      {x:785,cor:'#5b0a19',nome:'COMPRADO'}
     ];
-
     itens.forEach(g => {
-      rect(g.x - 58, y - 11, 22, 22, g.cor);
-      stroke(
-        g.x - 58, y - 11,
-        22, 22, '#d9b26f', 2
-      );
-
-      if (g.nome === 'COMPRADO') {
-        texto('✠', g.x - 47, y, 16);
-      }
-
-      if (g.nome === 'RESERVADO') {
-        texto(
-          '◆', g.x - 47, y, 12, '#74351a'
-        );
-      }
-
-      texto(
-        g.nome,
-        g.x - 26, y,
-        compacto ? 20 : 23,
-        '#f2d59c',
-        'Georgia', 'left'
-      );
+      rect(g.x-58,y-11,22,22,g.cor);
+      stroke(g.x-58,y-11,22,22,'#d9b26f',2);
+      if(g.nome==='COMPRADO') texto('✠',g.x-47,y,16,claro);
+      if(g.nome==='RESERVADO') texto('◆',g.x-47,y,12,'#74351a');
+      texto(g.nome,g.x-26,y,compacto?20:23,'#f2d59c','Georgia','left');
     });
   }
 
-  function faixaDados(y, h) {
-    const paineis = [
-      {
-        x:72, centro:299,
-        rotulo:'✦ PRÊMIO',
-        valor:'R$ 100,00'
-      },
-      {
-        x:553, centro:780,
-        rotulo:'✥ CADA NÚMERO',
-        valor:'R$ 5,00'
-      }
+  function faixaDados(y,h,comExtras) {
+    const paines=[
+      {x:72,centro:299,rotulo:'✦ PRÊMIO',valor:'R$ 100,00'},
+      {x:553,centro:780,rotulo:'✥ 001–100 / 101–125',valor:'R$ 5 / R$ 10'}
     ];
-
-    const compacto = h < 100;
-
-    paineis.forEach(p => {
-      rect(p.x, y, 455, h, '#540b18');
-      stroke(p.x, y, 455, h, '#e2b366', 3);
-
-      stroke(
-        p.x + 6, y + 6,
-        443, h - 12,
-        '#976335', 1.5
-      );
-
-      texto(
-        p.rotulo, p.centro,
-        y + (compacto ? 22 : 35),
-        compacto ? 22 : 28
-      );
-
-      texto(
-        p.valor, p.centro,
-        y + (compacto ? 56 : 88),
-        compacto ? 34 : 48,
-        claro, 'Georgia',
-        'center', 'bold'
-      );
+    const compacto=h<100;
+    paines.forEach(p => {
+      rect(p.x,y,455,h,'#540b18');
+      stroke(p.x,y,455,h,'#e2b366',3);
+      stroke(p.x+6,y+6,443,h-12,'#976335',1.5);
+      texto(p.rotulo,p.centro,y+(compacto?22:35),compacto?22:28,claro);
+      texto(p.valor,p.centro,y+(compacto?56:88),compacto?34:48,claro,'Georgia','center','bold');
     });
   }
 
-  function painelPix(y, h, qrSize) {
-    const x = 72;
-    const w = 936;
+  function painelPix(y,h,qrSize) {
+    const x=72,w=936;
+    const grad=ctx.createLinearGradient(x,y,x+w,y+h);
+    grad.addColorStop(0,'#fff0cf');
+    grad.addColorStop(.5,'#f0d4a1');
+    grad.addColorStop(1,'#d7ad6d');
+    rect(x,y,w,h,grad);
+    stroke(x,y,w,h,'#b17b39',4);
+    stroke(x+7,y+7,w-14,h-14,'#d5a65d',2);
 
-    const grad = ctx.createLinearGradient(
-      x, y, x + w, y + h
-    );
-
-    grad.addColorStop(0, '#fff0cf');
-    grad.addColorStop(.5, '#f0d4a1');
-    grad.addColorStop(1, '#d7ad6d');
-
-    rect(x, y, w, h, grad);
-
-    stroke(x, y, w, h, '#b17b39', 4);
-    stroke(
-      x + 7, y + 7,
-      w - 14, h - 14,
-      '#d5a65d', 2
-    );
-
-    const qrX = x + 20;
-    const qrY = y + (h - qrSize) / 2;
-
-    rect(
-      qrX - 5, qrY - 5,
-      qrSize + 10, qrSize + 10,
-      '#ffffff'
-    );
-
+    const qrX=x+20;
+    const qrY=y+(h-qrSize)/2;
+    rect(qrX-5,qrY-5,qrSize+10,qrSize+10,'#fff');
     if (assets.qr) {
       ctx.save();
-      ctx.imageSmoothingEnabled = false;
-
-      ctx.drawImage(
-        assets.qr,
-        qrX, qrY,
-        qrSize, qrSize
-      );
-
+      ctx.imageSmoothingEnabled=false;
+      ctx.drawImage(assets.qr,qrX,qrY,qrSize,qrSize);
       ctx.restore();
     } else {
-      texto(
-        'QR CODE',
-        qrX + qrSize / 2,
-        qrY + qrSize / 2 - 12,
-        19, '#54121b'
-      );
-
-      texto(
-        'AUSENTE',
-        qrX + qrSize / 2,
-        qrY + qrSize / 2 + 13,
-        18, '#54121b'
-      );
+      texto('QR CODE',qrX+qrSize/2,qrY+qrSize/2-12,19,'#54121b');
+      texto('AUSENTE',qrX+qrSize/2,qrY+qrSize/2+13,18,'#54121b');
     }
 
-    const textoX = qrX + qrSize + 25;
-    const areaDireita = x + w - 20;
-    const centro = (textoX + areaDireita) / 2;
-    const largura = areaDireita - textoX - 8;
-
-    if (h < 180) {
-      texto(
-        'PAGAMENTO VIA PIX',
-        centro, y + 28, 29,
-        '#54121b', 'Georgia',
-        'center', 'bold', largura
-      );
-
-      texto(
-        'CHAVE PIX (E-MAIL)',
-        centro, y + 62, 21,
-        '#6c3424', 'Georgia',
-        'center', 'bold', largura
-      );
-
-      texto(
-        CHAVE_PIX,
-        centro, y + 95, 30,
-        '#4d0a15', 'Georgia',
-        'center', 'bold', largura
-      );
-
-      texto(
-        'Aponte a câmera do banco para o QR Code',
-        centro, y + 121, 16,
-        '#6c3424', 'Georgia',
-        'center', 'normal', largura
-      );
+    // Centraliza todo o bloco de texto na área à direita do QR.
+    const textoX=qrX+qrSize+25;
+    const areaDireita=x+w-20;
+    const centro=(textoX+areaDireita)/2;
+    const largura=areaDireita-textoX-8;
+    const compacto=h<180;
+    if(compacto) {
+      texto('PAGAMENTO VIA PIX',centro,y+28,29,'#54121b','Georgia','center','bold',largura);
+      texto('CHAVE PIX (E-MAIL)',centro,y+62,21,'#6c3424','Georgia','center','bold',largura);
+      texto(CHAVE_PIX,centro,y+95,30,'#4d0a15','Georgia','center','bold',largura);
+      texto('Aponte a câmera do banco para o QR Code',centro,y+121,16,'#6c3424','Georgia','center','normal',largura);
     } else {
-      texto(
-        'PAGAMENTO VIA PIX',
-        centro, y + 57, 38,
-        '#54121b', 'Georgia',
-        'center', 'bold', largura
-      );
-
-      texto(
-        'CHAVE PIX (E-MAIL)',
-        centro, y + 111, 27,
-        '#6c3424', 'Georgia',
-        'center', 'bold', largura
-      );
-
-      texto(
-        CHAVE_PIX,
-        centro, y + 165, 34,
-        '#4d0a15', 'Georgia',
-        'center', 'bold', largura
-      );
-
-      texto(
-        'Aponte a câmera do banco para o QR Code',
-        centro, y + 220, 22,
-        '#6c3424', 'Georgia',
-        'center', 'normal', largura
-      );
-
-      texto(
-        'ou utilize a chave Pix acima.',
-        centro, y + 252, 21,
-        '#6c3424', 'Georgia',
-        'center', 'normal', largura
-      );
+      texto('PAGAMENTO VIA PIX',centro,y+57,38,'#54121b','Georgia','center','bold',largura);
+      texto('CHAVE PIX (E-MAIL)',centro,y+111,27,'#6c3424','Georgia','center','bold',largura);
+      texto(CHAVE_PIX,centro,y+165,34,'#4d0a15','Georgia','center','bold',largura);
+      texto('Aponte a câmera do banco para o QR Code',centro,y+220,22,'#6c3424','Georgia','center','normal',largura);
+      texto('ou utilize a chave Pix acima.',centro,y+252,21,'#6c3424','Georgia','center','normal',largura);
     }
   }
 
-  function rodape(x, y, w, h) {
-    if (assets.rodape) {
-      imagemProporcional(
-        assets.rodape, x, y, w, h
-      );
-    }
+  function rodape(x,y,w,h) {
+    if(assets.rodape) imagemProporcional(assets.rodape,x,y,w,h);
   }
 
-  // COMPOSIÇÃO CORRIGIDA DOS DOIS FORMATOS
-  function desenhar(dados, formato) {
-    const story = formato === 'story';
+  function desenhar(dados,formato,concluido) {
+    const story=formato==='story';
+    canvas.width=1080;
+    canvas.height=story?1920:1350;
+    fundo(1080,canvas.height);
 
-    canvas.width = 1080;
-    canvas.height = story ? 1920 : 1350;
+    const vendidos=dados.filter(d=>d.situacao==='comprado').length;
+    const reservados=dados.filter(d=>d.situacao==='reservado').length;
+    const livres=dados.length-vendidos-reservados;
+    const comExtras=dados.length===125;
 
-    fundo(1080, canvas.height);
-
-    const vendidos = dados.filter(
-      d => d.situacao === 'comprado'
-    ).length;
-
-    const reservados = dados.filter(
-      d => d.situacao === 'reservado'
-    ).length;
-
-    const livres = 100 - vendidos - reservados;
-
-    if (story) {
-      cabecalho(54, 50, 972, 357);
-
-      texto(
-        `${vendidos} COMPRADOS ✥ ${livres} DISPONÍVEIS`,
-        540, 432, 26
-      );
-
-      grade(dados, {
-        x:92,
-        y:471,
-        w:896,
-        altura:75,
-        gap:3,
-        fonte:35
-      });
-
-      legenda(1272, false);
-      faixaDados(1320, 125);
-      painelPix(1472, 295, 245);
-
-      texto(
-        '✥ SORTEIO APÓS VENDER TODOS OS NÚMEROS ✥',
-        540, 1812, 28
-      );
-
-      rodape(50, 1843, 980, 45);
-
+    if(story) {
+      cabecalho(54,50,972,357);
+      texto(`${vendidos} COMPRADOS  ✥  ${livres} DISPONÍVEIS`,540,432,26,claro);
+      grade(dados,{x:92,y:471,w:896,altura:comExtras?57:75,gap:3,fonte:comExtras?29:35});
+      legenda(1272,false);
+      faixaDados(1320,125,comExtras);
+      painelPix(1472,295,245);
+      texto(concluido?'✥ SORTEIO SOLENE REALIZADO ✥':'✥ UM SÓ SORTEIO APÓS 125 VENDAS ✥',540,1812,28,claro);
+      rodape(50,1843,980,45);
     } else {
-      // FEED CORRIGIDO: 1080 × 1350
-
-      cabecalho(62, 43, 956, 351);
-
-      texto(
-        `${vendidos} COMPRADOS ✥ ${livres} DISPONÍVEIS`,
-        540, 414, 25
-      );
-
-      grade(dados, {
-        x:92,
-        y:442,
-        w:896,
-        altura:49,
-        gap:3,
-        fonte:30
-      });
-
-      legenda(991, true);
-      faixaDados(1006, 74);
-      painelPix(1094, 161, 136);
-
-      texto(
-        'SORTEIO APÓS VENDER TODOS OS NÚMEROS',
-        540, 1270, 22
-      );
-
-      rodape(50, 1284, 980, 44);
+      // Feed: tudo permanece dentro da moldura de 1080 × 1350.
+      cabecalho(62,43,956,351);
+      texto(`${vendidos} COMPRADOS  ✥  ${livres} DISPONÍVEIS`,540,414,25,claro);
+      grade(dados,{x:92,y:442,w:896,altura:comExtras?36:49,gap:3,fonte:comExtras?26:30});
+      legenda(991,true);
+      faixaDados(1006,74,comExtras);
+      painelPix(1094,161,136);
+      texto(concluido?'SORTEIO SOLENE REALIZADO':'UM SÓ SORTEIO APÓS 125 VENDAS',540,1270,22,claro);
+      rodape(50,1284,980,44);
     }
   }
-
   function nomeArquivo() {
-    return (
-      'rifa-sobrepeliz-' +
-      ultimoFormato + '-' +
-      new Date().toISOString().slice(0,10) +
-      '.png'
-    );
+    return 'rifa-sobrepeliz-'+ultimoFormato+'-'+new Date().toISOString().slice(0,10)+'.png';
   }
-
   async function preparar() {
-    const id = ++versao;
-
-    imagemBlob = null;
+    const id=++versao;
+    imagemBlob=null;
     habilitar(false);
-
-    status('Preparando imagem atualizada…');
-
-    let dados, aviso;
-
+    status('Preparando a imagem com os números atuais…');
+    let dados, aviso, concluido;
     try {
-      ({dados, aviso} = lerNumeros());
+      ({dados,aviso,concluido}=lerNumeros());
     } catch(e) {
-      status(e.message, true);
+      status('Não foi possível gerar a imagem: '+e.message,true);
       return;
     }
-
     try {
-      const [cabecalho, cruz, rodape, qr] =
-        await Promise.all([
-          carregarImagem('./cabecalho-gotico.webp'),
-          carregarImagem('./cruz-comprado.webp'),
-          carregarImagem('./rodape-gotico.webp'),
-          carregarImagem('./qr-pix.png')
-        ]);
-
-      if (id !== versao) return;
-
-      Object.assign(assets, {
-        cabecalho, cruz, rodape, qr
-      });
-
-      if (document.fonts) {
-        await document.fonts.ready;
-      }
-
-      if (id !== versao) return;
-
-      ultimoFormato = $('formato').value;
-
-      desenhar(dados, ultimoFormato);
-
+      const [cabecalho,cruz,rodape,qr] = await Promise.all([
+        carregarImagem('./cabecalho-gotico.webp'),
+        carregarImagem('./cruz-comprado.webp'),
+        carregarImagem('./rodape-gotico.webp'),
+        carregarImagem('./qr-pix.png')
+      ]);
+      if (id!==versao) return;
+      Object.assign(assets,{cabecalho,cruz,rodape,qr});
+      if (document.fonts && document.fonts.ready) await document.fonts.ready;
+      if (id!==versao) return;
+      ultimoFormato=$('formato').value;
+      desenhar(dados,ultimoFormato,concluido);
       canvas.toBlob(blob => {
-        if (id !== versao) return;
-
-        if (!blob) {
-          status('Erro ao criar PNG.', true);
-          return;
-        }
-
-        imagemBlob = blob;
+        if (id!==versao) return;
+        if (!blob) {status('Não foi possível criar o PNG neste navegador.',true);return;}
+        imagemBlob=blob;
         habilitar(true);
-
-        status(
-          (aviso ? aviso + ' ' : '') +
-          (
-            qr
-              ? 'Imagem pronta para salvar!'
-              : 'Atenção: QR Code não carregado.'
-          ),
-          !qr
-        );
-      }, 'image/png');
-
+        const semQr=!qr;
+        status((aviso ? aviso+' ' : '') + (semQr ? 'Atenção: o QR Code não carregou; a arte mostrará apenas a chave Pix.' : 'Imagem pronta para salvar ou compartilhar.'),semQr);
+      },'image/png');
     } catch(e) {
-      status('Erro: ' + e.message, true);
+      if (id===versao) status('Erro ao preparar imagem: '+e.message,true);
     }
   }
-
   function baixar() {
     if (!imagemBlob) return;
-
-    const url = URL.createObjectURL(imagemBlob);
-    const link = document.createElement('a');
-
-    link.href = url;
-    link.download = nomeArquivo();
-
-    document.body.append(link);
-    link.click();
-    link.remove();
-
-    setTimeout(() => {
-      URL.revokeObjectURL(url);
-    }, 60000);
-
-    status('Imagem PNG preparada para salvar.');
+    const url=URL.createObjectURL(imagemBlob);
+    const link=document.createElement('a');
+    link.href=url; link.download=nomeArquivo();
+    document.body.append(link); link.click(); link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
+    status('PNG preparado. No iPhone, procure o arquivo em Downloads/Arquivos ou use Compartilhar para salvar nas Fotos.');
   }
-
-  $('salvar').addEventListener('click', baixar);
-
-  $('compartilhar').addEventListener('click', () => {
+  $('salvar').addEventListener('click',baixar);
+  $('compartilhar').addEventListener('click',() => {
     if (!imagemBlob) return;
-
-    const arquivo = new File(
-      [imagemBlob],
-      nomeArquivo(),
-      {type:'image/png'}
-    );
-
-    if (
-      navigator.share &&
-      (
-        !navigator.canShare ||
-        navigator.canShare({files:[arquivo]})
-      )
-    ) {
-      navigator.share({
-        files:[arquivo],
-        title:'Rifa Solidária — Sobrepeliz',
-        text:'Rifa solidária: números a R$ 5,00.'
-      }).catch(e => {
-        if (e.name !== 'AbortError') {
-          status('Use Salvar imagem PNG.', true);
-        }
-      });
+    const arquivo=new File([imagemBlob],nomeArquivo(),{type:'image/png'});
+    if (navigator.share && (!navigator.canShare || navigator.canShare({files:[arquivo]}))) {
+      // Chamada direta no clique: necessária para preservar a permissão de compartilhar no iPhone.
+      navigator.share({files:[arquivo],title:'Rifa Solidária — Sobrepeliz',text:'Rifa solidária: números 001–100 a R$ 5,00 e 101–125 a R$ 10,00. Prêmio R$ 100,00.'})
+        .then(()=>status('Compartilhamento concluído.'))
+        .catch(e=>{if(e.name!=='AbortError') status('Não foi possível compartilhar diretamente. Use Salvar imagem PNG.',true);});
     } else {
       baixar();
+      status('Compartilhamento direto indisponível neste navegador. Salve o PNG e envie pelo aplicativo desejado.');
     }
   });
-
-  $('abrir').addEventListener('click', () => {
+  $('abrir').addEventListener('click',() => {
     if (!imagemBlob) return;
-
-    const url = URL.createObjectURL(imagemBlob);
-    const aba = window.open(url, '_blank');
-
-    if (!aba) {
-      status('Use Salvar imagem PNG.', true);
-    }
-
-    setTimeout(() => {
-      URL.revokeObjectURL(url);
-    }, 120000);
+    const url=URL.createObjectURL(imagemBlob);
+    const aba=window.open(url,'_blank');
+    if (!aba) status('O navegador bloqueou a nova aba. Use Salvar imagem PNG.',true);
+    setTimeout(()=>URL.revokeObjectURL(url),120000);
   });
-
-  $('atualizar').addEventListener('click', preparar);
-  $('formato').addEventListener('change', preparar);
-
-  window.addEventListener('pageshow', e => {
-    if (e.persisted) preparar();
-  });
-
-  window.addEventListener('storage', e => {
-    if (e.key === CHAVE) preparar();
-  });
-
+  $('atualizar').addEventListener('click',preparar);
+  $('formato').addEventListener('change',preparar);
+  window.addEventListener('pageshow',e=>{if(e.persisted) preparar();});
+  window.addEventListener('focus',()=>{if(document.visibilityState==='visible') preparar();});
+  window.addEventListener('storage',e=>{if([CHAVE,CHAVE_EXTRA,CHAVE_SORTEIO].includes(e.key)) preparar();});
   preparar();
 })();
-
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('./sw.js')
-      .catch(console.warn);
-  });
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.warn));
 }
 </script>
-
 </body>
 </html>
