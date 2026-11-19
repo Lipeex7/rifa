@@ -1,10 +1,10 @@
-
 (() => {
   'use strict';
 
   // Mesmas chaves da versão anterior: NÃO alterar.
   const CHAVE = 'rifa-sobrepeliz-v1';
   const CHAVE_SORTEIO = 'rifa-sobrepeliz-sorteio-v1';
+  const CHAVE_EXTRA = 'rifa-sobrepeliz-extra-v1';
   const INICIAIS = [1,6,8,12,13,14,15,16,22,25,26,28,30,45,48,52,77,85];
   const PIX_COPIA_COLA = '00020126410014BR.GOV.BCB.PIX0119adsonnph@icloud.com5204000053039865802BR5925Adson Phelipe Soares da S6009SAO PAULO62140510K0ebY5ANla6304C25B';
   const $ = id => document.getElementById(id);
@@ -15,6 +15,7 @@
     .replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR').trim();
 
   let numeros = null;
+  let extras = null;
   let erroLeitura = '';
   let dadosIniciais = false;
   let filtro = 'todos';
@@ -45,9 +46,27 @@
     return salvo === null ? inicial() : validarNumeros(JSON.parse(salvo));
   }
 
+  function validarExtras(lista) {
+    if (!Array.isArray(lista) || lista.length !== 25 ||
+        !lista.every(n => n && typeof n === 'object' &&
+          ['disponivel','reservado','comprado'].includes(n.situacao))) {
+      throw Error('Os 25 números extras estão inválidos. Restaure um backup confiável.');
+    }
+    return lista;
+  }
+
+  function lerExtras() {
+    const salvo = localStorage.getItem(CHAVE_EXTRA);
+    return salvo === null
+      ? Array.from({length:25}, () => ({situacao:'disponivel',nome:'',telefone:'',observacao:''}))
+      : validarExtras(JSON.parse(salvo));
+  }
+
   function validarSorteio(r) {
     if (!r || r.tipo !== 'rifa-sobrepeliz-sorteio' ||
-        !Number.isInteger(r.numero) || r.numero < 1 || r.numero > 100 ||
+        !Number.isInteger(r.numero) || r.numero < 1 || r.numero > 125 ||
+        (r.numero > 100 && r.totalComprados !== 125) ||
+        (r.totalComprados != null && ![100,125].includes(r.totalComprados)) ||
         typeof r.nome !== 'string' || typeof r.realizadoEm !== 'string' ||
         !Number.isFinite(Date.parse(r.realizadoEm))) {
       throw Error('Registro do sorteio inválido. Não altere os números antes de recuperar o backup.');
@@ -68,9 +87,11 @@
   function carregar() {
     try {
       numeros = lerNumeros();
+      extras = lerExtras();
       erroLeitura = '';
     } catch (e) {
       numeros = null;
+      extras = null;
       erroLeitura = e.message;
     }
     desenhar();
@@ -88,12 +109,13 @@
     grade.replaceChildren();
     $('erroDados').hidden = !erroLeitura;
     $('erroDados').textContent = erroLeitura;
-    $('baixarBackup').disabled = !numeros;
-    if (!numeros) {
+    $('baixarBackup').disabled = !numeros || !extras;
+    if (!numeros || !extras) {
       ['comprados','reservados','disponiveis','arrecadado','percentual'].forEach(id => $(id).textContent = '—');
       $('progressoTexto').textContent = 'Não foi possível ler os dados deste navegador.';
       $('textoGrade').textContent = 'Os dados existentes não foram alterados. Restaure um backup.';
       $('estadoSorteio').textContent = 'Sorteio indisponível até a recuperação dos dados.';
+      $('estadoExtra').textContent = 'Não foi possível ler os dados. Consulte o aviso acima.';
       return;
     }
 
@@ -129,16 +151,33 @@
       ? 'Este navegador ainda não tem cadastro salvo: exibindo a configuração inicial da versão anterior.'
       : `Exibindo ${visiveis} de 100 números. Dados armazenados apenas neste navegador.`;
 
+    const extraComprados = extras.filter(n => n.situacao === 'comprado').length;
+    const vendidosTotal = comprados + extraComprados;
+    $('preenchimentoExtra').style.width = extraComprados * 4 + '%';
+    $('barraExtra').setAttribute('aria-valuenow',String(extraComprados));
+    $('resumoExtra').textContent = `${extraComprados}/25 comprados • ${moeda(extraComprados * 10)} em números extras`;
+    $('estadoExtra').textContent = comprados < 100
+      ? `🔒 Rodada Extra bloqueada. Faltam ${100 - comprados} compras na primeira etapa.`
+      : existeSorteio()
+        ? '✠ Sorteio já registrado. Novas vendas bloqueadas.'
+        : extraComprados === 25
+          ? '✥ Rodada Extra concluída! Os 125 números estão comprados.'
+          : '✥ Rodada Extra liberada! Cadastre os números de 101 a 125.';
+    $('atalhoExtra').textContent = comprados === 100 && !existeSorteio()
+      ? 'Abrir Rodada Extra' : 'Conhecer a Rodada Extra';
+
     $('areaSorteio').classList.toggle('concluido', existeSorteio());
     try {
       const resultado = lerSorteio();
       $('estadoSorteio').textContent = resultado
         ? `✠ Sorteio realizado! Número vencedor: ${numeroTexto(resultado.numero)}. Cadastros bloqueados.`
-        : comprados === 100
-          ? '✥ Todos os números foram comprados. Sorteio liberado!'
-          : `🔒 Faltam ${100 - comprados} números comprados para liberar o sorteio.`;
+        : vendidosTotal === 125 && comprados === 100
+          ? '✥ Os 125 números foram comprados. Sorteio Solene liberado!'
+          : comprados < 100
+            ? `🔒 Faltam ${100 - comprados} compras na primeira etapa. Depois, 25 números extras.`
+            : `🔒 Faltam ${25 - extraComprados} números extras comprados para liberar o sorteio.`;
       $('atalhoSorteio').textContent = resultado
-        ? 'Ver resultado do sorteio' : comprados === 100
+        ? 'Ver resultado do sorteio' : vendidosTotal === 125 && comprados === 100
           ? 'Iniciar Sorteio Solene' : 'Acompanhar sorteio';
     } catch (e) {
       $('estadoSorteio').textContent = e.message;
@@ -148,7 +187,7 @@
 
   function listaContatos(excluir) {
     const mapa = new Map();
-    numeros.forEach((item,i) => {
+    [...numeros,...extras].forEach((item,i) => {
       if (i+1 === excluir || item.situacao === 'disponivel') return;
       const nome = String(item.nome || '').trim();
       const telefone = String(item.telefone || '').trim();
@@ -312,8 +351,8 @@
       const sorteio = lerSorteio();
       const data = new Date().toISOString();
       baixarArquivo(JSON.stringify({
-        tipo:'rifa-sobrepeliz', versao:5, criadoEm:data,
-        numeros:lerNumeros(), sorteio
+        tipo:'rifa-sobrepeliz', versao:6, criadoEm:data,
+        numeros:lerNumeros(), extras:lerExtras(), sorteio
       },null,2),'backup-rifa-sobrepeliz-'+data.slice(0,10)+'.json');
       notificar('Backup preparado. Guarde o arquivo em local seguro.');
     } catch (e) { alert('Erro ao criar backup: ' + e.message); }
@@ -332,10 +371,18 @@
       if (!Array.isArray(conteudo) && conteudo.tipo && conteudo.tipo !== 'rifa-sobrepeliz') {
         throw Error('O arquivo não é um backup desta rifa.');
       }
+      // Backups anteriores à versão 6 não têm extras: preservar os extras atuais.
+      const temExtras = !Array.isArray(conteudo) &&
+        Object.prototype.hasOwnProperty.call(conteudo,'extras');
+      const restauradosExtra = temExtras ? validarExtras(conteudo.extras) : lerExtras();
       const resultadoBackup = !Array.isArray(conteudo) && conteudo.sorteio != null
         ? validarSorteio(conteudo.sorteio) : null;
-      if (resultadoBackup && restaurados.some(n => n.situacao !== 'comprado')) {
-        throw Error('O backup possui sorteio, mas nem todos os números estão comprados.');
+      if (resultadoBackup) {
+        if (restaurados.some(n => n.situacao !== 'comprado'))
+          throw Error('O backup possui sorteio, mas os 100 números originais não estão comprados.');
+        if (resultadoBackup.totalComprados === 125 &&
+            restauradosExtra.some(n => n.situacao !== 'comprado'))
+          throw Error('O backup possui sorteio de 125 números, mas os extras não estão todos comprados.');
       }
       const resultadoAtual = lerSorteio();
       if (resultadoAtual && (!resultadoBackup ||
@@ -343,19 +390,26 @@
           resultadoAtual.realizadoEm !== resultadoBackup.realizadoEm)) {
         throw Error('Já existe um resultado diferente neste navegador. Não é permitido substituí-lo ou apagá-lo.');
       }
-      if (!confirm('Restaurar os 100 números e os compradores deste arquivo? Os cadastros atuais serão substituídos. Faça um backup antes de continuar.')) return;
+      const explicacao = temExtras
+        ? 'Serão substituídos os 100 números originais e os 25 extras.'
+        : 'Backup antigo: os 25 números extras deste navegador serão PRESERVADOS.';
+      if (!confirm('Restaurar os cadastros deste arquivo? '+explicacao+' Faça um backup antes de continuar.')) return;
 
       const antigo = localStorage.getItem(CHAVE);
+      const antigoExtra = localStorage.getItem(CHAVE_EXTRA);
       const antigoResultado = localStorage.getItem(CHAVE_SORTEIO);
       try {
         localStorage.setItem(CHAVE, JSON.stringify(restaurados));
+        if (temExtras) localStorage.setItem(CHAVE_EXTRA, JSON.stringify(restauradosExtra));
         if (resultadoBackup) localStorage.setItem(CHAVE_SORTEIO, JSON.stringify(resultadoBackup));
         else localStorage.removeItem(CHAVE_SORTEIO);
       } catch (e) {
-        // Tenta recuperar o estado anterior se a gravação falhar.
+        // Reverte as três chaves se alguma gravação falhar.
         try {
           if (antigo === null) localStorage.removeItem(CHAVE);
           else localStorage.setItem(CHAVE,antigo);
+          if (antigoExtra === null) localStorage.removeItem(CHAVE_EXTRA);
+          else localStorage.setItem(CHAVE_EXTRA,antigoExtra);
           if (antigoResultado === null) localStorage.removeItem(CHAVE_SORTEIO);
           else localStorage.setItem(CHAVE_SORTEIO,antigoResultado);
         } catch (_) {}
@@ -375,7 +429,7 @@
   window.addEventListener('offline', conexao);
   window.addEventListener('pageshow', carregar);
   window.addEventListener('storage', e => {
-    if (e.key === CHAVE || e.key === CHAVE_SORTEIO) carregar();
+    if ([CHAVE, CHAVE_EXTRA, CHAVE_SORTEIO].includes(e.key)) carregar();
   });
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden && !$('janela').open) carregar();
