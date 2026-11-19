@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#280710">
+  <meta name="description" content="Rodada Extra da Rifa Solidária da Sobrepeliz: números 101 a 125 por R$ 10,00.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./rifa.css">
+  <link rel="stylesheet" href="./rodada-extra.css">
+  <script src="./rodada-extra.js" defer></script>
+  <title>Rodada Extra | Rifa Solidária da Sobrepeliz</title>
+</head>
+<body>
+<div class="pagina">
+  <header class="topo">
+    <a class="marca" href="./index.html">
+      <span class="marca-cruz">✠</span>
+      <span>
+        <strong>Rifa Solidária</strong>
+        <small>DA SOBREPELIZ</small>
+      </span>
+    </a>
+    <nav class="navegacao" aria-label="Menu principal">
+      <a href="./index.html">Rifa Original</a>
+      <a href="./compradores.html">Compradores</a>
+      <a href="./divulgacao.html">Divulgação</a>
+      <a class="nav-destaque" href="./sorteio.html">✥ Sorteio Solene</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="extra-hero" aria-labelledby="tituloExtra">
+      <div class="extra-simbolo" aria-hidden="true">✠</div>
+      <p class="sobretitulo">✥ A SEGUNDA ETAPA DE NOSSA MISSÃO ✥</p>
+      <h1 id="tituloExtra">Rodada <em>Extra</em></h1>
+      <p>Mais 25 oportunidades de contribuir com a nova sobrepeliz e participar do mesmo Sorteio Solene.</p>
+
+      <div class="extra-precos">
+        <div>
+          <small>NÚMEROS</small>
+          <strong>101–125</strong>
+        </div>
+        <div>
+          <small>CADA NÚMERO EXTRA</small>
+          <strong>R$ 10,00</strong>
+        </div>
+        <div>
+          <small>PRÊMIO ÚNICO</small>
+          <strong>R$ 100,00</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="painel extra-bloqueio" id="avisoBloqueio" aria-live="polite">
+      <div class="extra-icone" id="iconeEstado" aria-hidden="true">🔒</div>
+      <div>
+        <p class="sobretitulo">✥ SITUAÇÃO DA RODADA EXTRA</p>
+        <h2 id="tituloEstado">Aguardando a conclusão da primeira etapa</h2>
+        <p id="mensagemEstado">A venda dos números 101 a 125 começa após a compra dos 100 números originais.</p>
+      </div>
+      <a class="botao botao-ouro" href="./index.html#numeros" id="botaoEstado">Ver rifa original</a>
+    </section>
+
+    <div class="extra-layout">
+      <section class="painel extra-painel" aria-labelledby="tituloGrade">
+        <div class="cabecalho-secao">
+          <div>
+            <p class="sobretitulo">✥ OS 25 NÚMEROS ESPECIAIS</p>
+            <h2 id="tituloGrade">Escolha um número de 101 a 125</h2>
+            <p>Os cadastros são armazenados neste navegador. Somente números comprados entram no sorteio.</p>
+          </div>
+          <span class="selo" id="seloConexao">● Dados locais</span>
+        </div>
+
+        <div class="filtros" aria-label="Filtrar números extras">
+          <button class="filtro ativo" type="button" data-filtro="todos" aria-pressed="true">Todos</button>
+          <button class="filtro" type="button" data-filtro="disponivel" aria-pressed="false">Disponíveis</button>
+          <button class="filtro" type="button" data-filtro="reservado" aria-pressed="false">Reservados</button>
+          <button class="filtro" type="button" data-filtro="comprado" aria-pressed="false">Comprados</button>
+        </div>
+
+        <div class="quadro">
+          <div class="grade grade-extra" id="gradeExtra" aria-label="Números extras de 101 a 125"></div>
+        </div>
+
+        <p class="vazio" id="semNumeros" hidden>Nenhum número corresponde ao filtro.</p>
+
+        <div class="legenda">
+          <span><i class="amostra amostra-disponivel"></i> Disponível</span>
+          <span><i class="amostra amostra-reservado"></i> Reservado</span>
+          <span><i class="amostra amostra-comprado"></i> Comprado</span>
+        </div>
+
+        <p class="nota" id="notaGrade">Números bloqueados até a conclusão da primeira etapa.</p>
+        <p class="alerta-dados" id="erroDados" role="alert" hidden></p>
+      </section>
+
+      <aside class="extra-aside">
+        <section class="painel">
+          <p class="sobretitulo">✥ PROGRESSO DA RODADA EXTRA</p>
+          <h2>Participações especiais</h2>
+
+          <div class="extra-resumo">
+            <div><strong id="extrasComprados">0</strong><span>Comprados</span></div>
+            <div><strong id="extrasReservados">0</strong><span>Reservados</span></div>
+            <div><strong id="extrasDisponiveis">25</strong><span>Disponíveis</span></div>
+          </div>
+
+          <div class="progresso-destaque">
+            <strong id="percentualExtra">0%</strong>
+            <span>da Rodada Extra</span>
+          </div>
+
+          <div class="barra" role="progressbar" id="barraExtra" aria-label="Números extras comprados" aria-valuemin="0" aria-valuemax="25" aria-valuenow="0">
+            <div id="preenchimentoExtra"></div>
+          </div>
+
+          <p class="extra-detalhe" id="valorExtra">R$ 0,00 em números extras comprados.</p>
+          <p class="extra-detalhe" id="valorTotal">Arrecadação conjunta: —</p>
+        </section>
+
+        <section class="painel painel-sorteio">
+          <span class="icone-trofeu" aria-hidden="true">✠</span>
+          <p class="sobretitulo">✥ UM SÓ SORTEIO</p>
+          <h2>Sorteio Solene</h2>
+          <p id="estadoSorteio">O prêmio de R$ 100,00 será sorteado entre os 125 números após todos estarem comprados.</p>
+          <a class="botao botao-ouro largura-total" href="./sorteio.html">Acompanhar sorteio</a>
+        </section>
+
+        <section class="painel extra-info">
+          <p class="sobretitulo">✥ PAGAMENTO E SEGURANÇA</p>
+          <h2>Contribua por Pix</h2>
+          <p>Use a mesma chave Pix da rifa original e confirme o pagamento antes de marcar o número como comprado.</p>
+          <a class="botao botao-contorno largura-total" href="./index.html#pagamento">Consultar Pix</a>
+          <p>Para exportar ou restaurar os 125 cadastros, utilize a opção de backup da página inicial.</p>
+          <a class="botao botao-contorno largura-total" href="./index.html#tituloFerramentas">Abrir backups</a>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <img src="./rodape-gotico.webp" alt="" aria-hidden="true">
+    <p>✠ Rifa Solidária da Sobrepeliz • 125 números, um único sorteio ✠</p>
+    <small>Sem sincronização entre dispositivos. Faça backup dos dados após cada venda.</small>
+  </footer>
+</div>
+
+<dialog id="janelaExtra" aria-labelledby="tituloJanela">
+  <form id="formularioExtra">
+    <div class="modal-topo">
+      <p class="sobretitulo">✥ CADASTRO DA RODADA EXTRA</p>
+      <h2 id="tituloJanela">Número 101</h2>
+      <p>Valor por número: R$ 10,00</p>
+    </div>
+
+    <fieldset class="grupo-situacao">
+      <legend>Situação do número</legend>
+      <label><input type="radio" name="situacao" value="disponivel"> Disponível</label>
+      <label><input type="radio" name="situacao" value="reservado"> Reservado</label>
+      <label><input type="radio" name="situacao" value="comprado"> Comprado</label>
+    </fieldset>
+
+    <label class="campo" for="compradorExistente">Comprador já cadastrado</label>
+    <select id="compradorExistente">
+      <option value="">— Selecionar comprador —</option>
+    </select>
+
+    <label class="campo" for="nome">Nome</label>
+    <input id="nome" type="text" maxlength="100" autocomplete="off" placeholder="Nome do comprador">
+
+    <label class="campo" for="telefone">WhatsApp / contato</label>
+    <input id="telefone" type="tel" maxlength="20" inputmode="tel" placeholder="(84) 99999-9999">
+
+    <label class="campo" for="observacao">Observação</label>
+    <textarea id="observacao" rows="2" maxlength="500" placeholder="Informação opcional"></textarea>
+
+    <p class="modal-alerta" id="alertaCadastro" role="status"></p>
+
+    <div class="modal-acoes">
+      <button class="botao botao-contorno" id="cancelar" type="button">Cancelar</button>
+      <button class="botao botao-ouro" type="submit">Salvar número extra</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="mensagem" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
