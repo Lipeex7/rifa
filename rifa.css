@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
 :root{--fundo:#16050a;--vinho:#3b0b18;--vinho2:#601729;--ouro:#d6ab67;--ouro-claro:#f3dcae;--texto:#f4e7d2;--suave:#d7c1a3;--papel:#f4e5c9;--tinta:#421d17;--borda:#9e7445}
 *{box-sizing:border-box}
@@ -71,3 +70,14 @@ dialog{width:min(95vw,500px);max-height:92dvh;overflow:auto;padding:24px;border:
 @media(max-width:760px){.topo{align-items:flex-start;flex-direction:column}.navegacao{justify-content:flex-start}.hero{grid-template-columns:1fr;padding:38px 0}.hero-arte{max-width:550px;width:100%;margin:auto}.conteudo-principal{grid-template-columns:1fr}.lateral{grid-template-columns:repeat(2,minmax(0,1fr))}.painel-sorteio{grid-column:1/-1}.painel-ferramentas{flex-direction:column;align-items:stretch}.ferramentas-acoes{justify-content:flex-start}}
 @media(max-width:520px){.pagina{padding:0 9px}.topo{padding:15px 0}.marca strong{font-size:15px}.navegacao{gap:9px 13px}.navegacao a{font-size:10px}.hero{padding:32px 4px}.hero-acoes .botao{width:100%}.hero-valores{justify-content:center}.faixa-estatisticas{grid-template-columns:repeat(2,1fr)}.faixa-estatisticas>div:nth-child(2){border-right:0}.faixa-estatisticas>div:nth-child(-n+2){border-bottom:1px solid #9e744577}.painel{padding:13px}.cabecalho-secao{flex-direction:column;gap:2px}.selo{margin-bottom:13px}.quadro{padding:2px;border-width:3px}.grade{gap:1px}.numero{font-size:clamp(10px,3.1vw,16px)}.numero.reservado::after{font-size:6px}.filtros{gap:5px}.filtro{font-size:10px;padding:9px 8px}.lateral{grid-template-columns:1fr}.painel-sorteio{grid-column:auto}.modal-acoes{flex-direction:column}dialog{padding:15px}.ferramentas-acoes .botao{width:100%}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+
+/* Rodada Extra na página inicial */
+.painel-rodada{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:19px;margin:0 0 25px;background:radial-gradient(circle at 5% 10%,#7a273e,#300811 64%)}
+.rodada-emblema{display:grid;place-items:center;width:74px;height:74px;border:3px double var(--ouro);border-radius:50%;color:var(--ouro-claro);font-size:39px}
+.rodada-texto p{margin:0 0 10px;color:var(--suave);font-size:18px}.rodada-texto h2{margin:0 0 10px}.rodada-texto .rodada-estado{color:var(--ouro-claro);font-weight:700}
+.rodada-progresso{height:9px;max-width:480px;background:#17050a;border:1px solid #af8753;border-radius:99px;overflow:hidden;margin:12px 0 7px}.rodada-progresso div{height:100%;width:0;background:linear-gradient(90deg,#a96e32,#f5dca2);transition:width .3s}
+.rodada-texto .rodada-resumo{font-size:16px;margin-bottom:0}.painel-rodada .botao{white-space:nowrap}
+@media(max-width:900px){.painel-rodada{grid-template-columns:auto minmax(0,1fr)}.painel-rodada .botao{grid-column:1/-1}}
+@media(max-width:530px){.painel-rodada{grid-template-columns:1fr}.rodada-emblema{width:54px;height:54px;font-size:30px}.painel-rodada .botao{grid-column:auto;width:100%}}
+
+.regra-participacao{max-width:600px;font-size:17px;line-height:1.35;color:#e6c99b;border-left:3px solid var(--ouro);padding-left:13px;margin:0 0 18px}
