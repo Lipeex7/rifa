@@ -1,111 +1,56 @@
 
-// Atualize o nome do cache quando publicar mudanças.
-const CACHE = 'rifa-sobrepeliz-gotica-v9-sorteio';
-
-const PAGINAS = [
-  './',
-  './index.html',
-  './compradores.html',
-  './divulgacao.html',
-  './sorteio.html',
-  './manifest.webmanifest'
+// Etapa 1 da Rifa Solidária 2.0. Altere a versão ao publicar mudanças.
+const CACHE = 'rifa-sobrepeliz-v10-reformulacao';
+const OBRIGATORIOS = ['./', './index.html', './rifa.css', './rifa.js'];
+const EXTRAS = [
+  './compradores.html', './divulgacao.html', './sorteio.html',
+  './manifest.webmanifest', './cabecalho-gotico.webp',
+  './cruz-comprado.webp', './rodape-gotico.webp', './qr-pix.png'
 ];
 
-const IMAGENS = [
-  './cabecalho-gotico.webp',
-  './cruz-comprado.webp',
-  './rodape-gotico.webp',
-  './qr-pix.png'
-];
-
-self.addEventListener('install', evento => {
-  evento.waitUntil((async () => {
+self.addEventListener('install', event => {
+  event.waitUntil((async () => {
     const cache = await caches.open(CACHE);
-
-    await cache.addAll(PAGINAS);
-
-    // Uma imagem ausente não impede a instalação.
-    await Promise.allSettled(
-      IMAGENS.map(arquivo => cache.add(arquivo))
-    );
-
+    await cache.addAll(OBRIGATORIOS);
+    await Promise.allSettled(EXTRAS.map(url => cache.add(url)));
     await self.skipWaiting();
   })());
 });
 
-self.addEventListener('activate', evento => {
-  evento.waitUntil((async () => {
-    const nomes = await caches.keys();
-
-    await Promise.all(
-      nomes
-        .filter(
-          nome =>
-            nome.startsWith('rifa-sobrepeliz-') &&
-            nome !== CACHE
-        )
-        .map(nome => caches.delete(nome))
-    );
-
+self.addEventListener('activate', event => {
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.filter(key =>
+      key.startsWith('rifa-sobrepeliz-') && key !== CACHE
+    ).map(key => caches.delete(key)));
     await self.clients.claim();
   })());
 });
 
-self.addEventListener('fetch', evento => {
-  const req = evento.request;
-
-  if (
-    req.method !== 'GET' ||
-    new URL(req.url).origin !== self.location.origin
-  ) {
-    return;
-  }
-
-  evento.respondWith((async () => {
+self.addEventListener('fetch', event => {
+  const req = event.request;
+  if (req.method !== 'GET' || new URL(req.url).origin !== self.location.origin) return;
+  event.respondWith((async () => {
     const cache = await caches.open(CACHE);
-
-    // Para páginas, tenta a versão mais recente.
-    if (req.mode === 'navigate') {
+    const tipo = req.destination;
+    const atualizar = req.mode === 'navigate' || tipo === 'script' || tipo === 'style';
+    if (atualizar) {
       try {
         const resposta = await fetch(req);
-
-        if (resposta.ok) {
-          await cache.put(
-            req,
-            resposta.clone()
-          );
-        }
-
+        if (resposta.ok) await cache.put(req, resposta.clone());
         return resposta;
-
-      } catch(e) {
-        return (
-          await cache.match(req) ||
-          await cache.match('./index.html') ||
-          Response.error()
-        );
+      } catch (_) {
+        return await cache.match(req) ||
+          (req.mode === 'navigate' ? await cache.match('./index.html') : null) ||
+          Response.error();
       }
     }
-
-    // Para imagens e outros arquivos, usa o cache.
     const salvo = await cache.match(req);
-
     if (salvo) return salvo;
-
     try {
       const resposta = await fetch(req);
-
-      if (resposta.ok) {
-        await cache.put(
-          req,
-          resposta.clone()
-        );
-      }
-
+      if (resposta.ok) await cache.put(req, resposta.clone());
       return resposta;
-
-    } catch(e) {
-      return Response.error();
-    }
+    } catch (_) { return Response.error(); }
   })());
 });
